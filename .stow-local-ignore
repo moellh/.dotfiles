@@ -1,0 +1,13 @@
+# git
+.git/
+.gitignore
+
+# documentation
+README.md
+
+# install scripts
+install.sh
+
+# dotfiles that require manual updates (not stow)
+.gitconfig
+packages.txt
