@@ -26,6 +26,7 @@ return {
                     'marksman', -- markdown
                     'texlab', -- latex
                     'bashls', -- bash
+                    'clangd', -- cpp
                 },
             }
 
@@ -66,6 +67,7 @@ return {
             lspconfig.texlab.setup {}
 
             lspconfig.bashls.setup {}
+            lspconfig.clangd.setup {}
         end,
     },
 

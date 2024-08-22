@@ -15,7 +15,20 @@ return {
                 lua = { 'stylua' },
                 python = { 'isort', 'black' },
                 javascript = { { 'prettierd', 'prettier' } },
-                -- java = { { 'google-java-format' } },
+                java = { 'google-java-format' },
+                cpp = { 'clang-format' },
+            },
+
+            formatters = {
+                black = {
+                    prepend_args = { '--line-length', '120' },
+                },
+                ['clang-format'] = {
+                    args = {
+                        '--style',
+                        '{BasedOnStyle: google, ColumnLimit: 120, IndentWidth: 4 }',
+                    },
+                },
             },
         },
     },

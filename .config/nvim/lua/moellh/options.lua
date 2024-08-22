@@ -9,7 +9,7 @@ vim.opt.expandtab = true -- places spaces instead of tabs
 vim.opt.tabstop = 4 -- interprets 4 spaces as a tab
 vim.opt.shiftwidth = 4 -- shifts result in 4 spaces
 
-vim.opt.scrolloff = 5 -- cursor stays close to mid of screen when possible
+-- vim.opt.scrolloff = 5 -- cursor stays close to mid of screen when possible
 
 vim.opt.mouse = 'a' -- enable mouse
 
