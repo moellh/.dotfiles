@@ -1,13 +1,13 @@
-# git
+# ignore the .dotfiles git-repo
 .git/
 .gitignore
 
-# documentation
+# ignore documentation
 README.md
 
-# install scripts
+# ignore the script
 install.sh
 
-# dotfiles that require manual updates (not stow)
+# ignore dotfiles that are not managed manually without stow
 .gitconfig
 packages.txt
