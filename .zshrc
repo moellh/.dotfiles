@@ -36,6 +36,7 @@ export JAVA_HOME="/usr/lib/jvm/default"
 export PATH="${PATH}:/mnt/data/studies/bfp/programming/install/bin"
 export PATH="${PATH}:$JAVA_HOME/bin"
 export PATH="${PATH}:$HOME/.local/bin"
+export PATH="${PATH}:$HOME/bin"
 
 source <(fzf --zsh)
 
@@ -76,3 +77,5 @@ eval "$(pyenv init -)"
 
 alias lg="lazygit"
 alias nv="nvim"
+alias ns="search_to_nvim"
+alias open="xdg-open"
