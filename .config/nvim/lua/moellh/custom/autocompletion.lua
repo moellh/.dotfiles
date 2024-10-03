@@ -5,23 +5,28 @@ return {
         event = 'InsertEnter', -- just before insert mode (or similar)
 
         dependencies = {
-            { -- snippet engine
-                'L3MON4D3/LuaSnip',
-                build = (function()
-                    -- regex support
-                    return 'make install_jsregexp'
-                end)(),
-            },
+            'L3MON4D3/LuaSnip',
             'saadparwaiz1/cmp_luasnip', -- luasnip for cmp
             'hrsh7th/cmp-nvim-lsp', -- nvim-lsp for cmp
+            'hrsh7th/cmp-buffer',
+            'hrsh7th/cmp-cmdline',
             'hrsh7th/cmp-path', -- path for cmp
-            -- 'rafamadriz/friendly-snippets', -- pre-configured snippets
+            'rafamadriz/friendly-snippets', -- pre-configured snippets
         },
 
         config = function()
             -- See `:help cmp`
             local cmp = require 'cmp'
             local luasnip = require 'luasnip'
+
+            local cmp_lsp = require 'cmp_nvim_lsp'
+            local capabilities = vim.tbl_deep_extend(
+                'force',
+                {},
+                vim.lsp.protocol.make_client_capabilities(),
+                cmp_lsp.default_capabilities()
+            )
+
             luasnip.config.setup {}
 
             cmp.setup {
@@ -71,6 +76,7 @@ return {
                 sources = {
                     { name = 'nvim_lsp' },
                     { name = 'luasnip' },
+                    { name = 'buffer' },
                     { name = 'path' },
                 },
             }

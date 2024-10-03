@@ -27,6 +27,8 @@ return {
                     'html',
                     'css', -- web
                     'javascript',
+                    'typescript',
+                    'jsdoc',
                     'json', -- js
                     'cpp',
                     'cmake', -- cpp
@@ -40,6 +42,12 @@ return {
 
                 -- installs language if not already
                 auto_install = true,
+
+                sync_install = false,
+
+                indent = {
+                    enable = true,
+                },
 
                 -- highlights code more precisely
                 highlight = {

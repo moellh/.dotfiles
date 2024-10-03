@@ -9,6 +9,11 @@ return {
         end,
     },
 
+    {
+        'yorik1984/newpaper.nvim',
+        style = 'light',
+    },
+
     { -- indentation guides even on blank lines
         'lukas-reineke/indent-blankline.nvim',
         main = 'ibl',
@@ -25,7 +30,7 @@ return {
             vim.keymap.set('n', '<leader>zz', function()
                 require('zen-mode').setup {
                     window = {
-                        width = 130,
+                        width = 80,
                         options = {},
                     },
                 }
@@ -35,7 +40,10 @@ return {
                 vim.wo.rnu = false
                 vim.opt.list = false
                 vim.opt.scrolloff = 0
+                vim.opt.colorcolumn = ''
             end)
         end,
     },
+
+    'j-hui/fidget.nvim',
 }
