@@ -1,13 +1,16 @@
-# ignore the .dotfiles git-repo
+# this git repo
 .git/
 .gitignore
 
-# ignore documentation
+# docs
 README.md
+packages.txt
 
-# ignore the script
+# install script
 install.sh
 
-# ignore dotfiles that are not managed manually without stow
+# program files
+programs
+
+# git config is managed individually in install.sh
 .gitconfig
-packages.txt
