@@ -6,7 +6,7 @@ set -e
 set -x
 
 DOTFILES_DIR=$(pwd)
-if [[ basename $DOTFILES_DIR != ".dotfiles" ]]; then
+if [[ $(basename $DOTFILES_DIR) != ".dotfiles" ]]; then
     echo "Run this script from .dotfiles directory"
     exit 1
 fi
@@ -31,7 +31,7 @@ cd $DOTFILES_DIR/programs/stow
 cd $DOTFILES_DIR
 
 # put config in home directory
-stow . -t ~
+$HOME/.programs/stow/bin/stow . -t ~
 
 # TMUX
 mkdir -p $HOME/.programs/tmux

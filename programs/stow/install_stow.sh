@@ -4,6 +4,8 @@
 # Install GNU Stow
 ################################################################################
 
+set -ex
+
 INSTALL_DIR=$HOME/.programs/stow
 mkdir -p "$INSTALL_DIR"
 
@@ -14,8 +16,5 @@ cd stow-2.4.1 || exit 1
 make
 make install
 
-# Clean um
-cd ~
+cd ..
 rm -rf stow-2.4.1
-
-echo "export PATH="$PATH:$INSTALL_DIR/bin" >> ~/.zshrc

@@ -1,5 +1,5 @@
 # this git repo
-.git/
+.git
 .gitignore
 
 # docs
@@ -8,8 +8,10 @@ packages.txt
 
 # install script
 install.sh
+remove.sh
 
 # program files
+aspire
 programs
 
 # git config is managed individually in install.sh
