@@ -1,0 +1,13 @@
+#!/bin/bash
+
+################################################################################
+# Create python virtual environment and install given packages
+#
+# - As sourced environments within a script are not available in the parent
+#   shell, you have to run `source venv/bin/activate` yourself afterwards.
+################################################################################
+
+python -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install $@

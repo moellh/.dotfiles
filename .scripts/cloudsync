@@ -1,0 +1,29 @@
+#!/bin/bash
+
+################################################################################
+# Sync remote with local folder using rclone
+#
+# - RCLONE BISYNC is considered experimental, but worked as expected so far
+# - Add `--resync` to force a full resync. Only use after resolving issues.
+# - Add `--force` to force bisync. May be necessary on too many deletions.
+################################################################################
+
+RCLONE_REMOTE="henmoell_gdrive:/"
+LOCAL_PATH="$HOME/drive/"
+
+# Check if the remote is accessible, else exit
+rclone about "$RCLONE_REMOTE" || exit 1
+
+# Check if the local path is accessible, else exit
+[ -d "$LOCAL_PATH" ] || exit 1
+
+# sync remote with local (default arguments are adapted to google drive)
+rclone bisync -v "$RCLONE_REMOTE" "$LOCAL_PATH" \
+    --check-access \
+    --check-filename .RCLONE_TEST \
+    --fast-list \
+    --drive-skip-shortcuts \
+    --drive-acknowledge-abuse \
+    --drive-skip-gdocs \
+    --drive-skip-dangling-shortcuts \
+    $@

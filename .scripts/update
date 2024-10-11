@@ -1,0 +1,35 @@
+#!/bin/bash
+
+used_space_before=$(df --output=used / | tail -n 1) # in KB
+
+# Update Arch Linux
+if command -v yay &> /dev/null; then
+    echo "=== Updating packages ==="
+    yay -Syyu
+
+    echo "=== Removing caches ==="
+    yay -Scc
+
+    echo "=== Removing unused packages ==="
+    yay -Rsn $(yay -Qdtq) 
+fi
+
+# Update cloud storage with local folder
+if command -v cloudsync &> /dev/null; then
+    echo "=== Updating cloud storage ==="
+    cloudsync
+fi
+
+# Update .obsidian-folders
+if command -v obsidian &> /dev/null; then
+    echo "=== Update .obsidian-folders ==="
+    echo "empty so far"
+fi
+
+used_space_after=$(df --output=used / | tail -n 1) # in KB
+
+echo "=== Stats ==="
+used_space_current=$(echo "$used_space_after * 1024" | bc | numfmt --to=iec-i --suffix=B)
+used_space_difference=$(echo "($used_space_after - $used_space_before) * 1024" | bc | numfmt --to=iec-i --suffix=B)
+echo "- current used space: ${used_space_current}"
+echo "- used space difference: ${used_space_difference}"

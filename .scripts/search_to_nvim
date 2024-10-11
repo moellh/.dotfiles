@@ -1,0 +1,13 @@
+#!/bin/sh
+
+################################################################################
+# Locate files using the arguments, select one with fzf, and open it in nvim
+################################################################################
+
+# use plocate if available
+if command -v plocate &> /dev/null; then
+    nvim $(plocate $@ | fzf)
+else
+    nvim $(locate $@ | fzf)
+fi
+

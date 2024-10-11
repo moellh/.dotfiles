@@ -78,6 +78,8 @@ alias cd="z $@"
 # zsh plugins
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# custom scripts
+export PATH="${PATH}:$HOME/.scripts" # user binaries
 
 # default editor
 EDITOR="nvim"
