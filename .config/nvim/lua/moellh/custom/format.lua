@@ -1,4 +1,4 @@
-vim.keymap.set('n', '<leader>f', vim.lsp.buf.format)
+vim.keymap.set('n', '<leader>f', vim.lsp.buf.format) -- format manually
 
 return {
 
@@ -8,10 +8,11 @@ return {
         opts = {
             notify_on_error = false,
 
-            format_on_save = {
+            -- do not format automatically
+            --[[ format_on_save = {
                 timeout_ms = 3000,
                 lsp_fallback = true,
-            },
+            }, ]]
 
             formatters_by_ft = {
                 lua = { 'stylua' },
@@ -19,6 +20,7 @@ return {
                 javascript = { { 'prettierd', 'prettier' } },
                 java = { 'google-java-format' },
                 cpp = { 'clang-format' },
+                bash = { 'shfmt' },
             },
 
             formatters = {
