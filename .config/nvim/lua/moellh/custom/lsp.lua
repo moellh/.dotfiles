@@ -86,6 +86,7 @@ return {
                     'bashls', -- bash
                     'clangd', -- cpp
                     'rust_analyzer', -- rust
+                    'bashls', -- bash
                 },
             }
 
@@ -120,15 +121,7 @@ return {
 
             lspconfig.bashls.setup {}
 
-            local hpx_include = os.getenv 'HPX_INCLUDE'
-            local boost_include = os.getenv 'BOOST_INCLUDE'
-            lspconfig.clangd.setup {
-                cmd = {
-                    'clangd',
-                    '-extra-arg=-I' .. hpx_include,
-                    '-extra-arg=-I' .. boost_include,
-                },
-            }
+            lspconfig.clangd.setup {}
         end,
     },
 
