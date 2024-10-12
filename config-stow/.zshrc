@@ -70,10 +70,6 @@ export PATH="${PATH}:$HOME/.scripts" # user binaries
 # default editor
 EDITOR="nvim"
 
-export PATH="${PATH}:$HOME/.programs/stow/bin"
-export PATH="${PATH}:$HOME/.programs/tmux/bin"
-export PATH="${PATH}:$HOME/.programs/nvim/bin"
-
 export PATH=$PATH:$HOME/local/bin
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/local/lib
 export MANPATH=$MANPATH:$HOME/local/share/man
