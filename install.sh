@@ -124,5 +124,6 @@ git clone https://github.com/christoomey/vim-tmux-navigator.git ~/.config/tmux/p
 
 # nodejs
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+
 nvm install 20
-npm install tree-sitter-cli
+npm install -g tree-sitter-cli

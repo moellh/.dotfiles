@@ -66,13 +66,10 @@ eval "$(dircolors -b ~/.dircolors)"
 
 # custom scripts
 export PATH="${PATH}:$HOME/.scripts" # user binaries
+export PATH="${PATH}:$HOME/.local/bin" # user binaries
 
 # default editor
 EDITOR="nvim"
-
-export PATH=$PATH:$HOME/local/bin
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/local/lib
-export MANPATH=$MANPATH:$HOME/local/share/man
 
 if [[ -f ~/.zshrc.local ]]; then
   source ~/.zshrc.local

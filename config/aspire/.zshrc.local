@@ -8,6 +8,7 @@ source <(fzf --zsh)
 # kitty
 alias mg="kitty +kitten hyperlinked_grep --smart-case $@"
 alias icat="kitten icat"
+alias ssk="kitty +kitten ssh $@"
 
 # zoxide
 eval "$(zoxide init zsh)"
