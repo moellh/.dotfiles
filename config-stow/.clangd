@@ -1,0 +1,7 @@
+CompileFlags:
+  Add:
+  - -I/home/moellh/spack/var/spack/environments/gpxpy/.spack-env/view/include
+  - -I/home/moellh/spack/var/spack/environments/gpxpy/.spack-env/view/targets/x86_64-linux/include
+  - -I/home/moellh/spack/var/spack/environments/gpxpy/.spack-env/view/mkl/2024.2/include
+Index:
+  Background: Skip

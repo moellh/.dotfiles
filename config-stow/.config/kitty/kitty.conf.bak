@@ -2515,6 +2515,6 @@ shell_integration no-cursor
 
 
 # BEGIN_KITTY_THEME
-# Catppuccin-Mocha
+# Catppuccin-Latte
 include current-theme.conf
 # END_KITTY_THEME
