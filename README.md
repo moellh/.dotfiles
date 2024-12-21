@@ -27,3 +27,7 @@ script which installs these (or at least its relevant) packages.
 ## Custom Scripts
 
 - todo
+
+## Google Drive with RClone Bisync
+
+- todo

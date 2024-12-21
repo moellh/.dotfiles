@@ -1,0 +1,11 @@
+#!/bin/bash
+
+read -p "Enter time duration: " time
+read -p "Enter message: " message
+
+start_time=$(date "+%Y-%m-%d %H:%M:%S")
+echo "Start time: $start_time"
+
+sleep "$time"
+
+notify-send "Timer" "$message" -t 0
