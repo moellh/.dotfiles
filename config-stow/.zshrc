@@ -120,7 +120,7 @@ alias open="xdg-open"
 # setup for bachelor thesis
 export VIEW=$HOME/spack/var/spack/environments/gpxpy/.spack-env/view
 export BATH=~/studies/bath
-source $HOME/spack/share/spack/setup-env.sh
+# source $HOME/spack/share/spack/setup-env.sh
 export BATH_INCLUDE=$VIEW/include
 export GPXPY=$HOME/dev/GPXPy.git/develop
 export PYTHONPATH=$GPXPY/examples/gpxpy_python/install_python/:$PYTHONPATH
