@@ -8,4 +8,4 @@ echo "Start time: $start_time"
 
 sleep "$time"
 
-notify-send "Timer" "$message" -t 0
+notify-send -u critical "Timer" "$message"
