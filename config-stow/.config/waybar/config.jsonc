@@ -7,31 +7,26 @@
     "modules-left": [
         "hyprland/workspaces",
         "wlr/taskbar",
-        "custom/media"
     ],
 
     "modules-center": [ ],
 
     "modules-right": [
-        // "mpris",
         "network",
         "custom/separator",
-        "bluetooth",
-        "custom/separator",
         "cpu",
-        "custom/separator",
+        "custom/gpu",
         "memory",
         "custom/separator",
-        "hyprland/language",
-        "custom/separator",
+        "bluetooth",
         "pulseaudio",
         "custom/separator",
+        "battery",
+        "custom/separator",
+        "hyprland/language",
         "tray",
         "custom/separator",
-        "clock"
-        // "backlight", // NOTE: only on laptop
-        // "battery",
-        // "battery#bat2",
+        "clock",
     ],
 
     "custom/separator": {
@@ -93,17 +88,17 @@
     },
 
     "cpu": {
-        "format": "CPU: {usage:>2}%",
+        "format": "{usage:>3}%",
         "interval": 1,
     },
 
     "memory": {
-        "format": "{used:>2}GB, {percentage:>2}%",
+        "format": "{used:>5}GB",
         "interval": 1,
     },
 
     "network": {
-        "format-wifi": "WiFi {signalStrength}%,{bandwidthDownBytes:>1} up,{bandwidthUpBytes:>1} down",
+        "format-wifi": "{bandwidthDownBytes:>2} {bandwidthUpBytes:>2} {signalStrength:>3}%",
         "format-ethernet": "",
         "format-linked": "No IP",
         "format-disconnected": "⚠",
@@ -113,19 +108,13 @@
 
     "pulseaudio": {
         "scroll-step": 1, // %, can be a float
-        "format": "{volume:>3}% {icon}, {format_source}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format": "{volume:>3}% {icon}  {format_source}",
+        "format-bluetooth": "{volume:>3}%  {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": " {format_source}",
         "format-source": "{volume}% ",
         "format-source-muted": "",
         "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
@@ -142,30 +131,30 @@
         "on-click-middle": "close",
     },
 
+    "custom/gpu": {
+        "format": "{:>3}%",
+        "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
+        "interval": 1
+    },
+
     // LAPTOP ------------------------------------------------------------------
 
     "backlight": {
-        // "device": "acpi_video1",
-        "format": "{percent}% {icon}",
+        "device": "intel_backlight",
+        "format": "{icon} ",
         "format-icons": ["", "", "", "", "", "", "", "", ""]
     },
 
     "battery": {
         "states": {
-            // "good": 95,
             "warning": 30,
             "critical": 15
         },
-        "format": "{capacity}% {icon}",
-        "format-full": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
-        "format-alt": "{time} {icon}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
+        "format": "{capacity}% {time}",
+        "format-full": " ",
+        "format-charging": " {capacity}%",
+        "format-time": "{H}:{m}",
+        "interval": 1,
     },
-    "battery#bat2": {
-        "bat": "BAT2"
-    },
+
 }
