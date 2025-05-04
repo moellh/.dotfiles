@@ -117,15 +117,6 @@ alias ns="search_to_nvim"
 # open file with default application
 alias open="xdg-open"
 
-# setup for bachelor thesis
-export VIEW=$HOME/spack/var/spack/environments/gpxpy/.spack-env/view
-export BATH=~/studies/bath
-# source $HOME/spack/share/spack/setup-env.sh
-export BATH_INCLUDE=$VIEW/include
-export GPXPY=$HOME/dev/GPXPy.git/develop
-export PYTHONPATH=$GPXPY/examples/gpxpy_python/install_python/:$PYTHONPATH
-export INCLUDES=$HOME/spack/var/spack/environments/gpxpy/.spack-env/view/include
-
 reload_tmux() {
   if tmux ls &> /dev/null; then
     tmux source-file ~/.config/tmux/tmux.conf
