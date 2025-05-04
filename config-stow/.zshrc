@@ -113,6 +113,7 @@ alias lg="lazygit"
 # alias für neovim
 alias nv="nvim"
 alias ns="search_to_nvim"
+alias ra="ranger"
 
 # open file with default application
 alias open="xdg-open"
@@ -122,8 +123,8 @@ reload_tmux() {
     tmux source-file ~/.config/tmux/tmux.conf
   fi
 }
-alias dark="kitty +kitten themes --reload-in=all Catppuccin-Mocha && reload_tmux"
-alias light="kitty +kitten themes --reload-in=all Catppuccin-Latte && reload_tmux"
+alias dark='cp ~/.config/kitty/Catppuccin-Mocha.conf ~/.config/kitty/current-theme.conf && kill -SIGUSR1 $(pgrep kitty) && reload_tmux '
+alias light='cp ~/.config/kitty/Catppuccin-Latte.conf ~/.config/kitty/current-theme.conf && kill -SIGUSR1 $(pgrep kitty) && reload_tmux'
 
 alias grep="grep --color=always"
 
