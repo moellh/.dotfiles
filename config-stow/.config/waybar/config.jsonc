@@ -22,7 +22,6 @@
         "pulseaudio",
         "custom/separator",
         "battery",
-        "custom/separator",
         "hyprland/language",
         "tray",
         "custom/separator",
@@ -151,8 +150,8 @@
             "critical": 15
         },
         "format": "{capacity}% {time}",
-        "format-full": " ",
-        "format-charging": " {capacity}%",
+        "format-full": "󱐋",
+        "format-charging": "󱐋 {capacity}%",
         "format-time": "{H}:{m}",
         "interval": 1,
     },
