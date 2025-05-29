@@ -1,0 +1,33 @@
+[advice]
+	statusHints = false
+[alias]
+	lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
+[commit]
+	gpgsign = true
+	verbose = true
+[core]
+	compression = 9
+	preloadindex = true
+	whitespace = error
+[diff]
+	renames = copies
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[rebase]
+	autoStash = true
+	missingCommitsCheck = warn
+[safe]
+	directory = *
+[status]
+	branch = true
+	showStash = true
+	showUntrackedFiles = all
+[url "git@github.com:moellh/"]
+	insteadOf = "moellh:"
+[url "git@github.com:"]
+	insteadOf = "gh:"
+[user]
+	name = Henrik Möllmann
+	email = henmoell@gmail.com
