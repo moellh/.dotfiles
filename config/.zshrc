@@ -62,8 +62,6 @@ source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 alias ls="/bin/ls --hyperlink=auto --color=auto -hF $@"
 alias ll="ls -al"
 
-alias gs="git status --short"
-
 # color directories
 eval "$(dircolors -b ~/.dircolors)"
 

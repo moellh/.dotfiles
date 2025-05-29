@@ -1,20 +1,18 @@
 #!/bin/bash
 
-################################################################################
-# installs config files and default programs
-################################################################################
+# Installs config files and default programs
 
-# prints each command, exits on error
+# Prints each command, exits on error
 set -ex
 
-# check current directory
+# Check current directory
 DOTFILES_DIR=$(pwd)
 if [[ $(basename $DOTFILES_DIR) != ".dotfiles" ]]; then
     echo "Run this script from .dotfiles directory"
     exit 1
 fi
 
-# check current shell
+# Check current shell
 read -p "Bash as current default shell (y/N): " shell
 if [[ $shell == "y" ]]; then
     read -p "Already linked a .bashrc.my file? (Y/n): " linked
@@ -25,101 +23,114 @@ if [[ $shell == "y" ]]; then
     echo "exec zsh" >> $HOME/.bashrc.my
 fi
 
-# Directory for installed programs
+# Create directory for installed programs
 INSTALL_DIR=$HOME/local
 mkdir -p $INSTALL_DIR
 
-# STOW -------------------------------------------------------------------------
+# Install Stow =================================================================
 
-STOW_VERSION=2.4.1
+read -p "Install GNU Stow? (y/N): " install_stow
+if [[ $install_stow == "y" ]]; then
+    STOW_VERSION=2.4.1
 
-cd archives
-tar -xzf stow-$STOW_VERSION.tar.gz
-cd stow-$STOW_VERSION
+    cd archives
+    tar -xzf stow-$STOW_VERSION.tar.gz
+    cd stow-$STOW_VERSION
 
-./configure --prefix=$INSTALL_DIR
-make
-make install
+    ./configure --prefix=$INSTALL_DIR
+    make
+    make install
 
-cd ..
-rm -rf stow-$STOW_VERSION
+    cd ..
+    rm -rf stow-$STOW_VERSION
 
-cd $DOTFILES_DIR
+    cd $DOTFILES_DIR
 
-# ------------------------------------------------------------------------------
+    # Put config in home directory with local stow installation
+    read -p "Stow config files? (y/N): " stow_config
+    if [[ $stow_config == "y" ]]; then
+        $HOME/local/bin/stow config -t ~
+    fi
+else
+    # Put config in home directory with system stow installation
+    read -p "Stow config files? (y/N): " stow_config
+    if [[ $stow_config == "y" ]]; then
+        stow --adopt config -t ~
+    fi
+fi
 
-# put config in home directory
-$HOME/local/bin/stow config-stow -t ~
+# Install Tmux with dependencies ===============================================
 
-# TMUX -------------------------------------------------------------------------
+read -p "Install Tmux? (y/N): " install_tmux
+if [[ $install_tmux == "y" ]]; then
+    TMUX_VERSION=3.5a
+    LIBEVENT_VERSION=2.1.12-stable
+    NCURSES_VERSION=6.5
 
-TMUX_VERSION=3.5a
-LIBEVENT_VERSION=2.1.12-stable
-NCURSES_VERSION=6.5
+    cd archives
+    PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig
 
-cd archives
-PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig
+    # Libevent
+    tar -zxf libevent-${LIBEVENT_VERSION}.tar.gz
+    cd libevent-${LIBEVENT_VERSION}/
+    ./configure --prefix=$INSTALL_DIR --enable-shared
+    make && make install
+    cd ..
+    rm -rf libevent-${LIBEVENT_VERSION}
 
-# libevent
-tar -zxf libevent-${LIBEVENT_VERSION}.tar.gz
-cd libevent-${LIBEVENT_VERSION}/
-./configure --prefix=$INSTALL_DIR --enable-shared
-make && make install
-cd ..
-rm -rf libevent-${LIBEVENT_VERSION}
+    # Ncurses
+    tar -zxf ncurses-${NCURSES_VERSION}.tar.gz
+    cd ncurses-${NCURSES_VERSION}/
+    ./configure --prefix=$INSTALL_DIR --with-shared --with-termlib --enable-pc-files --with-pkg-config-libdir=$PKG_CONFIG_PATH
+    make && make install
+    cd ..
+    rm -rf ncurses-${NCURSES_VERSION}
 
-# ncurses
-tar -zxf ncurses-${NCURSES_VERSION}.tar.gz
-cd ncurses-${NCURSES_VERSION}/
-./configure --prefix=$INSTALL_DIR --with-shared --with-termlib --enable-pc-files --with-pkg-config-libdir=$PKG_CONFIG_PATH
-make && make install
-cd ..
-rm -rf ncurses-${NCURSES_VERSION}
+    # Extract, configure, and compile Tmux
+    tar -zxf tmux-${TMUX_VERSION}.tar.gz
+    cd tmux-${TMUX_VERSION}/
+    ./configure --prefix=$INSTALL_DIR
+    make && make install
+    cd ..
+    rm -rf tmux-${TMUX_VERSION}
 
-# extract, configure, and compile tmux
-tar -zxf tmux-${TMUX_VERSION}.tar.gz
-cd tmux-${TMUX_VERSION}/
-./configure --prefix=$INSTALL_DIR
-make && make install
-cd ..
-rm -rf tmux-${TMUX_VERSION}
+    cd $DOTFILES_DIR
+fi
 
-cd $DOTFILES_DIR
 
-# ------------------------------------------------------------------------------
+# Install Neovim ===============================================================
 
-# Neovim -----------------------------------------------------------------------
+read -p "Install Neovim? (y/N): " install_nvim
+if [[ $install_nvim == "y" ]]; then
+    tar xvzf archives/nvim-linux64.tar.gz -C $INSTALL_DIR --strip-components 1
+fi
 
-NEOVIM_VERSION=0.10.2
 
-tar xvzf archives/nvim-linux64.tar.gz -C $INSTALL_DIR --strip-components 1
+# Install Zsh plugins ==========================================================
 
-# ------------------------------------------------------------------------------
+read -p "Install Zsh plugins? (y/N): " install_zsh_plugins
+if [[ $install_zsh_plugins == "y" ]]; then
+    mkdir -p ~/.zsh
+    git clone https://github.com/romkatv/powerlevel10k.git ~/.zsh/powerlevel10k
+    git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.zsh/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
+fi
 
-# Git --------------------------------------------------------------------------
 
-# puts .gitconfig into home directory
-# done separately because of input of user.name and user.email
-cp config/.gitconfig ~/.gitconfig
-read -p "Name for .gitconfig: " git_name
-git config --global user.name "$git_name"
-read -p "E-Mail for .gitconfig: " git_email
-git config --global user.email "$git_email"
+# Install Tmux plugin manager ==================================================
 
-# ------------------------------------------------------------------------------
+read -p "Install Tmux plugin manager? (y/N): " install_tpm
+if [[ $install_tpm == "y" ]]; then
+    mkdir -p ~/.config/tmux/plugins
+    git clone https://github.com/tmux-plugins/tpm.git ~/.config/tmux/plugins/tpm
+fi
 
-# Install zsh plugins
-mkdir -p ~/.zsh
-git clone https://github.com/romkatv/powerlevel10k.git ~/.zsh/powerlevel10k
-git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.zsh/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
 
-# Install Tmux plugin manager
-mkdir -p ~/.config/tmux/plugins
-git clone https://github.com/tmux-plugins/tpm.git ~/.config/tmux/plugins/tpm
+# Install Nodejs with Tree-sitter ==============================================
 
-# nodejs
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
-
-nvm install 20
-npm install -g tree-sitter-cli
+read -p "Install Nodejs? (y/N): " install_node
+if [[ $install_node == "y" ]]; then
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    nvm install 22
+    npm install -g tree-sitter-cli
+fi
