@@ -57,9 +57,12 @@ setopt appendhistory
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# ls aliases
+# Aliases
+
 alias ls="/bin/ls --hyperlink=auto --color=auto -hF $@"
 alias ll="ls -al"
+
+alias gs="git status --short"
 
 # color directories
 eval "$(dircolors -b ~/.dircolors)"
@@ -85,7 +88,6 @@ alias ssk="kitty +kitten ssh $@"
 
 # zoxide
 eval "$(zoxide init zsh)"
-alias cd="z $@"
 
 # use kde file dialog for gtk applications
 export GTK_USE_PORTAL=1
