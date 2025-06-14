@@ -388,3 +388,4 @@ zig
 zotero-bin
 zoxide
 zsh
+2025-06-14 14:57 - python-conda - Provides conda python environments, used for Reinforcement Learning exercices

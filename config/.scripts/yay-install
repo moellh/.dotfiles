@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Check for both arguments
+if [ $# -lt 2 ]; then
+    echo "Usage: $0 <package> <description...>"
+    exit 1
+fi
+
+# First argument is the package name, rest are the description
+PACKAGE="$1"
+shift
+DESCRIPTION="$*"
+
+# String to append to file
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M')
+LOG_LINE="$TIMESTAMP - $PACKAGE - $DESCRIPTION"
+
+# Install specified package using yay
+if yay -S "$PACKAGE"; then
+
+    # Append string to file, if install was successful
+    echo "$LOG_LINE" >> "$HOME/.dotfiles/packages.txt"
+fi
