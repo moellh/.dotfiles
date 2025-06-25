@@ -394,3 +394,4 @@ zsh
 2025-06-18 23:05 - python-mutagen - For yt-dlp to show thumbnail
 2025-06-18 23:50 - typst - "Replacement" for LaTeX
 2025-06-21 12:28 - heroic-games-launcher - Use Epic Games, GOG on Linux
+2025-06-23 13:15 - sfml - Super Fast Multimedia Library for Roberts game
