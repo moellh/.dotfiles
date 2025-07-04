@@ -398,3 +398,7 @@ zsh
 2025-06-26 09:16 - syncthing - Sync files accross devices
 2025-06-26 09:17 - syncthingtray-qt6 - Tray icon for Syncthing
 2025-06-26 09:53 - dunst - Desktop notifications
+2025-06-30 10:32 - rmpc - Terminal music player
+2025-06-30 10:45 - ollama - Ollama for local LLMs
+2025-06-30 10:48 - ollama-cuda - Ollama with CUDA for Nvidia GPUs
+2025-06-30 12:26 - python-ollama - Ollama for Python
