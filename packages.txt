@@ -402,3 +402,5 @@ zsh
 2025-06-30 10:45 - ollama - Ollama for local LLMs
 2025-06-30 10:48 - ollama-cuda - Ollama with CUDA for Nvidia GPUs
 2025-06-30 12:26 - python-ollama - Ollama for Python
+2025-06-27 11:49 - hyprpolkitagent - Polkit authentication deamon for Hyprland
+2025-07-02 11:14 - chromium - Chromium Browser
