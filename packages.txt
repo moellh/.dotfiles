@@ -404,3 +404,5 @@ zsh
 2025-06-30 12:26 - python-ollama - Ollama for Python
 2025-06-27 11:49 - hyprpolkitagent - Polkit authentication deamon for Hyprland
 2025-07-02 11:14 - chromium - Chromium Browser
+2025-07-04 11:32 - wf-recorder - Screen recorder for wayland
+2025-07-06 20:35 - audacity - Edit audio files
