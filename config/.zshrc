@@ -78,6 +78,7 @@ export JAVA_HOME="/usr/lib/jvm/default"
 # fzf
 ## use fzf tools for zsh
 source <(fzf --zsh)
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --exclude .git"
 
 # kitty
 alias mg="kitty +kitten hyperlinked_grep --smart-case $@"
