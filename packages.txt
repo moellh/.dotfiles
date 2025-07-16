@@ -406,3 +406,6 @@ zsh
 2025-07-02 11:14 - chromium - Chromium Browser
 2025-07-04 11:32 - wf-recorder - Screen recorder for wayland
 2025-07-06 20:35 - audacity - Edit audio files
+2025-07-07 09:56 - picard - Music metadata editor
+2025-07-08 11:54 - zoom - Zoom meetings
+2025-07-10 12:14 - yazi - File explorer like ranger
