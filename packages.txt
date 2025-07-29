@@ -1,411 +1,341 @@
-accountsservice
-alsa-firmware
-alsa-plugins
-alsa-utils
-android-studio
-ani-cli
-anki-bin
-appmenu-gtk-module
-arduino-ide
-ark
-aspell
-b43-fwcutter
-base
-base-devel
-bash-completion
-bastet
-bat
-bc
-biber
-bind
-bluedevil
-bluetui
-bluetuith
-bluez
-bluez-utils
-brave-bin
-breeze-gtk
-brightnessctl
-btop
-btrfs-progs
-calibre
-cantarell-fonts
-clang
-cmake
-cmake-format
-cmus
-cryptsetup
-cuda
-cuda-tools
-cups
-cups-browsed
-cups-filters
-cups-pdf
-device-mapper
-dhclient
-diffutils
-discord
-dmidecode
-dmraid
-dnsmasq
-docker
-docker-compose
-dolphin
-dolphin-plugins
-dosfstools
-downgrade
-doxygen
-dracut
+accountsservice, User account management service
+alsa-firmware, Firmware for ALSA sound drivers
+alsa-plugins, ALSA plugins for additional functionality
+alsa-utils, Utilities for ALSA sound system
+android-studio, IDE for Android development
+ani-cli, CLI for watching anime
+anki-bin, Anki flashcard program
+appmenu-gtk-module, GTK module for application menus
+arduino-ide, IDE for Arduino development
+ark, KDE archive manager
+b43-fwcutter, Firmware extraction tool for Broadcom wireless devices
+base, Package for basic Arch Linux installation
+base-devel, Basic tools for building packages
+bash-completion, Bash completion scripts
+bat, Cat command with syntax highlighting
+bc, Arbitrary precision calculator language
+biber, Backend for BibLaTeX
+bind, DNS implementation
+bluetui, TUI for bluetooth management
+bluez, Bluetooth deamon
+bluez-utils, Utilities for bluetooth
+brave-bin, Brave web browser based on Chromium
+brightnessctl, CLI tool to control screen brightness
+btop, TUI system monitor like htop but fancier
+btrfs-progs, Btrfs filesystem utilities
+calibre, E-book management software
+clang, C language family frontend for LLVM
+cmake, Cross-platform build system
+cmake-format, Formatter for CMake files
+cryptsetup, Utility for encrypted filesystems
+cuda, Programm for Nvidia GPUs
+cuda-tools, Tools for CUDA incl. namely nvvp & nsight & compute sanitizer
+cups, Printing system for Unix-like OS
+cups-browsed, Automatically discover and configure printers
+cups-filters, CUPS filters and backends
+cups-pdf, PDF printing support for CUPS
+device-mapper, Device mapper userspace library
+dhclient, DHCP client for dynamic IP address assignment
+diffutils, Utilities for comparing files
+discord, Voice chat
+dmidecode, Reporting tool for hardware information
+dmraid, Redundant Array of Independent Disks management tool
+dnsmasq, Lightweight DNS forwarder and DHCP server
+docker, Containerization platform
+docker-compose, Use docker with simple YAML files
+dolphin, KDE file manager
+dolphin-plugins, Dolphin plugins
+dosfstools, Utilities for FAT filesystems
+downgrade, Script to downgrade packages on Arch Linux
+doxygen, Documentation generator for C/C++
+dracut, Initramfs generator
 drawio-desktop-bin
-duf
-e2fsprogs
-efibootmgr
-efitools
-endeavouros-keyring
-endeavouros-mirrorlist
-eos-apps-info
-eos-breeze-sddm
-eos-hooks
-eos-log-tool
-eos-packagelist
-eos-quickstart
-eos-rankmirrors
-eos-settings-plasma
-eos-update-notifier
-ethtool
-exfatprogs
-f2fs-tools
-ffmpegthumbnailer
-ffmpegthumbs
-filelight
-firefox
-firewalld
-foomatic-db
-foomatic-db-engine
-foomatic-db-gutenprint-ppds
-foomatic-db-nonfree
-foomatic-db-nonfree-ppds
-foomatic-db-ppds
-fsarchiver
-fwupd
-gcc-fortran
-gdb
-ghostscript
-gimp
-github-cli
-gitkraken
-glances
-gnome-themes-extra
-go
-gparted
-gradle
-grim
-gsfonts
-gst-libav
-gst-plugin-pipewire
-gst-plugins-bad
-gst-plugins-ugly
-gtk-engines
-gutenprint
-gwenview
-haruna
-haveged
-hdparm
-hplip
-htop
-hunspell-de
-hunspell-en_us
-hwdetect
-hwinfo
-hyprland
-hyprlock
-hyprpaper
-inetutils
-inkscape
-inotify-tools
-intel-ucode
+duf, Modern disk usage utility
+e2fsprogs, Utilities for ext2/ext3/ext4 filesystems
+efibootmgr, EFI boot manager
+efitools, Tools for managing EFI variables
+sddm, Simple Desktop Display Manager
+ranmirrors, Mirror ranking tool
+ethtool, Utility for Ethernet devices
+exfatprogs, Utilities for exFAT filesystems
+f2fs-tools, Utilities for F2FS filesystems
+ffmpegthumbnailer, Thumbnail generator for video files
+ffmpegthumbs, Lightweight thumbnail generator for video files for file managers
+filelight, Disk usage analyzer
+firefox, Default web browser
+firewalld, Firewall daemon
+foomatic-db, Foomatic printer database
+foomatic-db-engine, Foomatic printer database engine
+foomatic-db-gutenprint-ppds, Foomatic PPDs for Gutenprint printers
+foomatic-db-nonfree, Foomatic non-free printer database
+foomatic-db-nonfree-ppds, Foomatic non-free PPDs
+foomatic-db-ppds, Foomatic PPDs for various printers
+fsarchiver, Flexible filesystem archiver
+fwupd, Firmware update daemon
+gcc-fortran, GNU Fortran compiler
+gdb, GNU Debugger
+ghostscript, Interpreter for PostScript and PDF files
+gimp, GNU Image Manipulation Program to edit images
+github-cli, Command-line interface for GitHub
+glances, Cross-platform system monitoring tool
+go, Go programming language compiler and tools
+gparted, GNOME partition editor
+gradle, Build automation tool for Java projects
+grim, Screenshot utility for Wayland
+gsfonts, Ghostscript fonts
+gst-libav, GStreamer plugin for libav
+gst-plugin-pipewire, GStreamer plugin for PipeWire
+gst-plugins-bad, GStreamer plugins that are not fully tested or stable
+gst-plugins-ugly, GStreamer plugins that are not fully tested or stable
+gtk-engines, GTK+ 2.x theme engines
+gutenprint, Printer drivers for CUPS
+gwenview, KDE image viewer
+haveged, Entropy daemon to improve random number generation
+hdparm,  Utility to set SATA/IDE device parameters
+hplip, HP Linux Imaging and Printing
+htop, TUI system monitor
+hunspell-de, German spell checker
+hunspell-en_us, English (US) spell checker
+hwdetect, Hardware detection tool
+hwinfo, Hardware information tool
+hyprland, Hyprland tiling compositor
+hyprlock, Hyprland screen locker
+hyprpaper, Hyprland wallpaper manager
+inetutils, Basic networking utilities
+inkscape, Vector graphics editor
+inotify-tools, CLI for inotify
+intel-ucode, Intel microcode updates
 intellij-idea-ultimate-edition
-inter-font
-inxi
-iptables-nft
-iwd
-jdk-openjdk
-jdk17-openjdk
-jdk21-openjdk
-jfsutils
-jujutsu
-junit
-jupyterlab
-kate
-kcalc
-kde-cli-tools
-kde-gtk-config
-kdeconnect
-kdegraphics-thumbnailers
-kdenetwork-filesharing
-kdeplasma-addons
-keepass
-keepassxc
-kernel-install-for-dracut
-kgamma
-kimageformats
-kinfocenter
-kio-admin
-kio-extras
-kio-fuse
-kitty
-konsole
-kotlin
-krita
-kscreen
-kwallet-pam
-kwayland-integration
-kwin-polonium
-lazygit
-less
-libappindicator-gtk3
-libdvdcss
-libgsf
-libopenraw
-libreoffice-extension-texmaths
-libreoffice-still
-libwnck3
-linux
-linux-firmware
-linux-headers
-linux-wifi-hotspot
-lldb
-logrotate
-love
-lsb-release
-lsd
-lsscsi
-lua51
-luarocks
-lvm2
-maliit-keyboard
-man-db
-man-pages
-mattermost-desktop
-maven
-mdadm
-meld
-mesa-utils
-minecraft-launcher
-modemmanager
-mosh
-mtools
-nano
-nano-syntax-highlighting
-neo-matrix
-neofetch
-neovim
-netctl
-network-manager-applet
-networkmanager
-networkmanager-openconnect
-networkmanager-openvpn
-nfs-utils
-nilfs-utils
-nix
-nmap
-nodejs
-notion-app-electron
-noto-fonts
-noto-fonts-cjk
-noto-fonts-emoji
-noto-fonts-extra
-npm
-nss-mdns
-ntfs-3g
-ntp
-nvidia
-nvidia-prime
-obsidian
-ocaml
-okular
-openjdk-doc
-openjdk17-doc
-openjdk21-doc
-openssh
-optimus-manager-git
-optimus-manager-qt
-otf-font-awesome
-otf-stix
-pacman-contrib
-pavucontrol
-pdfgrep
-perf
-perl
-pipewire-alsa
-pipewire-jack
-pipewire-pulse
-pkgfile
-plasma-browser-integration
-plasma-desktop
-plasma-disks
-plasma-firewall
-plasma-nm
-plasma-pa
-plasma-systemmonitor
-plasma-workspace
-plocate
-poppler-glib
-power-profiles-daemon
-powerdevil
-powertop
-print-manager
-pv
-pyenv
-python
-python-capng
-python-conda
-python-matplotlib
-python-numpy
-python-pandas
-python-pip
-python-pygame
-python-pyqt5
-python-reportlab
-python-scikit-learn
-python-scipy
-python-seaborn
-python-sympy
-python-tqdm
-qemu-full
-ranger
-rclone
-rebuild-detector
-reflector
-reflector-simple
-reiserfsprogs
-ripgrep
-rofi-wayland
-rpi-imager
-rsync
-rtkit
-rustup
-s-nail
-sddm-kcm
-sg3_utils
-slurp
-smartmontools
-sof-firmware
-spacecadetpinball-git
-spectacle
-speedtest-cli
-spicetify-cli
-splix
-spotify-launcher
-stalonetray
-steam
-stow
-sudo
-swappy
-sysfsutils
-system-config-printer
-systemd-sysvcompat
-texinfo
-texlive-basic
-texlive-bibtexextra
-texlive-binextra
-texlive-context
-texlive-fontsextra
-texlive-fontsrecommended
-texlive-fontutils
-texlive-formatsextra
-texlive-games
-texlive-humanities
-texlive-langgerman
-texlive-latex
-texlive-latexextra
-texlive-latexrecommended
-texlive-luatex
-texlive-mathscience
-texlive-metapost
-texlive-music
-texlive-pictures
-texlive-plaingeneric
-texlive-pstricks
-texlive-publishers
-texlive-xetex
-thunderbird
-tldr
-tmux
-torbrowser-launcher
-tree
-tree-sitter-cli
-ttf-bitstream-vera
-ttf-dejavu
-ttf-jetbrains-mono-nerd
-ttf-liberation
-ttf-opensans
-ttf-times-new-roman
-unrar
-unzip
-upower
-usb_modeswitch
-usbutils
-vi
-vim
-virtualbox
-visual-studio-code-bin
-waybar
-webex-bin
-welcome
-wget
-which
-wireplumber
-wl-clipboard
-wpa_supplicant
-xclip
-xdg-desktop-portal-gtk
-xdg-desktop-portal-kde
-xdg-user-dirs
-xdg-utils
-xdotool
-xf86-input-libinput
-xfsprogs
-xl2tpd
-xorg-server
-xorg-xdpyinfo
-xorg-xinit
-xorg-xinput
-xorg-xkill
-xorg-xrandr
-xournalpp
-xsane
-xsel
-xsettingsd
-xterm
-xwaylandvideobridge
-yakuake
-yay
-yt-dlp
-zathura
-zathura-pdf-mupdf
-zig
-zotero-bin
-zoxide
-zsh
-2025-06-14 14:57 - python-conda - Provides conda python environments, used for Reinforcement Learning exercices
-2025-06-18 22:19 - mpd - Music Player for Arch Linux
-2025-06-18 22:51 - mpc - Client to use MPD for playing music
-2025-06-18 23:05 - python-mutagen - For yt-dlp to show thumbnail
-2025-06-18 23:50 - typst - "Replacement" for LaTeX
-2025-06-21 12:28 - heroic-games-launcher - Use Epic Games, GOG on Linux
-2025-06-23 13:15 - sfml - Super Fast Multimedia Library for Roberts game
-2025-06-26 09:16 - syncthing - Sync files accross devices
-2025-06-26 09:17 - syncthingtray-qt6 - Tray icon for Syncthing
-2025-06-26 09:53 - dunst - Desktop notifications
-2025-06-30 10:32 - rmpc - Terminal music player
-2025-06-30 10:45 - ollama - Ollama for local LLMs
-2025-06-30 10:48 - ollama-cuda - Ollama with CUDA for Nvidia GPUs
-2025-06-30 12:26 - python-ollama - Ollama for Python
-2025-06-27 11:49 - hyprpolkitagent - Polkit authentication deamon for Hyprland
-2025-07-02 11:14 - chromium - Chromium Browser
-2025-07-04 11:32 - wf-recorder - Screen recorder for wayland
-2025-07-06 20:35 - audacity - Edit audio files
-2025-07-07 09:56 - picard - Music metadata editor
-2025-07-08 11:54 - zoom - Zoom meetings
-2025-07-10 12:14 - yazi - File explorer like ranger
+inter-font, Inter font family
+inxi, System information tool
+iptables-nft, iptables with nftables backend
+iwd, IWD is a daemon for managing wireless connections
+jdk-openjdk, Current OpenJDK version
+jdk21-openjdk, OpenJDK 21 as LTS version
+jfsutils, JFS filesystem utilities
+jujutsu, Version control system which also works with git
+junit, JUnit testing framework
+jupyterlab, JupyterLab web-based interactive development environment
+keepassxc, Password manager for kdbx files
+kernel-install-for-dracut, Kernel installation script for dracut
+kimageformats, Image format plugins for Qt
+kitty, Default terminal emulator
+kotlin, Kotlin programming language
+krita, Digital painting software
+lazygit, TUI for git commands
+less, CLI pager for viewing text files
+libappindicator-gtk3, Library for application indicators
+libdvdcss, Library for reading encrypted DVDs
+libgsf, Library for reading structured file formats
+libopenraw, Library for reading raw image files
+libreoffice-extension-texmaths, LibreOffice extension for LaTeX math formulas
+libreoffice-still, LibreOffice office suite
+libwnck3, Library for window management in GNOME
+linux, Linux kernel and modules
+linux-firmware, Linux firmware files
+linux-headers, Linux kernel headers
+linux-wifi-hotspot, Create a Wi-Fi hotspot using Linux
+lldb, LLVM debugger
+logrotate, Log file rotation utility
+love, 2D game framework
+lsb-release, Linux Standard Base release information
+lsd, Modern replacement for ls command
+lsscsi, List SCSI devices
+lua51, Lua 5.1 programming language
+lua, Lua programming language
+luarocks, Lua package manager
+lvm2, Logical Volume Manager 2
+maliit-keyboard, Maliit virtual keyboard
+man-db, Read man pages
+man-pages, Man pages for Linux
+maven, Build automation tool for Java projects
+mdadm, MDADM is a tool for managing Linux software RAID arrays
+meld, File comparison and merge tool
+mesa-utils, Utilities for Mesa 3D graphics library
+modemmanager, Mobile broadband management daemon
+prismlauncher, Prism Launcher for Minecraft
+mtools, Utilities for manipulating MS-DOS filesystems
+neo-matrix, NeoMatrix is a terminal matrix effect
+neovim, Neovim text editor
+netctl, Network management tool for Arch Linux
+network-manager-applet, NetworkManager applet for managing network connections
+networkmanager, NetworkManager daemon for managing network connections
+networkmanager-openconnect, OpenConnect VPN plugin for NetworkManager
+networkmanager-openvpn, OpenVPN plugin for NetworkManager
+nfs-utils, NFS utilities for mounting and managing NFS shares
+nilfs-utils, NILFS filesystem utilities
+nix, Nix package manager
+nmap, Network exploration tool and security/port scanner
+nodejs, Node.js JavaScript runtime
+notion-app-electron, Notion desktop app based on Electron
+noto-fonts, Noto fonts for various languages
+noto-fonts-cjk, Noto CJK fonts for Chinese, Japanese, and Korean
+noto-fonts-emoji, Noto emoji fonts
+noto-fonts-extra, Additional Noto fonts for various languages
+npm, Node.js package manager
+nss-mdns, Name Service Switch module for mDNS
+ntfs-3g, NTFS filesystem driver
+ntp, Network Time Protocol daemon
+nvidia, Nvidia proprietary graphics drivers
+nvidia-prime, Nvidia Prime for hybrid graphics
+obsidian, Obsidian note-taking app
+ocaml, OCaml programming language
+okular, Document viewer for KDE
+openjdk-doc, OpenJDK documentation
+openjdk21-doc, OpenJDK 21 documentation
+openssh, OpenSSH client and server
+optimus-manager-git, Tool for managing hybrid graphics on Linux
+optimus-manager-qt, Qt GUI for Optimus Manager
+otf-font-awesome, Font Awesome icon font
+otf-stix, STIX fonts for scientific and technical documents
+pacman-contrib, Pacman utilities and scripts
+pavucontrol, PulseAudio volume control
+pdfgrep, Command-line tool for searching text in PDF files
+perf, Performance analysis tool for Linux
+perl, Perl programming language
+pipewire-alsa, PipeWire ALSA plugin
+pipewire-jack, PipeWire JACK plugin
+pipewire-pulse, PipeWire PulseAudio plugin
+pkgfile, Package file database for Arch Linux
+plocate, Fast file locator for Arch Linux
+poppler-glib, Poppler GLib bindings for PDF rendering
+power-profiles-daemon, Power management daemon for Linux
+powertop, Power consumption analysis tool
+pv, Pipe Viewer is TUI for monitoring data through a pipe
+pyenv, Python version management tool
+python, Python programming language
+python-capng, Python bindings for libcap-ng
+python-matplotlib, Matplotlib for plotting in Python
+python-numpy, NumPy for numerical computing in Python
+python-pandas, Pandas for data manipulation in Python
+python-pip, Python package installer
+python-pygame, Pygame for game development in Python
+python-pyqt5, PyQt5 bindings for Python
+python-reportlab, ReportLab for PDF generation in Python
+python-scikit-learn, Scikit-learn for machine learning in Python
+python-scipy, SciPy for scientific computing in Python
+python-seaborn, Seaborn for statistical data visualization in Python
+python-sympy, SymPy for symbolic mathematics in Python
+python-tqdm, TQDM for progress bars in Python
+rclone, Command-line program to manage files on cloud storage
+rebuild-detector, Detects packages that need to be rebuilt after a system upgrade
+reflector, Tool to retrieve and sort Arch Linux mirror lists
+reflector-simple, Simple wrapper for reflector
+reiserfsprogs, ReiserFS filesystem utilities
+ripgrep, Fast text search tool
+rofi-wayland, Rofi for Wayland
+rpi-imager, Raspberry Pi Imager for flashing OS images
+rsync, Fast file transfer and synchronization tool
+rtkit, RealtimeKit for managing realtime scheduling
+rustup, Rust toolchain installer
+s-nail, Mail user agent for sending and receiving emails
+sddm-kcm, SDDM configuration module for KDE
+sg3_utils, SCSI generic utilities
+slurp, Wayland screen selection tool
+smartmontools, Utilities for monitoring and controlling storage devices
+sof-firmware, Sound Open Firmware for audio devices
+speedtest-cli, CLI for testing internet bandwidth
+spicetify-cli, Spotify client customization tool
+splix, Printer drivers for SPLIX printers
+spotify-launcher, Spotify client launcher
+stalonetray, Standalone system tray for X11
+stow, GNU Stow for managing software installations
+sudo, Command to run programs with elevated privileges
+sysfsutils, Utilities for managing sysfs
+system-config-printer, Printer configuration tool
+systemd-sysvcompat, Systemd compatibility for SysV init scripts
+texinfo, GNU Texinfo for documentation
+texlive-basic, Basic TeX Live packages
+texlive-bibtexextra, Additional BibTeX packages for TeX Live
+texlive-binextra, Additional TeX Live binaries
+texlive-context, ConTeXt typesetting system
+texlive-fontsextra, Additional fonts for TeX Live
+texlive-fontsrecommended, Recommended fonts for TeX Live
+texlive-fontutils, Font utilities for TeX Live
+texlive-formatsextra, Additional formats for TeX Live
+texlive-games, Games and puzzles in TeX Live
+texlive-humanities, Humanities packages for TeX Live
+texlive-langgerman, German language packages for TeX Live
+texlive-latex, LaTeX typesetting system
+texlive-latexextra, Additional LaTeX packages for TeX Live
+texlive-latexrecommended, Recommended LaTeX packages for TeX Live
+texlive-luatex, LuaTeX typesetting system
+texlive-mathscience, Mathematics and science packages for TeX Live
+texlive-metapost, Metapost typesetting system
+texlive-music, Music typesetting packages for TeX Live
+texlive-pictures, Graphics and pictures packages for TeX Live
+texlive-plaingeneric, Plain TeX typesetting system
+texlive-pstricks, PSTricks packages for TeX Live
+texlive-publishers, Publishers packages for TeX Live
+texlive-xetex, XeTeX typesetting system
+thunderbird, Mozilla Thunderbird email client
+tldr, Overview for CLI tools
+tmux, Terminal multiplexer
+torbrowser-launcher, Launcher for Tor Browser
+tree, Command-line tool to display directory structure in a tree format
+tree-sitter-cli, Tree-sitter CLI for syntax highlighting and parsing
+ttf-jetbrains-mono-nerd, JetBrains Mono font with Nerd Font glyphs
+ttf-opensans, Open Sans font family
+ttf-times-new-roman, Times New Roman font family
+unrar, UnRAR is a utility for extracting files from RAR archives
+unzip, Unzip is a utility for extracting files from ZIP archives
+upower, UPower is a power management daemon
+usb_modeswitch, USB device mode switching utility
+usbutils, USB utilities for listing USB devices
+vim, Vim text editor
+visual-studio-code-bin, Visual Studio Code editor
+waybar, Wayland status bar
+webex-bin, Cisco Webex meetings client
+wget, CLI for downloading files from the web
+which, Command to locate a command in the PATH
+wireplumber, PipeWire session and policy manager
+wl-clipboard, Clipboard management for Wayland
+wpa_supplicant, WPA Supplicant for managing wireless connections
+xdg-desktop-portal-gtk, GTK implementation of xdg-desktop-portal
+xdg-desktop-portal-kde, KDE implementation of xdg-desktop-portal
+xdg-user-dirs, User directories management
+xdg-utils, Utilities for managing desktop environments
+xdotool, Command-line tool for simulating keyboard input and mouse activity
+xf86-input-libinput, X.Org input driver for libinput
+xfsprogs, XFS filesystem utilities
+xl2tpd, L2TP daemon for Linux
+xorg-server, X.Org server for displaying graphical user interfaces
+xorg-xdpyinfo, X.Org utility to display information about the X server
+xorg-xinit, X.Org utility to start the X server
+xorg-xinput, X.Org utility to configure input devices
+xorg-xkill, X.Org utility to kill a window by clicking on it
+xorg-xrandr, X.Org utility to set screen resolution and orientation
+xournalpp, Note-taking application with PDF annotation support
+xsane, SANE frontend for scanning documents
+xsel, Command-line tool for accessing the X selection
+xsettingsd, Lightweight daemon for managing X settings
+xwaylandvideobridge, Allows streaming of Wayland applications to X11
+yay, Pacman wrapper with AUR support
+yt-dlp, Download YouTube videos or as music
+zathura, PDF viewer
+zathura-pdf-mupdf, PDF backend for zathura using mupdf
+zig, Zig programming language
+zoxide, Smarter cd command
+zsh, Z shell
+mpd, Music Player for Arch Linux
+mpc, Client to use MPD for playing music
+python-mutagen, For yt-dlp to show thumbnail
+typst, "Replacement" for LaTeX
+heroic-games-launcher, Use Epic Games & GOG on Linux
+sfml, Super Fast Multimedia Library for Roberts game
+syncthing, Sync files accross devices
+syncthingtray-qt6, Tray icon for Syncthing
+dunst, Desktop notifications
+rmpc, Terminal music player
+ollama, Ollama for local LLMs
+ollama-cuda, Ollama with CUDA for Nvidia GPUs
+python-ollama, Ollama for Python
+hyprpolkitagent, Polkit authentication deamon for Hyprland
+chromium, Chromium Browser
+wf-recorder, Screen recorder for wayland
+audacity, Edit audio files
+picard, Music metadata editor
+zoom, Zoom meetings
+yazi, File explorer like ranger
+steam, Steam gaming platform
+spacecadetpinball-git, Space Cadet Pinball game
