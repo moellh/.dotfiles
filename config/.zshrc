@@ -111,8 +111,8 @@ eval "$(pyenv init -)"
 # lazygit
 alias lg="lazygit"
 
-# alias für neovim
-alias nv="nvim"
+# Alias for neovim as vim because is vim is installed on most systems
+alias vim="nvim"
 alias ns="search_to_nvim"
 alias ra="ranger"
 
