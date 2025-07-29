@@ -1,3 +1,8 @@
+, Only install one Nvidia driver package:
+, nvidia, Nvidia proprietary graphics drivers
+, nvidia-dkms, Nvidia proprietary graphics drivers with DKMS support
+
+archlinux-xdg-menu, Arch Linux desktop menu integration
 accountsservice, User account management service
 alsa-firmware, Firmware for ALSA sound drivers
 alsa-plugins, ALSA plugins for additional functionality
@@ -176,7 +181,6 @@ npm, Node.js package manager
 nss-mdns, Name Service Switch module for mDNS
 ntfs-3g, NTFS filesystem driver
 ntp, Network Time Protocol daemon
-nvidia, Nvidia proprietary graphics drivers
 nvidia-prime, Nvidia Prime for hybrid graphics
 obsidian, Obsidian note-taking app
 ocaml, OCaml programming language
@@ -339,3 +343,25 @@ zoom, Zoom meetings
 yazi, File explorer like ranger
 steam, Steam gaming platform
 spacecadetpinball-git, Space Cadet Pinball game
+cliphist, Clipboard history manager
+git, Git version control system
+hyprpicker, Hyprland color picker
+librewolf-bin, LibreWolf web browser
+linux-lts, Linux LTS kernel
+linux-lts-headers, Linux LTS kernel headers
+nvtop, NVIDIA GPU monitoring tool
+openmpi, Open MPI for parallel computing
+playerctl, Media player control utility
+qbittorrent, qBittorrent BitTorrent client
+python-mpi4py, Python bindings for MPI
+python-pillow, Python Imaging Library
+rofi-calc, Rofi calculator plugin
+rofi-emoji, Rofi emoji selector plugin
+sshfs, SSH Filesystem for mounting remote directories over SSH
+xdg-desktop-portal-hyprland, XDG desktop portal for Hyprland
+ruby, Ruby programming language
+ruby-irb, Interactive Ruby shell
+ruby-rdoc, Ruby documentation generator
+ruby-docs, Ruby documentation files
+ruby-stdlib, Ruby standard library files
+rubygems, RubyGems package manager
