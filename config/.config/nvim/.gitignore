@@ -1,0 +1,2 @@
+# gitignore for nvim config file swith lazy
+lazy-lock.json
