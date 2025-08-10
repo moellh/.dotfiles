@@ -365,3 +365,6 @@ ruby-rdoc, Ruby documentation generator
 ruby-docs, Ruby documentation files
 ruby-stdlib, Ruby standard library files
 rubygems, RubyGems package manager
+2025-08-04 13:56 - gemini-cli - Google Gemini for CLI
+2025-08-05 16:59 - localsend-bin - Airdrop replacement
+2025-08-07 19:58 - glfw - Framework for OpenGL with windows and contexts
