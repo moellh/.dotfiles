@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 <URL> [destination_folder]"
+    exit 1
+fi
+
+URL="$1"
+DESTINATION_FOLDER="${2:-$HOME/Music/tmp}"
+mkdir -p "$DESTINATION_FOLDER"
+echo "Downloading to $DESTINATION_FOLDER"
+
+yt-dlp --extract-audio --audio-format mp3 --audio-quality 0 -o "$DESTINATION_FOLDER/%(title)s.%(ext)s" "$URL"
