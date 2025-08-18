@@ -40,6 +40,7 @@ return {
             require("mason-lspconfig").setup {
                 -- automatically install servers used in nvim-lspconfig
                 automatic_installation = { exclude = { "zls" } },
+                automatic_enable = false,
                 -- automatically install
                 ensure_installed = {
                     "pyright", -- python
