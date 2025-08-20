@@ -368,3 +368,4 @@ rubygems, RubyGems package manager
 2025-08-04 13:56 - gemini-cli - Google Gemini for CLI
 2025-08-05 16:59 - localsend-bin - Airdrop replacement
 2025-08-07 19:58 - glfw - Framework for OpenGL with windows and contexts
+2025-08-19 13:55 - vlc-plugin-ffmpeg - Add ffmpeg to vlc to fix issue with h264 format
