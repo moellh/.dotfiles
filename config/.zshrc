@@ -59,8 +59,8 @@ source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Aliases
 
-alias ls="/bin/ls --hyperlink=auto --color=auto -hF $@"
-alias ll="ls -al"
+alias ls="lsd"
+alias ll="lsd -al"
 
 # color directories
 eval "$(dircolors -b ~/.dircolors)"
