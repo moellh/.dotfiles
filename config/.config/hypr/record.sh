@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 RECORDING_PID_FILE="/tmp/wf-recorder.pid"
 
