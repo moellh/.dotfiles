@@ -14,30 +14,56 @@ return {
                 -- default languages to install
                 -- list of supported languages at github-page
                 ensure_installed = {
-                    'c',
-                    'lua',
-                    'vim',
-                    'vimdoc',
-                    'query', -- required
+                    'asm',
                     'bash',
-                    'ssh_config', -- unix
+                    'bibtex',
+                    'c',
+                    'cmake',
+                    'css',
+                    'csv',
+                    'cpp',
+                    'cuda',
+                    'dockerfile',
                     'git_config',
                     'gitcommit',
-                    'gitignore', -- git
+                    'gitignore',
+                    'glsl',
+                    'go',
                     'html',
-                    'css', -- web
+                    'hyprlang',
+                    'java',
+                    'javadoc',
                     'javascript',
-                    'typescript',
                     'jsdoc',
-                    'json', -- js
-                    'cpp',
-                    'cmake', -- cpp
-                    'rust',
-                    'java', -- java
-                    'python', -- python
+                    'json',
+                    'kotlin',
                     'latex',
-                    'bibtex', -- latex
-                    'markdown', -- md
+                    'lua',
+                    'luadoc',
+                    'make',
+                    'markdown',
+                    'markdown_inline',
+                    'mermaid',
+                    'nginx',
+                    'ninja',
+                    'nix',
+                    'ocaml',
+                    'python',
+                    'query', -- required
+                    'ruby',
+                    'rust',
+                    'sql',
+                    'ssh_config',
+                    'svelte',
+                    'toml',
+                    'tmux',
+                    'typescript',
+                    'typst',
+                    'vim',
+                    'vimdoc',
+                    'xml',
+                    'yaml',
+                    'zig',
                 },
 
                 -- installs language if not already
