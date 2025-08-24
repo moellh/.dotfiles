@@ -43,19 +43,19 @@ return {
                 automatic_enable = false,
                 -- automatically install
                 ensure_installed = {
-                    "pyright", -- python
-                    "lua_ls", -- lua
-                    "jdtls", -- java
-                    "ts_ls", -- js / javascript, ts / typescript
-                    "marksman", -- markdown
-                    "texlab", -- latex
+                    "bashls", -- Bash
+                    "clangd", -- CPP
+                    "cmake", -- CMake
+                    "jdtls", -- Java
+                    "lua_ls", -- Lua
                     "ltex", -- spell checker
-                    "bashls", -- bash
-                    "clangd", -- cpp
-                    "rust_analyzer", -- rust
-                    "cmake", -- cmake
-                    "html", -- html
-                    "tinymist", -- typst
+                    "marksman", -- Markdown
+                    "nil_ls", -- Nix
+                    "pyright", -- Python
+                    "rust_analyzer", -- Rust
+                    "texlab", -- Latex
+                    "tinymist", -- Typst
+                    "ts_ls", -- Javascript, Typescript
                 },
             }
             local lspconfig = require "lspconfig"
