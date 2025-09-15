@@ -11,6 +11,11 @@
 	whitespace = error
 [diff]
 	renames = copies
+	tool = nvimdiff
+[difftool]
+	prompt = false
+[difftool "nvimdiff"]
+	cmd = nvim -d "$LOCAL" "$REMOTE"
 [init]
 	defaultBranch = main
 [pull]
