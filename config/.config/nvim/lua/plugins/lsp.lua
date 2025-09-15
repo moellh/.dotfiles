@@ -50,7 +50,7 @@ return {
                     "lua_ls", -- Lua
                     "ltex", -- spell checker
                     "marksman", -- Markdown
-                    "nil_ls", -- Nix
+                    -- "nil_ls", -- Nix TODO: enable again later, currently broken and not needed
                     "pyright", -- Python
                     "rust_analyzer", -- Rust
                     "texlab", -- Latex
