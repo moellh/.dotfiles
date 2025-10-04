@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Usage: music-cover.sh <audio_file> <image_file>
+# Example: music-cover.sh "song.mp3" "cover.jpg"
+
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <audio_file> <image_file>"
+    exit 1
+fi
+
+audio_file="$1"
+image_file="$2"
+output_file="${audio_file%.mp3}-out.mp3"
+
+ffmpeg -i "$audio_file" -i "$image_file" -c copy -map 0 -map 1 "$output_file" && mv "$output_file" "$audio_file"
+
