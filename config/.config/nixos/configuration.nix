@@ -66,7 +66,11 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.moellh = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"  # Enable ‘sudo’ for the user
+      "scanner"  # For scanner access
+      "lp"  # For printer access
+    ];
     packages = with pkgs; [
       # Packages installed in user profile
     ];
@@ -325,6 +329,11 @@
     XDG_RUNTIME_DIR = "/run/user/${toString config.users.users.moellh.uid}"; # User-id must match above user. MPD will look inside this directory for the PipeWire socket.
   };
 
+  hardware.sane = {
+    enable = true;
+    extraBackends = [ pkgs.sane-airscan pkgs.epkowa ];
+  };
+
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme  # Mouse cursor theme
     android-studio  # Android IDE
@@ -486,5 +495,10 @@
     tldr
     pavucontrol
     mpc
+    sane-backends
+    sane-frontends  # Command-line tools (scanimage, etc.)
+    simple-scan  # Simple GUI
+    xsane  # Advanced GUI
+    usbutils
   ];
 }
