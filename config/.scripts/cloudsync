@@ -12,7 +12,11 @@ RCLONE_REMOTE="henmoell_gdrive:/"
 LOCAL_PATH="$HOME/drive/"
 
 # Check if the remote is accessible, else exit
-rclone about "$RCLONE_REMOTE" || exit 1
+timeout 10s rclone about "$RCLONE_REMOTE"
+if [ $? -ne 0 ]; then
+    echo "Remote is not accessible!" >&2
+    exit 1
+fi
 
 # Check if the local path is accessible, else exit
 [ -d "$LOCAL_PATH" ] || exit 1
@@ -27,3 +31,8 @@ rclone bisync -v "$RCLONE_REMOTE" "$LOCAL_PATH" \
     --drive-skip-gdocs \
     --drive-skip-dangling-shortcuts \
     $@
+
+if [ $? -ne 0 ]; then
+    notify-send -u critical "cloudsync failed" "rclone encountered an error"
+    exit 1
+fi
