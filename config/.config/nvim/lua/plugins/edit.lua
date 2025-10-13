@@ -39,6 +39,10 @@ vim.keymap.set(
 -- copy entire file content to clipboard
 vim.keymap.set("n", "<leader>yy", [[:%y+<CR>]])
 
+-- save file
+vim.api.nvim_set_keymap('n', '<C-s>', ':update<CR>', { noremap = true, silent = true, desc = 'Save if modified' })
+vim.api.nvim_set_keymap('i', '<C-s>', '<C-o>:update<CR>', { noremap = true, silent = true, desc = 'Save if modified (Insert mode)' })
+
 return {
 
     "tpope/vim-sleuth", -- auto-detect tabstop & shiftwidth
