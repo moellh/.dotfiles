@@ -3,10 +3,13 @@
 # Vault names
 VAULTS=(
   "devault"
-  "gq"
-  "pn"
   "rl"
+  "fm"
   "mc"
+  "rtc"
+  "do"
+  "vs"
+  "soas"
   "thw"
 )
 
