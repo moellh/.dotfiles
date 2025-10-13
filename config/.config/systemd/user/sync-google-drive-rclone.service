@@ -1,0 +1,6 @@
+[Unit]
+Description=Sync google drive with rclone every 5 minutes.
+
+[Service]
+ExecStart=%h/.scripts/cloudsync
+Type=oneshot

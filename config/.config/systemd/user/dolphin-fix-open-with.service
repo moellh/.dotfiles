@@ -1,0 +1,12 @@
+[Unit]
+Description=Rebuild KDE System Configuration Cache
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+Environment="XDG_MENU_PREFIX=arch-"
+ExecStart=/usr/bin/kbuildsycoca6
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target

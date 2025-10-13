@@ -1,0 +1,9 @@
+[Unit]
+Description=Sync google drive with rclone every 5 minutes
+
+[Timer]
+OnCalendar=*:0/05
+OnStartupSec=30s
+
+[Install]
+WantedBy=timers.target
