@@ -11,20 +11,14 @@ if command -v yay &> /dev/null; then
     yay -Scc
 
     echo "=== Removing unused packages ==="
-    yay -Rsn $(yay -Qdtq) 
-fi
-
-# Update cloud storage with local folder
-if command -v cloudsync &> /dev/null; then
-    echo "=== Updating cloud storage ==="
-    cloudsync
+    yay -Rsn $(yay -Qdtq)
 fi
 
 # Update .obsidian-folders
-if command -v obsidian &> /dev/null; then
-    echo "=== Update .obsidian-folders ==="
-    echo "empty so far"
-fi
+# if command -v obsidian &> /dev/null; then
+#     echo "=== Update .obsidian-folders ==="
+#     echo "empty so far"
+# fi
 
 used_space_after=$(df --output=used / | tail -n 1) # in KB
 
