@@ -3,14 +3,17 @@
 # Vault names
 VAULTS=(
   "devault"
-  "rl"
-  "fm"
   "mc"
   "rtc"
   "do"
+  "mpl"
   "vs"
   "soas"
+  "skp-tut"
   "thw"
+  "fm"
+  "rl"
+  "sws"
 )
 
 # Use rofi to select a vault
