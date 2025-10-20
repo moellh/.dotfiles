@@ -7,7 +7,7 @@ VAULTS=(
   "rtc"
   "do"
   "mpl"
-  "vs"
+  "vc"
   "soas"
   "skp-tut"
   "thw"
