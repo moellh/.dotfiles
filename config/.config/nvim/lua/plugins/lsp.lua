@@ -32,7 +32,6 @@ return {
         dependencies = {
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
-            "nvim-lua/lsp-status.nvim",
         },
 
         config = function()
@@ -58,64 +57,129 @@ return {
                     "ts_ls", -- Javascript, Typescript
                 },
             }
-            local lspconfig = require "lspconfig"
+
             local navic = require "nvim-navic"
 
-            lspconfig.pyright.setup { -- python
+            -- Helper function for on_attach with navic
+            local function on_attach_navic(client, bufnr)
+                navic.attach(client, bufnr)
+            end
+
+            -- Python
+            vim.lsp.config.pyright = {
+                cmd = { "pyright-langserver", "--stdio" },
                 filetypes = { "python" },
-                on_attach = function(client, bufnr)
-                    navic.attach(client, bufnr)
-                end,
+                root_markers = {
+                    "pyproject.toml",
+                    "setup.py",
+                    "setup.cfg",
+                    "requirements.txt",
+                    "Pipfile",
+                    ".git",
+                },
+                on_attach = on_attach_navic,
             }
 
-            lspconfig.lua_ls.setup { -- lua
+            -- Lua
+            vim.lsp.config.lua_ls = {
+                cmd = { "lua-language-server" },
+                filetypes = { "lua" },
+                root_markers = {
+                    ".luarc.json",
+                    ".luarc.jsonc",
+                    ".luacheckrc",
+                    ".stylua.toml",
+                    "stylua.toml",
+                    "selene.toml",
+                    "selene.yml",
+                    ".git",
+                },
                 settings = {
                     Lua = {
                         completion = {
                             callSnippet = "Replace",
                         },
                         diagnostics = {
-                            -- Get the language server to recognize the `vim` global
                             globals = { "vim" },
                         },
                     },
                 },
-                on_attach = function(client, bufnr)
-                    navic.attach(client, bufnr)
-                end,
+                on_attach = on_attach_navic,
             }
-            lspconfig.ts_ls.setup {
-                on_attach = function(client, bufnr)
-                    navic.attach(client, bufnr)
-                end,
-            } -- js, ts
-            lspconfig.marksman.setup {
-                on_attach = function(client, bufnr)
-                    navic.attach(client, bufnr)
-                end,
-            } -- markdown
 
-            -- latex
-            lspconfig.texlab.setup {
-                root_dir = lspconfig.util.root_pattern(
+            -- TypeScript/JavaScript
+            vim.lsp.config.ts_ls = {
+                cmd = { "typescript-language-server", "--stdio" },
+                filetypes = {
+                    "javascript",
+                    "javascriptreact",
+                    "javascript.jsx",
+                    "typescript",
+                    "typescriptreact",
+                    "typescript.tsx",
+                },
+                root_markers = {
+                    "package.json",
+                    "tsconfig.json",
+                    "jsconfig.json",
+                    ".git",
+                },
+                on_attach = on_attach_navic,
+            }
+
+            -- Markdown
+            vim.lsp.config.marksman = {
+                cmd = { "marksman", "server" },
+                filetypes = { "markdown", "markdown.mdx" },
+                root_markers = { ".marksman.toml", ".git" },
+                on_attach = on_attach_navic,
+            }
+
+            -- LaTeX
+            vim.lsp.config.texlab = {
+                cmd = { "texlab" },
+                filetypes = { "tex", "plaintex", "bib" },
+                root_markers = {
                     ".latexmkrc",
                     ".texlabroot",
                     "texlabroot",
                     "Tectonic.toml",
                     "Makefile",
-                    ".git"
-                ),
+                    ".git",
+                },
             }
 
-            lspconfig.ltex.setup {}
-
-            lspconfig.bashls.setup {
-                on_attach = function(client, bufnr)
-                    navic.attach(client, bufnr)
-                end,
+            -- LTeX (spell checker)
+            vim.lsp.config.ltex = {
+                cmd = { "ltex-ls" },
+                filetypes = {
+                    "bib",
+                    "gitcommit",
+                    "markdown",
+                    "org",
+                    "plaintex",
+                    "rst",
+                    "rnoweb",
+                    "tex",
+                    "pandoc",
+                },
+                root_markers = { ".git" },
+                settings = {
+                    ltex = {},
+                },
+                on_attach = on_attach_navic,
             }
 
-            lspconfig.clangd.setup {
+            -- Bash
+            vim.lsp.config.bashls = {
+                cmd = { "bash-language-server", "start" },
+                filetypes = { "sh", "bash" },
+                root_markers = { ".git" },
+                on_attach = on_attach_navic,
+            }
+
+            -- Clangd (C/C++)
+            vim.lsp.config.clangd = {
                 cmd = {
                     "clangd",
                     "--background-index",
@@ -127,35 +191,80 @@ return {
                     "--all-scopes-completion",
                     "--completion-style=bundled",
                 },
-                init_options = {
-                    fallbackFlags = { "-std=c++17" },
-                    clangdFileStatus = true,
-                },
-                root_dir = lspconfig.util.root_pattern(
+                filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+                root_markers = {
                     "compile_commands.json",
                     ".clangd",
                     ".clang-format",
-                    ".git"
-                ),
-                on_attach = function(client, bufnr)
-                    navic.attach(client, bufnr)
-                end,
+                    ".git",
+                },
+                init_options = {
+                    clangdFileStatus = true,
+                },
+                on_attach = on_attach_navic,
             }
 
-            lspconfig.rust_analyzer.setup {}
+            -- Rust
+            vim.lsp.config.rust_analyzer = {
+                cmd = { "rust-analyzer" },
+                filetypes = { "rust" },
+                root_markers = { "Cargo.toml", "rust-project.json" },
+            }
 
-            lspconfig.cmake.setup {}
+            -- CMake
+            vim.lsp.config.cmake = {
+                cmd = { "cmake-language-server" },
+                filetypes = { "cmake" },
+                root_markers = {
+                    "CMakePresets.json",
+                    "CTestConfig.cmake",
+                    ".git",
+                    "build",
+                    "cmake",
+                },
+            }
 
-            lspconfig.html.setup {}
+            -- HTML
+            vim.lsp.config.html = {
+                cmd = { "vscode-html-language-server", "--stdio" },
+                filetypes = { "html", "templ" },
+                root_markers = { "package.json", ".git" },
+            }
 
-            lspconfig.zls.setup {}
+            -- Zig
+            vim.lsp.config.zls = {
+                cmd = { "zls" },
+                filetypes = { "zig", "zir" },
+                root_markers = { "zls.json", "build.zig", ".git" },
+            }
 
-            lspconfig.tinymist.setup {
+            -- Typst
+            vim.lsp.config.tinymist = {
+                cmd = { "tinymist" },
+                filetypes = { "typst" },
+                root_markers = { "main.typ", ".git" },
                 settings = {
                     formatterMode = "typstyle",
                     exportPdf = "onType",
                     semanticTokens = "disable",
                 },
+            }
+
+            -- Enable all configured LSP servers
+            vim.lsp.enable {
+                "pyright",
+                "lua_ls",
+                "ts_ls",
+                "marksman",
+                "texlab",
+                "ltex",
+                "bashls",
+                "clangd",
+                "rust_analyzer",
+                "cmake",
+                "html",
+                "zls",
+                "tinymist",
             }
         end,
     },
@@ -165,6 +274,7 @@ return {
 
     {
         "barreiroleo/ltex_extra.nvim",
+        enabled = false,
         ft = { "markdown", "tex", "bib" },
         dependencies = { "neovim/nvim-lspconfig" },
         -- yes, you can use the opts field, just I'm showing the setup explicitly
@@ -172,15 +282,6 @@ return {
             require("ltex_extra").setup {
                 load_langs = { "en-US", "de-DE" },
                 -- your_ltex_extra_opts,
-                server_opts = {
-                    -- capabilities = your_capabilities,
-                    on_attach = function(client, bufnr)
-                        -- your on_attach process
-                    end,
-                    settings = {
-                        ltex = {},
-                    },
-                },
             }
         end,
     },
