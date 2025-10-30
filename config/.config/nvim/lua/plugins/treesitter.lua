@@ -24,6 +24,21 @@ return {
                 -- Avante
                 "AvantePromptInput",
                 "AvanteInput",
+                "AvanteSelectedFiles",
+                "AvanteSelectedCode",
+                "AvanteTodos",
+
+                -- Oil
+                "oil",
+                "oil_preview",
+
+                -- CMP
+                "cmp_menu",
+                "cmp_docs",
+
+                -- lazy
+                "lazy",
+                "lazy_backdrop",
 
                 -- Other plugins
                 "aerial",
