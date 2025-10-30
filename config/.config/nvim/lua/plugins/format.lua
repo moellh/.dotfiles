@@ -26,6 +26,8 @@ return {
                 python = { "isort", "black" },
                 javascript = { "prettierd" },
                 java = { "google-java-format" },
+                c = { "clang-format" },
+                glsl = { "clang-format" },
                 cpp = { "clang-format" },
                 cuda = { "clang-format" },
                 bash = { "shfmt" },
