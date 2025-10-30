@@ -145,3 +145,6 @@ function y() {
 }
 
 alias avante='nvim -c "lua vim.defer_fn(function()require(\"avante.api\").zen_mode()end, 100)"'
+
+# Export environment variables
+source $HOME/drive/data/.env
