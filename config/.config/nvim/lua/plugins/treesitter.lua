@@ -3,75 +3,24 @@ return {
     -- treesitter-textobjects for language specific selection
     -- see config in nvim-treesitter.configs->textobjects
     -- see list of textobjects by language on github-page
-    'nvim-treesitter/nvim-treesitter-textobjects',
+    "nvim-treesitter/nvim-treesitter-textobjects",
 
     { -- treesitter for functions that require an AST
-        'nvim-treesitter/nvim-treesitter',
-        build = ':TSUpdate',
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
         config = function()
-            require('nvim-treesitter.configs').setup {
+            require("nvim-treesitter.configs").setup {
 
-                -- default languages to install
-                -- list of supported languages at github-page
-                ensure_installed = {
-                    'asm',
-                    'bash',
-                    'bibtex',
-                    'c',
-                    'cmake',
-                    'css',
-                    'csv',
-                    'cpp',
-                    'cuda',
-                    'dockerfile',
-                    'git_config',
-                    'gitcommit',
-                    'gitignore',
-                    'glsl',
-                    'go',
-                    'html',
-                    'hyprlang',
-                    'java',
-                    'javadoc',
-                    'javascript',
-                    'jsdoc',
-                    'json',
-                    'kotlin',
-                    'latex',
-                    'lua',
-                    'luadoc',
-                    'make',
-                    'markdown',
-                    'markdown_inline',
-                    'mermaid',
-                    'nginx',
-                    'ninja',
-                    'nix',
-                    'ocaml',
-                    'python',
-                    'query', -- required
-                    'ruby',
-                    'rust',
-                    'sql',
-                    'ssh_config',
-                    'svelte',
-                    'toml',
-                    'tmux',
-                    'typescript',
-                    'typst',
-                    'vim',
-                    'vimdoc',
-                    'xml',
-                    'yaml',
-                    'zig',
-                },
+                -- just install all of them grammars :)
+                ensure_installed = "all",
+
+                -- except for the one that throws an error
+                ignore_install = { "ipkg" },
 
                 -- installs language if not already
                 auto_install = true,
 
                 sync_install = false,
-
-                ignore_install = {},
 
                 indent = {
                     enable = false,
@@ -86,10 +35,10 @@ return {
                 incremental_selection = {
                     enable = true,
                     keymaps = {
-                        init_selection = '<leader>ss',
-                        node_incremental = '<leader>si',
-                        scope_incremental = '<leader>sc',
-                        node_decremental = '<leader>sd',
+                        init_selection = "<leader>ss",
+                        node_incremental = "<leader>si",
+                        scope_incremental = "<leader>sc",
+                        node_decremental = "<leader>sd",
                     },
                 },
 
@@ -106,21 +55,21 @@ return {
                         -- keybinds for selecting textobjects
                         -- see textobjects.scm
                         keymaps = {
-                            ['af'] = '@function.outer',
-                            ['if'] = '@function.inner',
-                            ['ac'] = '@class.outer',
-                            ['ic'] = '@class.inner',
-                            ['as'] = {
-                                query = '@scope',
-                                query_group = 'locals',
+                            ["af"] = "@function.outer",
+                            ["if"] = "@function.inner",
+                            ["ac"] = "@class.outer",
+                            ["ic"] = "@class.inner",
+                            ["as"] = {
+                                query = "@scope",
+                                query_group = "locals",
                             },
                         },
 
                         -- applied visual-mode for the corresponing textobject
                         selection_modes = {
-                            ['@parameter.outer'] = 'v',
-                            ['@function.outer'] = 'v',
-                            ['@class.outer'] = '<c-v>',
+                            ["@parameter.outer"] = "v",
+                            ["@function.outer"] = "v",
+                            ["@class.outer"] = "<c-v>",
                         },
 
                         -- adds surrounding whitespaces to selection
