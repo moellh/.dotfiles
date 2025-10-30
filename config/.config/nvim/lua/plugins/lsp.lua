@@ -1,8 +1,5 @@
--- else ~/.local/state/nvim/lsp.log will grow to huge size
--- vim.lsp.set_log_level "off"
-
--- NOTE: uncomment one day
--- vim.lsp.enable "luals"
+-- Add WARN and ERROR logs to $HOME/.local/state/nvim/lsp.log NOTE, TODO, FIX,
+vim.lsp.set_log_level "WARN"
 
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
