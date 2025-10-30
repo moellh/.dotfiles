@@ -19,7 +19,7 @@ return {
                 provider = "copilot",
                 providers = {
                     copilot = {
-                        model = "gpt-5-mini",
+                        model = "gpt-4o",
                     },
                 },
                 auto_suggestions_provider = nil, -- use other plugin for auto-suggestions
