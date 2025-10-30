@@ -77,6 +77,16 @@ return {
                         crust = "#dddddd",
                     },
                 },
+                custom_highlights = function(colors)
+                    return {
+                        -- Disable TODO, NOTE, etc. being highlighted automatically
+                        ["@comment.error"] = { link = "Comment" },
+                        ["@comment.warning"] = { link = "Comment" },
+                        ["@comment.hint"] = { link = "Comment" },
+                        ["@comment.todo"] = { link = "Comment" },
+                        ["@comment.note"] = { link = "Comment" },
+                    }
+                end,
             }
         end,
     },
