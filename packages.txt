@@ -370,3 +370,7 @@ rubygems, RubyGems package manager
 2025-08-07 19:58 - glfw - Framework for OpenGL with windows and contexts
 2025-08-19 13:55 - vlc-plugin-ffmpeg - Add ffmpeg to vlc to fix issue with h264 format
 2025-10-09 22:43 - nvtop - Nvidia GPU top
+2025-10-18 18:11 - python-pytorch - Pytorch for MPL exercises
+2025-10-18 18:12 - python-pytorch-cuda - CUDA support for Pytorch
+2025-10-24 15:33 - python-torchvision - Python Torchvision for Machine Perception and Learning
+2025-10-24 20:37 - entr - Like inotify but also executes a command
