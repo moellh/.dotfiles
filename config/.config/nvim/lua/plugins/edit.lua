@@ -19,6 +19,7 @@ vim.opt.smartindent = true
 -- enable mouse
 vim.opt.mouse = "a"
 vim.o.mousescroll = "ver:1,hor:1"
+vim.opt.smoothscroll = true
 
 -- Move selected lines up/down one line
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
