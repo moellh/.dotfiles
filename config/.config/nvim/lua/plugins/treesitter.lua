@@ -55,6 +55,11 @@ return {
                         return
                     end
 
+                    if ft == "text" then
+                        vim.treesitter.start(buf, "markdown")
+                        return
+                    end
+
                     vim.treesitter.start(buf)
                 end,
             })
