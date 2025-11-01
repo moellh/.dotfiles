@@ -374,3 +374,8 @@ rubygems, RubyGems package manager
 2025-10-18 18:12 - python-pytorch-cuda - CUDA support for Pytorch
 2025-10-24 15:33 - python-torchvision - Python Torchvision for Machine Perception and Learning
 2025-10-24 20:37 - entr - Like inotify but also executes a command
+2025-10-31 15:25 - dtc - Some tool for Real Time Concepts
+2025-11-01 17:00 - iscan - Get epkowa backend for Epson Scanner
+2025-11-01 17:07 - simple-scan - A nice scanner program i discovered
+2025-11-01 17:31 - sane-airscan - Driverless scanning
+2025-11-01 17:32 - iscan-plugin-perfection-v370 - Epson specific backend
