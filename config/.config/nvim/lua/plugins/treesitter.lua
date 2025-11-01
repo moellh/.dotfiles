@@ -17,6 +17,9 @@ return {
                 "help", -- help page
                 "qf", -- quickfix list
 
+                -- generic file types
+                "conf",
+
                 -- Telescope
                 "TelescopePrompt",
                 "TelescopeResults",
