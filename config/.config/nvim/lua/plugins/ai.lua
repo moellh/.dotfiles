@@ -19,7 +19,7 @@ return {
                 provider = "copilot",
                 providers = {
                     copilot = {
-                        model = "gpt-4o",
+                        model = "grok-code-fast-1",
                     },
                 },
                 auto_suggestions_provider = nil, -- use other plugin for auto-suggestions
