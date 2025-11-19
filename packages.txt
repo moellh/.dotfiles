@@ -379,3 +379,6 @@ rubygems, RubyGems package manager
 2025-11-01 17:07 - simple-scan - A nice scanner program i discovered
 2025-11-01 17:31 - sane-airscan - Driverless scanning
 2025-11-01 17:32 - iscan-plugin-perfection-v370 - Epson specific backend
+2025-11-07 15:15 - python-evaluate - HuggingFace package for evaluation, used for MPL
+2025-11-12 13:13 - iotop-c - See speeds of IO devices
+2025-11-12 13:15 - sysstat - See speeds of io devices
