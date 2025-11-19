@@ -5,6 +5,8 @@
 # - for system specific configuration, use .zshrc.local
 ################################################################################
 
+[[ "$TERM_PROGRAM" == "vscode" ]] && . "/opt/visual-studio-code/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-rc.zsh"
+
 # powerlevel10k instant prompt
 # must be at top of .zshrc
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
