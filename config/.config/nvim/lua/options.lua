@@ -1,5 +1,5 @@
 vim.opt.undofile = true -- safe undo history to file
-vim.opt.updatetime = 250
+vim.opt.updatetime = 250 -- lower time to trigger CursorHold event earlier which is used by LSP
 vim.opt.timeoutlen = 300
 
 --[[
