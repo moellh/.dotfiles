@@ -48,10 +48,11 @@ return {
                     "marksman", -- Markdown
                     -- "nil_ls", -- Nix TODO: enable again later, currently broken and not needed
                     "pyright", -- Python
-                    "rust_analyzer", -- Rust
+                    -- "rust_analyzer", -- Rust
                     "texlab", -- Latex
                     "tinymist", -- Typst
                     "ts_ls", -- Javascript, Typescript
+                    "glsl_analyzer", -- GLSL
                 },
             }
 
@@ -262,6 +263,7 @@ return {
                 "html",
                 "zls",
                 "tinymist",
+                "glsl_analyzer",
             }
         end,
     },
