@@ -2,6 +2,12 @@
 , nvidia, Nvidia proprietary graphics drivers
 , nvidia-dkms, Nvidia proprietary graphics drivers with DKMS support
 
+, TODOs:
+, - check package list again
+, - separate official Arch and AUR packages
+, -
+
+
 archlinux-xdg-menu, Arch Linux desktop menu integration
 accountsservice, User account management service
 alsa-firmware, Firmware for ALSA sound drivers
@@ -11,7 +17,7 @@ android-studio, IDE for Android development
 ani-cli, CLI for watching anime
 anki-bin, Anki flashcard program
 appmenu-gtk-module, GTK module for application menus
-arduino-ide, IDE for Arduino development
+, arduino-ide, IDE for Arduino development, dependency conflict with nodejs which is used by heroic launcher. though for both a -bin version exists which may easily resolve the conflict
 ark, KDE archive manager
 b43-fwcutter, Firmware extraction tool for Broadcom wireless devices
 base, Package for basic Arch Linux installation
@@ -34,7 +40,6 @@ cmake, Cross-platform build system
 cmake-format, Formatter for CMake files
 cryptsetup, Utility for encrypted filesystems
 cuda, Programm for Nvidia GPUs
-cuda-tools, Tools for CUDA incl. namely nvvp & nsight & compute sanitizer
 cups, Printing system for Unix-like OS
 cups-browsed, Automatically discover and configure printers
 cups-filters, CUPS filters and backends
@@ -60,7 +65,7 @@ e2fsprogs, Utilities for ext2/ext3/ext4 filesystems
 efibootmgr, EFI boot manager
 efitools, Tools for managing EFI variables
 sddm, Simple Desktop Display Manager
-ranmirrors, Mirror ranking tool
+rankmirrors, Mirror ranking tool
 ethtool, Utility for Ethernet devices
 exfatprogs, Utilities for exFAT filesystems
 f2fs-tools, Utilities for F2FS filesystems
@@ -365,25 +370,36 @@ ruby-rdoc, Ruby documentation generator
 ruby-docs, Ruby documentation files
 ruby-stdlib, Ruby standard library files
 rubygems, RubyGems package manager
-2025-08-04 13:56 - gemini-cli - Google Gemini for CLI
-2025-08-05 16:59 - localsend-bin - Airdrop replacement
-2025-08-07 19:58 - glfw - Framework for OpenGL with windows and contexts
-2025-08-19 13:55 - vlc-plugin-ffmpeg - Add ffmpeg to vlc to fix issue with h264 format
-2025-10-09 22:43 - nvtop - Nvidia GPU top
-2025-10-18 18:11 - python-pytorch - Pytorch for MPL exercises
-2025-10-18 18:12 - python-pytorch-cuda - CUDA support for Pytorch
-2025-10-24 15:33 - python-torchvision - Python Torchvision for Machine Perception and Learning
-2025-10-24 20:37 - entr - Like inotify but also executes a command
-2025-10-31 15:25 - dtc - Some tool for Real Time Concepts
-2025-11-01 17:00 - iscan - Get epkowa backend for Epson Scanner
-2025-11-01 17:07 - simple-scan - A nice scanner program i discovered
-2025-11-01 17:31 - sane-airscan - Driverless scanning
-2025-11-01 17:32 - iscan-plugin-perfection-v370 - Epson specific backend
-2025-11-07 15:15 - python-evaluate - HuggingFace package for evaluation, used for MPL
-2025-11-12 13:13 - iotop-c - See speeds of IO devices
-2025-11-12 13:15 - sysstat - See speeds of io devices
-2025-11-20 17:22 - github-copilot-cli - Copilot CLI by Github and replacement for gh copilot extension
-2025-11-23 14:36 - mpd - Music Player Deamon which is required by rmpc
-2025-11-26 23:33 - claude-code - Claude code desktop
-2025-11-27 16:05 - diff-pdf - Find differences in PDF files
-2025-11-27 16:40 - gitlogue - Replay git commits
+gemini-cli, Google Gemini for CLI
+localsend-bin, Airdrop replacement
+glfw, Framework for OpenGL with windows and contexts
+vlc-plugin-ffmpeg, Add ffmpeg to vlc to fix issue with h264 format
+nvtop, Nvidia GPU top
+python-pytorch, Pytorch for MPL exercises
+python-pytorch-cuda, CUDA support for Pytorch
+python-torchvision, Python Torchvision for Machine Perception and Learning
+entr, Like inotify but also executes a command
+dtc, Some tool for Real Time Concepts
+iscan, Get epkowa backend for Epson Scanner
+simple-scan, A nice scanner program i discovered
+sane-airscan, Driverless scanning
+iscan-plugin-perfection-v370, Epson specific backend
+python-evaluate, HuggingFace package for evaluation, used for MPL
+iotop-c, See speeds of IO devices
+sysstat, See speeds of io devices
+github-copilot-cli, Copilot CLI by Github and replacement for gh copilot extension
+mpd, Music Player Deamon which is required by rmpc
+claude-code, Claude code desktop
+diff-pdf, Find differences in PDF files
+gitlogue, Replay git commits
+pacman-contrib, e.g. pactree
+2025-12-03 15:02 - konsole - Terminal in Dolphin file explorer
+2025-12-03 15:22 - otf-font-awesome - Icons e.g. for waybar
+2025-12-03 15:42 - zsh-autosuggestions - ZSH plugin
+2025-12-03 15:43 - zsh-theme-powerlevel10k - ZSH plugin for theme
+2025-12-03 15:46 - zsh-syntax-highlighting - ZSH plugin for nice command looks
+2025-12-04 09:24 - visual-studio-code-bin - VS Code
+2025-12-04 09:45 - gnome-keyring - Keyring to use in Hyprland, also requires libsecret for excellent compatbility with other apps
+2025-12-04 09:45 - libsecret - Add excellent compatibility for gnome-keyring with other apps
+2025-12-04 09:46 - seahorse - GUI secrets manager
+2025-12-08 10:24 - fastfetch - Like neofetch but maintained
