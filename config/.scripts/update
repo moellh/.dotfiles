@@ -1,29 +1,60 @@
 #!/bin/bash
 
-used_space_before=$(df --output=used / | tail -n 1) # in KB
+# Exit on error, undefined variable, or error in a pipeline
+set -euo pipefail
 
-# Update Arch Linux
-if command -v yay &> /dev/null; then
-    echo "=== Updating packages ==="
-    yay -Syyu
+run_command() {
+    local TITLE=$1
+    local DEFAULT_SELECTION=$2
 
-    echo "=== Removing caches ==="
+    local read_prompt="y/N"
+    if [[ "$DEFAULT_SELECTION" == "Y" || "$DEFAULT_SELECTION" == "y" ]]; then
+        read_prompt="Y/n"
+    fi
+
+    shift 2 # Remove title and default selection from arguments
+
+    # Display title and prompt user for action
+    echo "${TITLE}:"
+    read -r -p "[$read_prompt]? " response
+
+    # Convert response to lowercase for case-insensitive comparison
+    case "$response" in
+        [yY]|[yY][eE][sS])
+            "$@"
+            echo "-> \"${TITLE}\" completed."
+            ;;
+        *)
+            echo "-> Skipping \"${TITLE}\"."
+            ;;
+    esac
+    echo -e "\n--------------------------------------------------------------------------------\n"
+}
+
+# Track used space in KB before changes
+used_space_before=$(df --output=used / | tail -n 1)
+
+run_command "Update Arch Linux & AUR Packages" Y \
+    yay -Syu
+
+run_command "Remove Pacman & Yay Caches" N \
     yay -Scc
 
-    echo "=== Removing unused packages ==="
+run_command "Remove Unused Packages" N \
     yay -Rsn $(yay -Qdtq)
-fi
 
-# Update .obsidian-folders
-# if command -v obsidian &> /dev/null; then
-#     echo "=== Update .obsidian-folders ==="
-#     echo "empty so far"
-# fi
+run_command "Cleanup Journal Logs (>30d)" N \
+    sudo journalctl --vacuum-time=30d
+
+run_command "Empty trash" N \
+    rm -rf ~/.local/share/Trash/files/* \
+    rm -rf ~/.local/share/Trash/info/* \
+    rm -f ~/.local/share/Trash/directorysizes
 
 used_space_after=$(df --output=used / | tail -n 1) # in KB
 
-echo "=== Stats ==="
+echo "Stats:"
 used_space_current=$(echo "$used_space_after * 1024" | bc | numfmt --to=iec-i --suffix=B)
 used_space_difference=$(echo "($used_space_after - $used_space_before) * 1024" | bc | numfmt --to=iec-i --suffix=B)
-echo "- current used space: ${used_space_current}"
-echo "- used space difference: ${used_space_difference}"
+echo "- Current Used Space: ${used_space_current}"
+echo "- Used Space Difference: ${used_space_difference}"
