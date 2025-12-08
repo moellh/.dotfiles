@@ -7,11 +7,11 @@
 
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "/opt/visual-studio-code/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-rc.zsh"
 
-# powerlevel10k instant prompt
-# must be at top of .zshrc
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+source ~/.p10k.zsh
+
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # zsh completion system
 autoload -Uz compinit
@@ -40,10 +40,6 @@ zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
 
-# load powerlevel10k
-source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
 # word selection like bash
 autoload -U select-word-style
 select-word-style bash
@@ -54,10 +50,6 @@ HISTFILE=~/.histfile
 HISTSIZE=100000
 SAVEHIST=100000
 setopt appendhistory
-
-# zsh plugins
-source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Aliases
 
@@ -150,3 +142,6 @@ alias avante='nvim -c "lua vim.defer_fn(function()require(\"avante.api\").zen_mo
 
 # Export environment variables
 source $HOME/drive/data/.env
+
+export COLOR_SCHEME="dark"
+export EDITOR="nvim"
