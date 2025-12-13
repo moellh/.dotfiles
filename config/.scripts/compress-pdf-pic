@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <input.pdf> [output.pdf] [preset]"
+    echo "Preset options: screen, ebook, printer, prepress, default"
+    echo "Default preset: default"
+    echo "Default output: output.pdf"
+    exit 1
+fi
+
+INPUT_PATH="$1"
+OUTPUT_PATH="${2:-output.pdf}"
+PRESET="${3:-default}"
+
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/$PRESET -dNOPAUSE -dBATCH -sOutputFile=$OUTPUT_PATH $INPUT_PATH
