@@ -64,7 +64,6 @@ duf, Modern disk usage utility
 e2fsprogs, Utilities for ext2/ext3/ext4 filesystems
 efibootmgr, EFI boot manager
 efitools, Tools for managing EFI variables
-sddm, Simple Desktop Display Manager
 rankmirrors, Mirror ranking tool
 ethtool, Utility for Ethernet devices
 exfatprogs, Utilities for exFAT filesystems
@@ -403,3 +402,6 @@ pacman-contrib, e.g. pactree
 2025-12-04 09:45 - libsecret - Add excellent compatibility for gnome-keyring with other apps
 2025-12-04 09:46 - seahorse - GUI secrets manager
 2025-12-08 10:24 - fastfetch - Like neofetch but maintained
+2025-12-08 15:19 - anki-bin - Anki app
+2025-12-12 10:29 - intellij-idea-ultimate-edition - IntelliJ Idea for SKP
+2025-12-13 10:50 - iscan-plugin-perfection-v370 - Epson specific backend
