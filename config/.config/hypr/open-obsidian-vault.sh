@@ -14,6 +14,7 @@ VAULTS=(
   "fm"
   "rl"
   "sws"
+  "bath"
 )
 
 # Use rofi to select a vault
