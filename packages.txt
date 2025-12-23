@@ -1,7 +1,3 @@
-, Only install one Nvidia driver package:
-, nvidia, Nvidia proprietary graphics drivers
-, nvidia-dkms, Nvidia proprietary graphics drivers with DKMS support
-
 , TODOs:
 , - check package list again
 , - separate official Arch and AUR packages
@@ -39,7 +35,6 @@ clang, C language family frontend for LLVM
 cmake, Cross-platform build system
 cmake-format, Formatter for CMake files
 cryptsetup, Utility for encrypted filesystems
-cuda, Programm for Nvidia GPUs
 cups, Printing system for Unix-like OS
 cups-browsed, Automatically discover and configure printers
 cups-filters, CUPS filters and backends
@@ -185,14 +180,12 @@ npm, Node.js package manager
 nss-mdns, Name Service Switch module for mDNS
 ntfs-3g, NTFS filesystem driver
 ntp, Network Time Protocol daemon
-nvidia-prime, Nvidia Prime for hybrid graphics
 obsidian, Obsidian note-taking app
 ocaml, OCaml programming language
 okular, Document viewer for KDE
 openjdk-doc, OpenJDK documentation
 openjdk21-doc, OpenJDK 21 documentation
 openssh, OpenSSH client and server
-optimus-manager-git, Tool for managing hybrid graphics on Linux
 optimus-manager-qt, Qt GUI for Optimus Manager
 otf-font-awesome, Font Awesome icon font
 otf-stix, STIX fonts for scientific and technical documents
@@ -201,6 +194,7 @@ pavucontrol, PulseAudio volume control
 pdfgrep, Command-line tool for searching text in PDF files
 perf, Performance analysis tool for Linux
 perl, Perl programming language
+pipewire, Modern audio
 pipewire-alsa, PipeWire ALSA plugin
 pipewire-jack, PipeWire JACK plugin
 pipewire-pulse, PipeWire PulseAudio plugin
@@ -336,7 +330,6 @@ syncthingtray-qt6, Tray icon for Syncthing
 dunst, Desktop notifications
 rmpc, Terminal music player
 ollama, Ollama for local LLMs
-ollama-cuda, Ollama with CUDA for Nvidia GPUs
 python-ollama, Ollama for Python
 hyprpolkitagent, Polkit authentication deamon for Hyprland
 chromium, Chromium Browser
@@ -345,7 +338,6 @@ audacity, Edit audio files
 picard, Music metadata editor
 zoom, Zoom meetings
 yazi, File explorer like ranger
-steam, Steam gaming platform
 spacecadetpinball-git, Space Cadet Pinball game
 cliphist, Clipboard history manager
 git, Git version control system
@@ -353,7 +345,6 @@ hyprpicker, Hyprland color picker
 librewolf-bin, LibreWolf web browser
 linux-lts, Linux LTS kernel
 linux-lts-headers, Linux LTS kernel headers
-nvtop, NVIDIA GPU monitoring tool
 openmpi, Open MPI for parallel computing
 playerctl, Media player control utility
 qbittorrent, qBittorrent BitTorrent client
@@ -375,8 +366,6 @@ glfw, Framework for OpenGL with windows and contexts
 vlc-plugin-ffmpeg, Add ffmpeg to vlc to fix issue with h264 format
 nvtop, Nvidia GPU top
 python-pytorch, Pytorch for MPL exercises
-python-pytorch-cuda, CUDA support for Pytorch
-python-torchvision, Python Torchvision for Machine Perception and Learning
 entr, Like inotify but also executes a command
 dtc, Some tool for Real Time Concepts
 iscan, Get epkowa backend for Epson Scanner
@@ -392,16 +381,26 @@ claude-code, Claude code desktop
 diff-pdf, Find differences in PDF files
 gitlogue, Replay git commits
 pacman-contrib, e.g. pactree
-2025-12-03 15:02 - konsole - Terminal in Dolphin file explorer
-2025-12-03 15:22 - otf-font-awesome - Icons e.g. for waybar
-2025-12-03 15:42 - zsh-autosuggestions - ZSH plugin
-2025-12-03 15:43 - zsh-theme-powerlevel10k - ZSH plugin for theme
-2025-12-03 15:46 - zsh-syntax-highlighting - ZSH plugin for nice command looks
-2025-12-04 09:24 - visual-studio-code-bin - VS Code
-2025-12-04 09:45 - gnome-keyring - Keyring to use in Hyprland, also requires libsecret for excellent compatbility with other apps
-2025-12-04 09:45 - libsecret - Add excellent compatibility for gnome-keyring with other apps
-2025-12-04 09:46 - seahorse - GUI secrets manager
-2025-12-08 10:24 - fastfetch - Like neofetch but maintained
-2025-12-08 15:19 - anki-bin - Anki app
-2025-12-12 10:29 - intellij-idea-ultimate-edition - IntelliJ Idea for SKP
-2025-12-13 10:50 - iscan-plugin-perfection-v370 - Epson specific backend
+konsole, Terminal in Dolphin file explorer
+otf-font-awesome, Icons e.g. for waybar
+zsh-autosuggestions, ZSH plugin
+zsh-theme-powerlevel10k, ZSH plugin for theme
+zsh-syntax-highlighting, ZSH plugin for nice command looks
+visual-studio-code-bin, VS Code
+gnome-keyring, Keyring to use in Hyprland, also requires libsecret for excellent compatbility with other apps
+libsecret, Add excellent compatibility for gnome-keyring with other apps
+seahorse, GUI secrets manager
+fastfetch, Like neofetch but maintained
+anki-bin, Anki app
+intellij-idea-ultimate-edition, IntelliJ Idea for SKP
+iscan-plugin-perfection-v370, Epson specific backend
+vlc, VLC Video and media player
+libxml2-legacy, Required by Cisco VPN
+nvidia-580xx-dkms, NVIDIA driver for GTX 1050 and 745, including Maxwell to Volta
+nvidia-580xx-utils, nvidia-utils but for Maxwell to Volta GPU
+steam, Steam Client for Games with Proton
+pinta, Simple painting program, e.g. part of Omarchy
+heroic-games-launcher-bin, Heroic Games Launcher for GOG and Epic Games
+tmux-plugin-manager, TPM to install tmux plugins automatically
+nvidia-prime, Run program on NVIDIA GPU
+python-dbus,
