@@ -145,3 +145,9 @@ source $HOME/drive/data/.env
 
 export COLOR_SCHEME="dark"
 export EDITOR="nvim"
+
+# TEMPORARY ADDITIONS ==========================================================
+# Each temporary addition should have a reason so it can easily be implied when
+# the temporary addition is no longer needed and can be removed.
+
+# ...
