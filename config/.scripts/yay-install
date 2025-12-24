@@ -12,8 +12,7 @@ shift
 DESCRIPTION="$*"
 
 # String to append to file
-TIMESTAMP=$(date '+%Y-%m-%d %H:%M')
-LOG_LINE="$TIMESTAMP - $PACKAGE - $DESCRIPTION"
+LOG_LINE="$PACKAGE, $DESCRIPTION"
 
 # Install specified package using yay
 if yay -S "$PACKAGE"; then
