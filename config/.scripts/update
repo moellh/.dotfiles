@@ -10,6 +10,9 @@ run_command() {
     local read_prompt="y/N"
     if [[ "$DEFAULT_SELECTION" == "Y" || "$DEFAULT_SELECTION" == "y" ]]; then
         read_prompt="Y/n"
+        DEFAULT_SELECTION="y"
+    else
+        DEFAULT_SELECTION="n"
     fi
 
     shift 2 # Remove title and default selection from arguments
@@ -19,15 +22,13 @@ run_command() {
     read -r -p "[$read_prompt]? " response
 
     # Convert response to lowercase for case-insensitive comparison
-    case "$response" in
-        [yY]|[yY][eE][sS])
-            "$@"
-            echo "-> \"${TITLE}\" completed."
-            ;;
-        *)
-            echo "-> Skipping \"${TITLE}\"."
-            ;;
-    esac
+    if [[ "$response" =~ ^([yY]|[yY][eE][sS])$ || "$DEFAULT_SELECTION" == "y" ]]
+    then
+        "$@"
+        echo "-> \"${TITLE}\" completed."
+    else
+        echo "-> Skipping \"${TITLE}\"."
+    fi
     echo -e "\n--------------------------------------------------------------------------------\n"
 }
 
