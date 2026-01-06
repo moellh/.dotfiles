@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 <URL> [destination_folder]"
+    exit 1
+fi
+
+URL="$1"
+DESTINATION_FOLDER="${2:-$HOME/Videos/tmp}"
+mkdir -p "$DESTINATION_FOLDER"
+echo "Downloading to $DESTINATION_FOLDER"
+
+yt-dlp -f "bv[ext=mp4]+ba[ext=m4a]/b[ext=mp4]" --merge-output-format mp4 -N 5 --embed-thumbnail --add-metadata -o "$DESTINATION_FOLDER/%(title)s.%(ext)s" "$URL"
