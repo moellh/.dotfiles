@@ -93,9 +93,9 @@ export XCURSOR_THEME=Adwaita
 export JUPYTERLAB_DIR=$HOME/.local/share/jupyter/lab
 
 # go
-export GOPATH="$(go env GOPATH)"
-export GOBIN="$GOPATH/bin"
-export PATH="$PATH:$GOBIN"
+# export GOPATH="$(go env GOPATH)"
+# export GOBIN="$GOPATH/bin"
+# export PATH="$PATH:$GOBIN"
 
 # load pyenv for shell
 export PYENV_ROOT="$HOME/.pyenv"
