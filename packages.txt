@@ -404,3 +404,10 @@ heroic-games-launcher-bin, Heroic Games Launcher for GOG and Epic Games
 tmux-plugin-manager, TPM to install tmux plugins automatically
 nvidia-prime, Run program on NVIDIA GPU
 python-dbus,
+nvidia-prime, Add prime-run command
+yt-dlp-ejs, Add Javascript runtime to yt-dlp
+antigravity, Antigravity IDE by Google
+android-udev, Tool for installing GrapheneOS
+mullvad-vpn, Mullvad VPN Client
+nextcloud-client, Nextcloud for Hetzner Storage Space
+blender, Blender
