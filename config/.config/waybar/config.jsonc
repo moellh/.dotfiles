@@ -83,7 +83,7 @@
 
     "clock": {
         "tooltip-format": "<tt>{calendar}</tt>",
-        "format": "{:%a, %d. %b, %H:%M:%S}",
+        "format": "{:%Y-%m-%d %H:%M:%S}",
         "interval": 1
     },
 
