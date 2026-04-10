@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Exit on error, undefined variable, or error in a pipeline
 set -euo pipefail
@@ -21,19 +21,32 @@ run_command() {
     echo "${TITLE}:"
     read -r -p "[$read_prompt]? " response
 
-    # Convert response to lowercase for case-insensitive comparison
-    if [[ "$response" =~ ^([yY]|[yY][eE][sS])$ || "$DEFAULT_SELECTION" == "y" ]]
-    then
-        "$@"
-        echo "-> \"${TITLE}\" completed."
+    # Determine if we should run the command
+    if [[ "$DEFAULT_SELECTION" == "y" ]]; then
+        # Default is Y: run unless user says n/no
+        if [[ "$response" =~ ^([nN]|[nN][oO])$ ]]; then
+            echo "-> Skipping \"${TITLE}\"."
+        else
+            "$@"
+            echo "-> \"${TITLE}\" completed."
+        fi
     else
-        echo "-> Skipping \"${TITLE}\"."
+        # Default is N: run only if user says y/yes
+        if [[ "$response" =~ ^([yY]|[yY][eE][sS])$ ]]; then
+            "$@"
+            echo "-> \"${TITLE}\" completed."
+        else
+            echo "-> Skipping \"${TITLE}\"."
+        fi
     fi
     echo -e "\n--------------------------------------------------------------------------------\n"
 }
 
 # Track used space in KB before changes
 used_space_before=$(df --output=used / | tail -n 1)
+
+run_command "Update Mirrorlist with Reflector" N \
+    sudo reflector --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
 run_command "Update Arch Linux & AUR Packages" Y \
     yay -Syu

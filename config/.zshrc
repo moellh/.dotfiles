@@ -55,6 +55,7 @@ setopt appendhistory
 
 alias ls="lsd"
 alias ll="lsd -al"
+alias lo="lsd -a --oneline"
 
 # color directories
 eval "$(dircolors -b ~/.dircolors)"
@@ -141,10 +142,15 @@ function y() {
 alias avante='nvim -c "lua vim.defer_fn(function()require(\"avante.api\").zen_mode()end, 100)"'
 
 # Export environment variables
-source $HOME/drive/data/.env
+source $HOME/data/env
 
 export COLOR_SCHEME="dark"
 export EDITOR="nvim"
+
+export PATH=$HOME/.nix-profile/bin:$PATH
+
+export QT_QPA_PLATFORM=wayland
+export ANKI_WAYLAND=1
 
 # TEMPORARY ADDITIONS ==========================================================
 # Each temporary addition should have a reason so it can easily be implied when
