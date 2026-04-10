@@ -196,6 +196,13 @@ Perform this step on the target system with a wired keyboard.
     - Run `systemctl --user enable --now dolphin-fix-open-with.service`.
     - Run `systemctl --user enable --now sync-google-drive-rclone.timer`.
     - TODO: `systemctl --user enable --now pipewire-pulse.service` if not enabled already
+    - Run `systemctl --user enable --now mpd.service`
+    - Run `sudo systemctl enable --now nix-daemon.service`.
 10. Login to moellh@raspberrypi:
     1. Run `ssh-copy-id moellh@raspberrypi` to copy public key to @raspberrypi using password.
 11. Open `* syncthing` in Firefox and setup all Syncthing folders with @raspberrypi and e.g. phone.
+12. MPD and RMPC configs are now in dotfiles. Ensure services are enabled:
+    - Run `systemctl --user enable --now mpd.service`
+13. Setup Nix:
+    1. `nix-channel --add https://nixos.org/channels/nixpkgs-unstable`
+    2. `nix-channel --update`

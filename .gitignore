@@ -1,2 +1,6 @@
-config-stow/.config/tmux/plugins
-config-stow/.config/nvim/lazy-lock.json
+config/.config/tmux/plugins
+config/.config/nvim/lazy-lock.json
+node_modules/
+
+.gemini/
+gha-creds-*.json

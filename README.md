@@ -1,36 +1,54 @@
 # Dotfiles
 
-This repo contains my config files which I would like to backup and eventually install on a new machine.  In addition,
-it installs GNU Stow, TMUX, Neovim without root access.  The script assumes that zsh, bash, git, wget, a C/C++ compiler
-is already installed.
+This repo contains my config files which I would like to backup and eventually install on a new machine.
 
 For installation, just run `install.sh` in the `.dotfiles` directory.  This will also use zsh as the default shell.  So
 source the `rc` file of the currently set shell to apply the changes to the current session.
 
-`packages.txt` contains a list of packages that are currently installed on my system using the `yay` package manager on
-Arch Linux. I'm planning to add a script which installs these (or at least its relevant) packages.
+To apply config on a system where files already exist (uses file-level symlinks, safe for mixed directories):
 
-- [ ] Update `install.sh` in some meaningful way, maybe just add README.md to each config, or split the script into
-      multiple scripts
+```bash
+stow --no-folding config -t ~
+```
+
+`packages.txt` contains a list of packages for Neovim LSP servers, formatters, and other tools.
 
 ## Configs
 
+### Core
 - Neovim in `.config/nvim`
 - Tmux in `.config/tmux`
 - Kitty in `.config/kitty`
-
 - Zsh in `.zshrc`
-- gitconfig in `.gitconfig`
-- Dircolors in `.dircolors`
-- PowerLevel10k in `.p10k.zsh`
+- Git in `.config/git/`
 
-- [ ] Add missing configs
+### Desktop (Hyprland)
+- Hyprland in `.config/hypr/`
+- Waybar in `.config/waybar/`
+- Rofi in `.config/rofi/`
+- Hyprmoncfg (monitor profiles) in `.config/hyprmoncfg/`
+
+### Themes & Portals
+- GTK 3/4 in `.config/gtk-3.0/`, `.config/gtk-4.0/`
+- Qt5ct/Qt6ct in `.config/qt5ct/`, `.config/qt6ct/`
+- XDG Desktop Portal in `.config/xdg-desktop-portal/`
+- MIME associations in `.config/mimeapps.list`
+
+### Tools
+- Lazygit in `.config/lazygit/`
+- Dunst in `.config/dunst/`
+- MPD + RMPC (music) in `.config/mpd/`, `.config/rmpc/`
+- Opencode (AI assistant) in `.config/opencode/`
+
+### Shell
+- Zsh config in `.zshrc`, `.zprofile`
+- PowerLevel10k in `.p10k.zsh`
+- Dircolors in `.dircolors`
+- Custom scripts in `.scripts/`
 
 ## Custom Scripts
 
-- [ ] Update to `#!/usr/bin/env bash` instead of `#!/bin/bash`, so it works on e.g. Nixos
-- [ ] Replace comments as documentation with `HELP_MESSAGE` text that is automatically shown with option `-h`, `--help`,
-      or on error caused by the user, e.g. bad arguments
+All scripts use `#!/usr/bin/env bash` for portability (NixOS, etc.)
 
 ## Google Drive with RClone Bisync
 
