@@ -1,0 +1,48 @@
+{
+  "name": "G27q-20 above",
+  "created_at": "2026-04-10T14:09:57.341231235Z",
+  "updated_at": "2026-04-10T14:17:44.622455226Z",
+  "outputs": [
+    {
+      "key": "lenovo group limited|g27q-20|u6332b1x",
+      "name": "HDMI-A-1",
+      "make": "Lenovo Group Limited",
+      "model": "G27q-20",
+      "serial": "U6332B1X",
+      "enabled": true,
+      "mode": "2560x1440@144.00Hz",
+      "width": 2560,
+      "height": 1440,
+      "refresh": 144,
+      "x": -320,
+      "y": -1440,
+      "scale": 1,
+      "transform": 0
+    },
+    {
+      "key": "lg display|0x0550",
+      "name": "eDP-1",
+      "make": "LG Display",
+      "model": "0x0550",
+      "enabled": true,
+      "mode": "1920x1080@60.02Hz",
+      "width": 1920,
+      "height": 1080,
+      "refresh": 60.02,
+      "x": 0,
+      "y": 0,
+      "scale": 1,
+      "transform": 0
+    }
+  ],
+  "workspaces": {
+    "enabled": true,
+    "strategy": "interleave",
+    "max_workspaces": 10,
+    "group_size": 1,
+    "monitor_order": [
+      "lg display|0x0550",
+      "lenovo group limited|g27q-20|u6332b1x"
+    ]
+  }
+}
