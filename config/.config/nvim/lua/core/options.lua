@@ -1,3 +1,10 @@
+-- Last modified: 2026-04-10
+-- No modifications necessary
+
+-- Description: Core nvim options - undo, UI settings, search, keymaps, diagnostics
+
+-- No external plugin - native vim configuration
+
 vim.opt.undofile = true -- safe undo history to file
 vim.opt.updatetime = 250 -- lower time to trigger CursorHold event earlier which is used by LSP
 vim.opt.timeoutlen = 300
@@ -51,11 +58,15 @@ vim.keymap.set("n", "<esc>", "<cmd>:nohls<cr>", {
 -- Diagnostics
 --]]
 
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, {
+vim.keymap.set("n", "[d", function()
+    vim.diagnostic.jump({ count = -1, float = true })
+end, {
     desc = "Go to previous [D]iagnostic message",
 })
 
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, {
+vim.keymap.set("n", "]d", function()
+    vim.diagnostic.jump({ count = 1, float = true })
+end, {
     desc = "Go to next [D]iagnostic message",
 })
 

@@ -1,6 +1,15 @@
+-- Last modified: 2026-04-10
+-- Git integration plugins
+
+-- Description: Git signs in gutter, hunk navigation, lazygit terminal
+
+-- Git repos:
+--   gitsigns: https://github.com/lewis6991/gitsigns.nvim
+--   lazygit: https://github.com/kdheepak/lazygit.nvim
+
 return {
 
-    { -- git signs, utilities for managing changes
+    {
         'lewis6991/gitsigns.nvim',
         opts = {
             signs = {

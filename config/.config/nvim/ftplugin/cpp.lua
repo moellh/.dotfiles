@@ -1,17 +1,5 @@
 vim.opt.wrap = true
 
-vim.api.nvim_create_autocmd("LspAttach", {
-    group = vim.api.nvim_create_augroup("moellh", { clear = false }),
-    callback = function(e)
-        local opts = { buffer = e.buf }
-
-        local pretty_hover = require "pretty_hover"
-        vim.keymap.set("n", "K", function()
-            pretty_hover.hover()
-        end, opts)
-    end,
-})
-
 -- Switch between header (in include) and source file (in src).
 -- Searches for multiple common C++ and CUDA extensions.
 vim.api.nvim_buf_set_keymap(0, "n", "<leader>lc", "", {

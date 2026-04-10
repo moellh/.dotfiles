@@ -11,4 +11,14 @@ return {
         "selene.yml",
         ".git",
     },
+    settings = {
+        Lua = {
+            completion = {
+                callSnippet = "Replace",
+            },
+            diagnostics = {
+                globals = { "vim" },
+            },
+        },
+    },
 }

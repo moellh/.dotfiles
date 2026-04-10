@@ -1,6 +1,14 @@
+-- Last modified: 2026-04-10
+-- No modifications necessary
+
+-- Description: Fuzzy finder for files, grep, buffers, help tags, keymaps, etc.
+
+-- Git repo: https://github.com/nvim-telescope/telescope.nvim
+-- Further docs: :help telescope
+
 return {
 
-    { -- fuzzy finder
+    {
         'nvim-telescope/telescope.nvim',
 
         event = 'VeryLazy', -- after nvim started
