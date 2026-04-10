@@ -83,7 +83,7 @@
 
     "clock": {
         "tooltip-format": "<tt>{calendar}</tt>",
-        "format": "{:%Y-%m-%d %H:%M:%S}",
+        "format": "{:%a, %d. %b, %H:%M:%S}",
         "interval": 1
     },
 
@@ -148,7 +148,8 @@
     "battery": {
         "states": {
             "warning": 30,
-            "critical": 15
+            "critical": 15,
+            "blink": 5
         },
         "format": "{capacity}% {time}",
         "format-full": "󱐋",

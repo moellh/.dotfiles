@@ -9,6 +9,7 @@
 	compression = 9
 	preloadindex = true
 	whitespace = error
+	excludesfile = /home/henrikmoellmann/.config/git/ignore
 [diff]
 	renames = copies
 	tool = nvimdiff
