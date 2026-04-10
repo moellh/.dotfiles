@@ -5,16 +5,14 @@ VAULTS=(
   "devault"
   "mc"
   "rtc"
-  "do"
-  "mpl"
-  "vc"
-  "soas"
-  "skp-tut"
-  "thw"
-  "fm"
-  "rl"
   "sws"
-  "bath"
+  "smhpc"
+  "hpc"
+  "cv"
+  "bdacc"
+  "rl"
+  "mpl"
+  "thw"
 )
 
 # Use rofi to select a vault
