@@ -2,5 +2,12 @@ config/.config/tmux/plugins
 config/.config/nvim/lazy-lock.json
 node_modules/
 
+# Systemd services provided by installed programs
+config/.config/systemd/user/default.target.wants/hyprmoncfgd.service
+config/.config/systemd/user/default.target.wants/mpd.service
+config/.config/systemd/user/default.target.wants/syncthing.service
+config/.config/systemd/user/default.target.wants/ydotool.service
+config/.config/systemd/user/syncthing.service.d/
+
 .gemini/
 gha-creds-*.json
