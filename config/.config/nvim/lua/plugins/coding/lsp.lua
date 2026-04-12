@@ -20,7 +20,7 @@
 -- =============================================================================
 
 -- Log level: WARN includes both warnings and errors
-vim.lsp.set_log_level "WARN"
+vim.lsp.log.set_level(vim.log.levels.WARN)
 
 -- Auto-trim LSP log file on startup (remove entries older than 1 day)
 vim.defer_fn(function()
