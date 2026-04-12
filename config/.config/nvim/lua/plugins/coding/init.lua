@@ -131,6 +131,11 @@ return {
                         "--blank-lines",
                     },
                 },
+                ["clang-format"] = {
+                    prepend_args = {
+                        "--style={IndentWidth: 4, TabWidth: 4, UseTab: Never, BreakBeforeBraces: Attach}",
+                    },
+                },
             },
         },
         keys = {

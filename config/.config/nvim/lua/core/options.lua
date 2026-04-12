@@ -9,6 +9,12 @@ vim.opt.undofile = true -- safe undo history to file
 vim.opt.updatetime = 250 -- lower time to trigger CursorHold event earlier which is used by LSP
 vim.opt.timeoutlen = 300
 
+-- Indentation: spaces instead of tabs, width 4
+vim.opt.expandtab = true -- Use spaces instead of tabs
+vim.opt.tabstop = 4 -- Tab width = 4 spaces
+vim.opt.shiftwidth = 4 -- Indent width = 4 spaces
+vim.opt.softtabstop = 4 -- Pressing tab inserts 4 spaces
+
 --[[
 -- Windows, Panes
 --]]
