@@ -10,7 +10,8 @@
 --   pacman -S pyright lua-language-server typescript-language-server
 --   pacman -S marksman texlab ltex-ls-plus bash-language-server clangd
 --   pacman -S rust-analyzer cmake-language-server html-languageserver zls tinymist
---   yay -S glsl_analyzer jdtls
+--   yay -S glsl_analyzer jdtls omnisharp-roslyn
+--   yay -S csharp-ls
 --
 -- Java LSP (jdtls) is configured in ftplugin/java.lua
 -- Requires java-runtime (>=17), java (26) already installed
@@ -109,6 +110,7 @@ local servers = {
     "zls",
     "tinymist",
     "glsl_analyzer",
+    "csharp_ls",
 }
 
 for _, server in ipairs(servers) do

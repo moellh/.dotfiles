@@ -80,8 +80,12 @@ return {
                 pattern = "*",
                 callback = function()
                     local buf = vim.api.nvim_get_current_buf()
-                    vim.bo[buf].indentexpr =
-                        "v:lua.require'nvim-treesitter'.indentexpr()"
+                    local ft = vim.bo[buf].filetype
+                    local ok, _ = pcall(vim.treesitter.query.get, ft, "indents")
+                    if ok and _ then
+                        vim.bo[buf].indentexpr =
+                            "v:lua.require'nvim-treesitter'.indentexpr()"
+                    end
                 end,
             })
         end,
@@ -133,7 +137,7 @@ return {
                 },
                 ["clang-format"] = {
                     prepend_args = {
-                        "--style={IndentWidth: 4, TabWidth: 4, UseTab: Never, BreakBeforeBraces: Attach}",
+                        "--style={IndentWidth: 4, TabWidth: 4, UseTab: Never, BreakBeforeBraces: Attach, ColumnLimit: 0}",
                     },
                 },
             },

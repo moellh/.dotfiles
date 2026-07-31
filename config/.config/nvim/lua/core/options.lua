@@ -38,6 +38,10 @@ vim.opt.cursorline = true -- highlights line of cursor
 vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
+vim.opt.mouse = "a"
+vim.o.mousescroll = "ver:1,hor:1"
+vim.opt.smoothscroll = true
+
 --[[
 -- Search, Replace
 --]]
@@ -86,3 +90,5 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, {
 
 -- Surround window with rounded border
 vim.opt.winborder = "rounded"
+
+vim.opt.foldmethod = "marker"
