@@ -1,11 +1,12 @@
 -- Last modified: 2026-04-10
 -- Git integration plugins
 
--- Description: Git signs in gutter, hunk navigation, lazygit terminal
+-- Description: Git signs in gutter, hunk navigation, lazygit terminal, diff review
 
 -- Git repos:
 --   gitsigns: https://github.com/lewis6991/gitsigns.nvim
 --   lazygit: https://github.com/kdheepak/lazygit.nvim
+--   codediff: https://github.com/esmuellert/codediff.nvim
 
 return {
 
@@ -26,5 +27,22 @@ return {
         keys = {
             { '<leader>lg', '<cmd>LazyGit<CR>', desc = 'LazyGit' },
         },
-    }
+    },
+    {
+        'esmuellert/codediff.nvim',
+        cmd = 'CodeDiff',
+        keys = {
+            { '<leader>gd', '<cmd>CodeDiff<CR>', desc = 'Git diff (working tree)' },
+            { '<leader>gh', '<cmd>CodeDiff history %<CR>', desc = 'Git history (current file)' },
+        },
+        opts = {
+            keymaps = {
+                view = {
+                    -- defaults <leader>b / <leader>e shadow dap breakpoint and nvim-tree
+                    toggle_explorer = '<leader>gb',
+                    focus_explorer = '<leader>ge',
+                },
+            },
+        },
+    },
 }
