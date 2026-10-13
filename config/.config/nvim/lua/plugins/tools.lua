@@ -1,7 +1,7 @@
 -- Last modified: 2026-04-10
 -- Utility and tool plugins
 
--- Description: Devicons, kitty, todo-comments, mini.nvim, colorizer, tmux nav, latex, sidekick, trouble, obsession
+-- Description: Devicons, kitty, todo-comments, mini.nvim, colorizer, tmux nav, latex, trouble, obsession
 
 -- Git repos:
 --   nvim-web-devicons: https://github.com/nvim-tree/nvim-web-devicons
@@ -12,7 +12,6 @@
 --   nvim-colorizer: https://github.com/catgoose/nvim-colorizer.lua
 --   nvim-tmux-navigation: https://github.com/alexghergh/nvim-tmux-navigation
 --   vimtex: https://github.com/lervag/vimtex
---   sidekick: https://github.com/folke/sidekick.nvim
 --   trouble.nvim: https://github.com/folke/trouble.nvim
 --   vim-obsession: https://github.com/tpope/vim-obsession
 
@@ -114,23 +113,6 @@ return {
         keys = {
             { "<leader>rl", "<Plug>(vimtex-compile)" },
             { "<leader>lv", "<Plug>(vimtex-view)" },
-        },
-    },
-
-    {
-        "folke/sidekick.nvim",
-        lazy = false,
-        dependencies = { "zbirenbaum/copilot.lua" },
-        opts = {
-            nes = { enabled = false },
-            cli = { mux = { backend = "tmux", enabled = true } },
-        },
-        keys = {
-            { "<leader>aa", function() require("sidekick.cli").toggle({ name = "opencode" }) end, desc = "Sidekick Toggle Opencode" },
-            { "<leader>at", function() require("sidekick.cli").send { msg = "{this}" } end, mode = { "x", "n" }, desc = "Send This to Opencode" },
-            { "<leader>af", function() require("sidekick.cli").send { msg = "{file}" } end, desc = "Send File to Opencode" },
-            { "<leader>av", function() require("sidekick.cli").send { msg = "{selection}" } end, mode = { "x" }, desc = "Send Visual Selection to Opencode" },
-            { "<leader>ap", function() require("sidekick.cli").prompt() end, mode = { "n", "x" }, desc = "Sidekick Select Prompt" },
         },
     },
 

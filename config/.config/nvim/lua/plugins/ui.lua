@@ -190,10 +190,10 @@ return {
         "MeanderingProgrammer/render-markdown.nvim",
         enabled = false,
         opts = {
-            file_types = { "markdown", "Avante" },
+            file_types = { "markdown" },
             only_render_image_at_cursor = true,
         },
-        ft = { "markdown", "Avante" },
+        ft = { "markdown" },
     },
 
     -- CSV viewer
