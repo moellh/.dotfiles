@@ -2,3 +2,7 @@
 if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
   exec start-hyprland
 fi
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/henrikmoellmann/.local/bin:$PATH"

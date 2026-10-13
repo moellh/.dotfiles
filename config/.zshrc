@@ -162,3 +162,7 @@ eval "$(zoxide init zsh)"
 ## TEMPORARY ADDITIONS ===================================================== {{{
 
 ## }}}
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/henrikmoellmann/.local/bin:$PATH"
