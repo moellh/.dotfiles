@@ -24,3 +24,58 @@ bibtex-tidy, BibTeX file formatter
 jdtls, Java Language Server
 java-debug, Java debugging
 vscode-java-test, Java testing
+cava, TUI audio visualizer
+cuda-12.9, CUDA for my GPU 1050
+virtualbox, Virtualbox for SWS lecture
+sshpass, Non-interactive ssh
+lynx, TUI browser
+nmap, Nmap
+borg, Borg backup
+bun-bin, Bun
+ntfydesktop, ntfy client
+socat, Network pipe
+pnpm, PNPM
+python-pptx, PPT ffor Python
+zed, Zed IDE
+speech-dispatcher, TTS in Browser
+espeak-ng, Speech synthesizer
+piper-tts-bin, Piper TTS
+piper-voices-en-us, English voice
+omnisharp-roslyn, CSharp LSP
+csharp-ls, CSharp LSP
+okular-backend-mupdf-git, mupdf for okular pdf reader
+resvg, SVG rendering
+ghostty, Ghostty terminal
+dragon, Drag and Drop
+dragon-drop, Drag and Drop
+tcpdump, tcp dump
+git-lfs, Git Large File Storage
+ncdu, Filelight for terminal
+nload, Network up/down insection
+intel-oneapi-dpcpp-cpp, SYCL
+kokkos, Kokkos stuff
+adaptivecpp, SYCL AdaptiveCpp
+pocl, Open-source OpenCL
+intel-oneapi-base-toolkit, oneAPI toolkit
+drawio-desktop, DrawIO
+obs-studio, OBS
+antigravity, Antigravity IDE by Google
+webex-bin, Webex
+xorg-xwayland, XWayland
+strace, Strace
+openai-codex, Codex
+hermes-agent-desktop, Hermes Desktop
+furnace, Retro Music Creator
+docker-buildx, New docker build system
+incus, Incus VMs
+incus-tools, Incus related utilities
+kdenlive, KDE Video Editor
+claude-desktop, Claude Desktop
+llama.cpp-vulkan, llama.cpp with vulkan
+ruff, Python linter and formatter
+docker-sbx, Docker Sandbox
+opencode-desktop-bin, Opencode Desktop
+android-tools, Android tool for using ADB
+scrcpy, See Android Screen on Laptop
+mkvtoolnix-cli, MKV Metadata Editing
+uv, UV Python Package Manager
