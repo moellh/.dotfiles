@@ -12,4 +12,4 @@ echo "Downloading to $DESTINATION_FOLDER"
 
 PLAYLIST_START="${3:-1}"
 
-yt-dlp -x --audio-format mp3 --audio-quality 0 -N 5 --embed-thumbnail --playlist-start=$PLAYLIST_START -o "$DESTINATION_FOLDER/%(title)s.%(ext)s" "$URL"
+yt-dlp -x --audio-format opus --audio-quality 0 -N 5 --embed-thumbnail --playlist-start=$PLAYLIST_START -o "$DESTINATION_FOLDER/%(title)s.%(ext)s" "$URL"
