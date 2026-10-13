@@ -236,7 +236,10 @@ return {
                     lualine_a = { "mode" },
                     lualine_b = { "branch", "diff", "diagnostics" },
                     lualine_c = { function() return navic.get_location() end },
-                    lualine_x = { "filename" },
+                    lualine_x = {
+                        { function() return "autosave" end, cond = function() return vim.g.autosave end },
+                        "filename",
+                    },
                     lualine_y = { "progress" },
                     lualine_z = { "location" },
                 },

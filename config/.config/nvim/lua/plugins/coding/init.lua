@@ -14,20 +14,6 @@
 -- mason-nvim-dap: https://github.com/jay-babu/mason-nvim-dap.nvim
 -- nvim-dap-python: https://github.com/mfussenegger/nvim-dap-python
 
--- =============================================================================
--- Remove trailing whitespaces on write
--- =============================================================================
-local moellh_group = vim.api.nvim_create_augroup("moellh", { clear = false })
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-    group = moellh_group,
-    pattern = "*",
-    callback = function()
-        local view = vim.fn.winsaveview()
-        vim.cmd [[%s/\s\+$//e]]
-        vim.fn.winrestview(view)
-    end
-})
-
 return {
 
     -- =============================================================================
