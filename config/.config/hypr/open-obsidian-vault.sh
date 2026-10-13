@@ -3,15 +3,18 @@
 # Vault names
 VAULTS=(
   "devault"
-  "mc"
-  "rtc"
-  "sws"
-  "smhpc"
   "hpc"
   "cv"
-  "bdacc"
   "rl"
   "mpl"
+  "grw"
+  "sce"
+  "arl"
+  "agp"
+  "mr"
+  "fm"
+  "digi-ops"
+  "spscg"
   "thw"
 )
 
