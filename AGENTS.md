@@ -1,5 +1,12 @@
 # Agent instructions
 
+## Agent configuration
+
+Keep all agent configuration for this repo in the tool-neutral layout: instructions in `AGENTS.md`, skills in
+`.agents/skills/`, and anything else agent-related under `.agents/`. Never create tool-specific files or directories
+such as `CLAUDE.md`, `.claude/`, `GEMINI.md`, `.cursor/` or `.github/copilot-instructions.md`. If a tool does not read
+`AGENTS.md` on its own, read it yourself before working here instead of adding a tool-specific copy or pointer file.
+
 ## Commit messages
 
 Use [Scoped Commits](https://scopedcommits.com) for every commit:
