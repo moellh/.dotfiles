@@ -19,6 +19,9 @@ return {
             diagnostics = {
                 globals = { "vim" },
             },
+            workspace = {
+                library = vim.fn.isdirectory "/usr/share/hypr/stubs" == 1 and { "/usr/share/hypr/stubs" } or {},
+            },
         },
     },
 }

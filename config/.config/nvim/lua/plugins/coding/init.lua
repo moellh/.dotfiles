@@ -50,9 +50,7 @@ return {
                     local ft = vim.bo[buf].filetype
                     local filename = vim.api.nvim_buf_get_name(buf)
 
-                    local mappings = {
-                        ["hypr*.conf"] = "hyprlang",
-                    }
+                    local mappings = {}
 
                     for pattern, lang in pairs(mappings) do
                         if string.match(filename, pattern) then
