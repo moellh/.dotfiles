@@ -2,7 +2,13 @@
 
 tmp_img=$(mktemp /tmp/screenshot-XXXXXX.png)
 
-slurp | grim -g - "$tmp_img" || exit 1
+hyprctl eval 'hl.config({ animations = { enabled = false } })'
+if ! slurp | grim -g - "$tmp_img"; then
+  hyprctl eval 'hl.config({ animations = { enabled = true } })'
+  rm -f "$tmp_img"
+  exit 1
+fi
+hyprctl eval 'hl.config({ animations = { enabled = true } })'
 
 img_base64=$(base64 -w 0 "$tmp_img")
 
