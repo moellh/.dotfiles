@@ -42,20 +42,258 @@ run_command() {
     echo -e "\n--------------------------------------------------------------------------------\n"
 }
 
+# Print every dependency (runtime, build and check) named in a .SRCINFO on stdin.
+srcinfo_dependencies() {
+    awk -F ' = ' -v arch="$(uname -m)" '
+        {
+            key = $1
+            gsub(/^[[:space:]]+/, "", key)
+            sub("_" arch "$", "", key)
+        }
+        key ~ /^(depends|makedepends|checkdepends)$/ { print $2 }
+    '
+}
+
+# Print the AUR package base that satisfies a dependency, by name or, failing
+# that, as the only package providing it.
+aur_package_base_for() {
+    local name=${1%%[<>=]*} package_base
+
+    package_base=$(curl --fail --silent --show-error --get \
+        "https://aur.archlinux.org/rpc/v5/info" --data-urlencode "arg[]=${name}" \
+        | jq -r '.results[0].PackageBase // empty') || return 1
+    if [[ -z "$package_base" ]]; then
+        package_base=$(curl --fail --silent --show-error --get \
+            "https://aur.archlinux.org/rpc/" --data-urlencode "v=5" \
+            --data-urlencode "type=search" --data-urlencode "by=provides" \
+            --data-urlencode "arg=${name}" \
+            | jq -r 'if .resultcount == 1 then .results[0].PackageBase else empty end') || return 1
+    fi
+
+    [[ -n "$package_base" ]] || return 1
+    printf '%s\n' "$package_base"
+}
+
+# Check out the newest PKGBUILD revision of an AUR package base committed at or
+# before max_timestamp, cloning the repository if needed, and record its commit
+# time in revision_timestamps.  If every revision is newer, the oldest one is
+# used instead, provided it is no newer than fallback_timestamp (when given).
+checkout_aged_revision() {
+    local package_base=$1 max_timestamp=$2 fallback_timestamp=${3:-}
+    local package_dir="${repo_dir}/${package_base}"
+    local revision timestamp selected_revision='' selected_timestamp=''
+
+    if [[ ! -d "$package_dir" ]]; then
+        git clone --quiet "https://aur.archlinux.org/${package_base}.git" "$package_dir" || return 1
+    fi
+
+    while IFS=$'\t' read -r revision timestamp; do
+        selected_revision=$revision
+        selected_timestamp=$timestamp
+        ((timestamp <= max_timestamp)) && break
+    done < <(git -C "$package_dir" log --format='%H%x09%ct' origin/master -- PKGBUILD)
+
+    [[ -n "$selected_revision" ]] || return 1
+    if ((selected_timestamp > max_timestamp)); then
+        [[ -n "$fallback_timestamp" ]] || return 1
+        ((selected_timestamp <= fallback_timestamp)) || return 1
+    fi
+
+    git -C "$package_dir" checkout --quiet "$selected_revision" || return 1
+    revision_timestamps["$package_base"]=$selected_timestamp
+}
+
+# Queue, in build order, the dependencies of a checked-out AUR package base that
+# only the AUR can satisfy.  Each is pinned to the revision that was current
+# when the dependent PKGBUILD revision was committed, i.e. the one it was
+# written against.
+plan_aur_dependencies() {
+    local package_base=$1
+    local package_timestamp=${revision_timestamps[$package_base]}
+    local srcinfo dependency dependency_base
+    local -a dependencies missing
+
+    srcinfo=$(makepkg --dir "${repo_dir}/${package_base}" --printsrcinfo) || return 1
+    mapfile -t dependencies < <(srcinfo_dependencies <<<"$srcinfo")
+    ((${#dependencies[@]} > 0)) || return 0
+    mapfile -t missing < <(pacman -T -- "${dependencies[@]}")
+
+    for dependency in "${missing[@]}"; do
+        # makepkg installs whatever the sync repositories can provide.
+        if pacman -Sddp --noconfirm --print-format '%n' -- "$dependency" &>/dev/null; then
+            continue
+        fi
+
+        if ! dependency_base=$(aur_package_base_for "$dependency"); then
+            echo "  Cannot find dependency ${dependency} of ${package_base} in the repositories or the AUR."
+            return 1
+        fi
+        [[ -z "${planned_dependencies[$dependency_base]:-}" ]] || continue
+        planned_dependencies["$dependency_base"]=1
+
+        if ! checkout_aged_revision "$dependency_base" "$package_timestamp" "$cutoff"; then
+            echo "  Dependency ${dependency_base} of ${package_base} has no PKGBUILD revision at least seven days old."
+            return 1
+        fi
+        plan_aur_dependencies "$dependency_base" || return 1
+        dependency_build_order+=("$dependency_base")
+    done
+}
+
+# Build and install a checked-out AUR package base; further arguments go to the
+# installing makepkg.  Finished packages are kept in package_cache, outside the
+# temporary repo_dir, until they are installed, so a failed install (e.g. a sudo
+# prompt that timed out after a long build) does not cost a rebuild: the next
+# run finds them there and only installs.
+build_and_install() {
+    local package_base=$1
+    shift
+    local package_dir="${repo_dir}/${package_base}"
+    local package_dest="${package_cache}/${package_base}"
+    local staging="${repo_dir}/.staging/${package_base}"
+    local package_file expected=0 missing=0
+
+    # The debug package is only created when there are symbols to split off.
+    while read -r package_file; do
+        [[ ${package_file##*/} == "${package_base}-debug-"* ]] && continue
+        expected=$((expected + 1))
+        [[ -f "$package_file" ]] || missing=$((missing + 1))
+    done < <(PKGDEST=$package_dest makepkg --dir "$package_dir" --packagelist)
+
+    if ((expected > 0 && missing == 0)); then
+        echo "  Installing ${package_base} from the packages built by an earlier run."
+    else
+        # Build into repo_dir and move the result over in one step, so the
+        # cache never holds the half-written packages of an interrupted build.
+        rm -rf "$package_dest" "$staging"
+        mkdir -p "$package_cache" "$staging"
+        (
+            cd "$package_dir"
+            PKGDEST=$staging makepkg -s
+        ) || return 1
+        mv "$staging" "$package_dest"
+    fi
+
+    if ! (
+        cd "$package_dir"
+        PKGDEST=$package_dest makepkg -i --needed "$@"
+    ); then
+        echo "  Could not install ${package_base}; its packages are kept in ${package_dest} for the next run."
+        return 1
+    fi
+    rm -rf "$package_dest"
+}
+
+update_aged_aur_packages() (
+    # AUR only retains the latest package snapshot.  Its Git history lets us
+    # build the newest PKGBUILD revision that has had a week to settle.
+    local cutoff package package_base dependency_base repo_dir package_cache
+    local installed_version candidate_version pkgver pkgrel epoch srcinfo aur_info
+    local -a aur_updates rpc_args packages_to_update dependency_build_order
+    local -A base_packages revision_timestamps planned_dependencies
+
+    cutoff=$(date --date='7 days ago' +%s)
+    mapfile -t aur_updates < <(LC_ALL=C yay -Qua)
+
+    if ((${#aur_updates[@]} == 0)); then
+        echo "No AUR package updates are available."
+        return 0
+    fi
+
+    for package in "${aur_updates[@]}"; do
+        package=${package%% *}
+        rpc_args+=(--data-urlencode "arg[]=${package}")
+    done
+
+    if ! aur_info=$(curl --fail --silent --show-error --get \
+        "https://aur.archlinux.org/rpc/v5/info" "${rpc_args[@]}" \
+        | jq -r '.results[] | [.Name, .PackageBase] | @tsv'); then
+        echo "Could not retrieve AUR package metadata."
+        return 1
+    fi
+
+    while IFS=$'\t' read -r package package_base; do
+        [[ -n "$package" && -n "$package_base" ]] || continue
+        base_packages["$package_base"]+=" $package"
+    done <<<"$aur_info"
+
+    if ((${#base_packages[@]} == 0)); then
+        echo "The AUR did not return metadata for the available updates."
+        return 1
+    fi
+
+    # Build on disk, not in /tmp: tmpfs is RAM-backed and capped (~7.75G here),
+    # so large builds (e.g. intellij-idea) die with "Disk quota exceeded".
+    repo_dir=$(mktemp -d --tmpdir="${XDG_CACHE_HOME:-$HOME/.cache}" aur-delayed-updates.XXXXXX)
+    trap 'rm -rf "$repo_dir"' EXIT
+    package_cache="${XDG_CACHE_HOME:-$HOME/.cache}/aur-delayed-updates-packages"
+
+    for package_base in "${!base_packages[@]}"; do
+        local package_dir="${repo_dir}/${package_base}"
+
+        echo "Checking ${package_base} for a revision at least seven days old..."
+        if ! checkout_aged_revision "$package_base" "$cutoff"; then
+            echo "  Skipping: no PKGBUILD revision is at least seven days old."
+            continue
+        fi
+
+        srcinfo=$(makepkg --dir "$package_dir" --printsrcinfo)
+        pkgver=$(awk -F ' = ' '$1 ~ /^[[:space:]]*pkgver$/ { print $2; exit }' <<<"$srcinfo")
+        pkgrel=$(awk -F ' = ' '$1 ~ /^[[:space:]]*pkgrel$/ { print $2; exit }' <<<"$srcinfo")
+        epoch=$(awk -F ' = ' '$1 ~ /^[[:space:]]*epoch$/ { print $2; exit }' <<<"$srcinfo")
+        if [[ -z "$pkgver" || -z "$pkgrel" ]]; then
+            echo "  Skipping: could not determine the package version."
+            continue
+        fi
+        candidate_version="${pkgver}-${pkgrel}"
+        [[ -n "$epoch" && "$epoch" != "0" ]] && candidate_version="${epoch}:${candidate_version}"
+
+        packages_to_update=()
+        for package in ${base_packages["$package_base"]}; do
+            installed_version=$(pacman -Q "$package" | awk '{ print $2 }')
+            if (( $(vercmp "$candidate_version" "$installed_version") > 0 )); then
+                packages_to_update+=("$package")
+            fi
+        done
+
+        if ((${#packages_to_update[@]} == 0)); then
+            echo "  Skipping ${candidate_version}: it is not newer than the installed version."
+            continue
+        fi
+
+        dependency_build_order=()
+        planned_dependencies=(["$package_base"]=1)
+        if ! plan_aur_dependencies "$package_base"; then
+            echo "  Skipping: its AUR dependencies cannot be satisfied."
+            continue
+        fi
+
+        echo "  Updating ${packages_to_update[*]} to ${candidate_version}."
+        for dependency_base in "${dependency_build_order[@]}"; do
+            echo "  Building dependency ${dependency_base} as of $(date --date="@${revision_timestamps[$dependency_base]}" +%F)."
+            build_and_install "$dependency_base" --asdeps
+        done
+        build_and_install "$package_base"
+    done
+)
+
 # Track used space in KB before changes
 used_space_before=$(df --output=used / | tail -n 1)
 
 run_command "Update Mirrorlist with Reflector" N \
-    sudo reflector --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
-
-run_command "Update Arch Linux & AUR Packages" Y \
-    yay -Syu
+    sudo reflector --country Germany --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
 run_command "Remove Pacman & Yay Caches" N \
-    yay -Scc
+    yay -Sc
 
 run_command "Remove Unused Packages" N \
     yay -Rsn $(yay -Qdtq)
+
+run_command "Update Official Arch Packages" Y \
+    sudo pacman -Syu
+
+run_command "Update AUR Packages (at least 7 days old)" Y \
+    update_aged_aur_packages
 
 run_command "Cleanup Journal Logs (>30d)" N \
     sudo journalctl --vacuum-time=30d
