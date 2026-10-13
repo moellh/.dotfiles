@@ -1,0 +1,6 @@
+[Unit]
+Description=Measure TPS/TTFT for kimi-k2.6:cloud
+
+[Service]
+Type=oneshot
+ExecStart=/home/henrikmoellmann/dev/tps/measure_tps.py
