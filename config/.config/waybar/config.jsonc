@@ -2,7 +2,7 @@
 {
     "layer": "top",
     "position": "bottom",
-    "spacing": 20,
+    "spacing": 8,
 
     "modules-left": [
         "hyprland/workspaces",
@@ -13,24 +13,37 @@
     "modules-center": [ ],
 
     "modules-right": [
+        // "custom/tps",
         "network",
-        "custom/separator",
+        "custom/bridge",
+        "custom/sshd",
         "cpu",
         "custom/gpu",
         "memory",
-        "custom/separator",
         "bluetooth",
         "pulseaudio",
-        "custom/separator",
         "battery",
         "hyprland/language",
         "tray",
-        "custom/separator",
         "clock",
     ],
 
-    "custom/separator": {
-      "format": "/",
+    "custom/bridge": {
+        "format": "{}",
+        "exec": "/home/henrikmoellmann/.local/bin/bridge-ctl waybar",
+        "interval": 10,
+        "return-type": "json",
+        "signal": 1,
+        "hide-empty-text": true,
+        "on-click": "/home/henrikmoellmann/.local/bin/bridge-ctl toggle",
+    },
+
+    "custom/sshd": {
+        "format": "{}",
+        "exec": "if systemctl is-active --quiet sshd.service; then printf S; fi",
+        "interval": 10,
+        "hide-empty-text": true,
+        "tooltip": false,
     },
 
     "hyprland/workspaces": {
@@ -59,8 +72,8 @@
 
     "bluetooth": {
         "format": "\uf294 {status}",
-        "format-connected": "\uf294 {device_alias}",
-        "format-connected-battery": "\uf294 {device_alias} {device_battery_percentage}%",
+        "format-connected": "\uf294",
+        "format-connected-battery": "\uf294{device_battery_percentage:>3}%",
         // "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
         "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
         "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
@@ -78,27 +91,27 @@
     },
 
     "tray": {
-        "spacing": 10,
+        "spacing": 4,
     },
 
     "clock": {
         "tooltip-format": "<tt>{calendar}</tt>",
-        "format": "{:%a, %d. %b, %H:%M:%S}",
+        "format": "{:%a %d %b %H:%M:%S}",
         "interval": 1
     },
 
     "cpu": {
-        "format": "{usage:>3}%",
+        "format": "{usage:>3}C",
         "interval": 1,
     },
 
     "memory": {
-        "format": "{used:>5}GB",
+        "format": "{used:>4.1f}M",
         "interval": 1,
     },
 
     "network": {
-        "format-wifi": "{bandwidthDownBytes:>2} {bandwidthUpBytes:>2} {signalStrength:>3}%",
+        "format-wifi": "{bandwidthDownBytes:>9}↓ {bandwidthUpBytes:>9}↑ {signalStrength:>3}%",
         "format-ethernet": "",
         "format-linked": "No IP",
         "format-disconnected": "⚠",
@@ -108,12 +121,12 @@
 
     "pulseaudio": {
         "scroll-step": 1, // %, can be a float
-        "format": "{volume:>3}% {icon}  {format_source}",
-        "format-bluetooth": "{volume:>3}%  {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
+        "format": "{volume:>3}% {format_source}",
+        "format-bluetooth": "{volume:>3}% {format_source}",
+        "format-bluetooth-muted": " {format_source}",
         "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
-        "format-source-muted": "",
+        "format-source": "{volume:>3}%",
+        "format-source-muted": "{volume:>3}%",
         "format-icons": {
             "default": ["", "", ""]
         },
@@ -132,10 +145,16 @@
     },
 
     "custom/gpu": {
-        "format": "{:>3}%",
+        "format": "{:>3}G",
         "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
         "interval": 1
     },
+    //
+    // "custom/tps": {
+    //     "format": "{}",
+    //     "exec": "/home/henrikmoellmann/dev/tps/measure_tps.py --status",
+    //     "interval": 1,
+    // },
 
     // LAPTOP ------------------------------------------------------------------
 
@@ -151,9 +170,9 @@
             "critical": 15,
             "blink": 5
         },
-        "format": "{capacity}% {time}",
-        "format-full": "󱐋",
-        "format-charging": "󱐋 {capacity}%",
+        "format": "{capacity:>3}%",
+        "format-full": "󱐋100%",
+        "format-charging": "󱐋{capacity:>3}%",
         "format-time": "{H}:{m}",
         "interval": 1,
     },
