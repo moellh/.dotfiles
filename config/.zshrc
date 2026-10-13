@@ -1,23 +1,42 @@
-################################################################################
-# ZSH configuration file
-#
-# - supposed to work on any system, where .dotfiles repo has been installed
-# - for system specific configuration, use .zshrc.local
-################################################################################
+# ZSH configuration
+# Preferably use ~/.zshrc.local for system specific configuration, so .zshrc works on any system (Not yet employed).
 
-[[ "$TERM_PROGRAM" == "vscode" ]] && . "/opt/visual-studio-code/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-rc.zsh"
+## P10K ==================================================================== {{{
 
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 source ~/.p10k.zsh
 
+## }}}
+
+## ZSH plugins ============================================================= {{{
+
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# zsh completion system
+## }}}
+
+# ZSH options ============================================================== {{{
+
+# Completion
 autoload -Uz compinit
 compinit
 
-# keybindngs
+# word selection like bash
+autoload -U select-word-style
+select-word-style bash
+
+# Up and Down arrow keys to scroll search history
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+## zsh history
+setopt appendhistory
+
+## }}}
+
+## KEYBINDS ================================================================ {{{
 
 # home key moves cursor to beginning of line
 bindkey "^[[H" beginning-of-line
@@ -32,128 +51,114 @@ bindkey "^[[1;5C" forward-word
 # <C-Backspace> deletes one word
 bindkey "^[[3~" delete-char
 
-# Up and Down arrow keys to scroll search history
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
 
-# word selection like bash
-autoload -U select-word-style
-select-word-style bash
+## }}}
 
+## ALIASES ================================================================= {{{
 
-## zsh history
-HISTFILE=~/.histfile
-HISTSIZE=100000
-SAVEHIST=100000
-setopt appendhistory
-
-# Aliases
-
-alias ls="lsd"
+alias dark='cp ~/.config/kitty/Catppuccin-Mocha.conf ~/.config/kitty/current-theme.conf && kill -SIGUSR1 $(pgrep kitty) && reload_tmux '
+alias grep="grep --color=always"
+alias agent="ssh -t hermes 'bash -lc hermes'"
+alias icat="kitten icat"
+alias lg="lazygit"
+alias light='cp ~/.config/kitty/Catppuccin-Latte.conf ~/.config/kitty/current-theme.conf && kill -SIGUSR1 $(pgrep kitty) && reload_tmux'
 alias ll="lsd -al"
 alias lo="lsd -a --oneline"
-
-# color directories
-eval "$(dircolors -b ~/.dircolors)"
-
-# custom scripts
-export PATH="${PATH}:$HOME/.scripts" # user binaries
-export PATH="${PATH}:$HOME/.local/bin" # user binaries
-
-# default editor
-EDITOR="nvim"
-
-# java
-export JAVA_HOME="/usr/lib/jvm/default"
-
-# fzf
-## use fzf tools for zsh
-source <(fzf --zsh)
-export FZF_ALT_C_COMMAND="fd --type=d --hidden --exclude .git"
-
-# kitty
+alias ls="lsd"
 alias mg="kitty +kitten hyperlinked_grep --smart-case $@"
-alias icat="kitten icat"
+alias ns="search_to_nvim"
+alias open="xdg-open"
+alias ra="ranger"
+alias ranger=". ranger"
 alias ssk="kitty +kitten ssh $@"
 
-# zoxide
-eval "$(zoxide init zsh)"
+## }}}
 
-# use kde file dialog for gtk applications
-export GTK_USE_PORTAL=1
+## ENVIRONMENT VARIABLES =================================================== {{{
 
-# set cursor theme
+source $HOME/data/env
+
+export PYENV_ROOT="$HOME/.pyenv"
+export JAVA_HOME="/usr/lib/jvm/default"
+export ANKI_WAYLAND=1
+export COLOR_SCHEME="dark"
+export EDITOR="nvim"
+export GTK_USE_PORTAL=1 # use kde file dialog for gtk applications
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --exclude .git"
+export HISTFILE=~/.histfile
+export HISTSIZE=100000
+export JUPYTERLAB_DIR=$HOME/.local/share/jupyter/lab # required for jupyter lab extensions on arch linux
+export PATH="${PATH}:$HOME/.scripts" # user binaries
+export PATH="${PATH}:$HOME/.local/bin" # user binaries
+export PATH=$HOME/.nix-profile/bin:$PATH
+export QT_QPA_PLATFORM=wayland
+export SAVEHIST=100000
 export XCURSOR_SIZE=24
 export XCURSOR_THEME=Adwaita
-
-# required for jupyter lab extensions on arch linux
-export JUPYTERLAB_DIR=$HOME/.local/share/jupyter/lab
-
-# go
-# export GOPATH="$(go env GOPATH)"
-# export GOBIN="$GOPATH/bin"
-# export PATH="$PATH:$GOBIN"
-
-# load pyenv for shell
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-# lazygit
-alias lg="lazygit"
-
-# Alias for neovim as vim because is vim is installed on most systems
-alias ns="search_to_nvim"
-alias ra="ranger"
-
-# open file with default application
-alias open="xdg-open"
-
-reload_tmux() {
-  if tmux ls &> /dev/null; then
-    tmux source-file ~/.config/tmux/tmux.conf
-  fi
-}
-alias dark='cp ~/.config/kitty/Catppuccin-Mocha.conf ~/.config/kitty/current-theme.conf && kill -SIGUSR1 $(pgrep kitty) && reload_tmux '
-alias light='cp ~/.config/kitty/Catppuccin-Latte.conf ~/.config/kitty/current-theme.conf && kill -SIGUSR1 $(pgrep kitty) && reload_tmux'
-
-alias grep="grep --color=always"
-
-alias ranger=". ranger"
-
-export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 
-# Use `y` to open yazi and automatically cd into directory on exit
-function y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-  yazi "$@" --cwd-file="$tmp"
-  IFS= read -r -d '' cwd < "$tmp"
-  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-  rm -f -- "$tmp"
+## }}}
+
+## FUNCTIONS =============================================================== {{{
+
+EDIT_FILES=(
+    $HOME/.config/hypr/hyprland.lua
+    $HOME/.zshrc
+)
+edit() {
+    for file in "${EDIT_FILES[@]}"; do
+        if [[ "$file" == *"$1"* ]]; then
+            nvim "$file"
+            return
+        fi
+    done
+    echo "No matching file found."
 }
 
-alias avante='nvim -c "lua vim.defer_fn(function()require(\"avante.api\").zen_mode()end, 100)"'
+opencode() {
+    command opencode "$@"
 
-# Export environment variables
-source $HOME/data/env
+    # \033 is ESC
+    # [    is CSI (Control Sequence Introducer)
+    # 9A   is CUU-n (Cursor Up n)
+    # J    is ED (Erase in Display)
+    printf '\033[9A\033[J'
+}
 
-export COLOR_SCHEME="dark"
-export EDITOR="nvim"
+reload_tmux() {
+    if tmux ls &> /dev/null; then
+        tmux source-file ~/.config/tmux/tmux.conf
+    fi
+}
 
-export PATH=$HOME/.nix-profile/bin:$PATH
+y() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    command yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd < "$tmp"
+    [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+    command rm -f -- "$tmp"
+}
 
-export QT_QPA_PLATFORM=wayland
-export ANKI_WAYLAND=1
+## }}}
 
-# TEMPORARY ADDITIONS ==========================================================
-# Each temporary addition should have a reason so it can easily be implied when
-# the temporary addition is no longer needed and can be removed.
+## APPS ==================================================================== {{{
 
-# ...
+eval "$(dircolors -b ~/.dircolors)"
+
+source <(fzf --zsh)
+
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+eval "$(zoxide init zsh)"
+
+## }}}
+
+## TEMPORARY ADDITIONS ===================================================== {{{
+
+## }}}
