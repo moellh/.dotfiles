@@ -32,6 +32,9 @@ vim.g.have_nerd_font = true -- variable to enable nerd-font features
 
 vim.opt.guicursor = "" -- shows block in insert-mode as cursor
 
+-- WESL (WGSL with imports) has no own parser, highlight it as WGSL
+vim.filetype.add { extension = { wesl = "wgsl" } }
+
 vim.opt.colorcolumn = "81,121" -- highlights column 81 & 121
 vim.opt.cursorline = true -- highlights line of cursor
 

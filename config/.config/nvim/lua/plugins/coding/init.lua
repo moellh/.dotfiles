@@ -194,10 +194,17 @@ return {
 
             require('dap-python').setup()
 
+            -- lldb-dap ships with lldb (pacman -S lldb)
+            dap.adapters.lldb = {
+                type = 'executable',
+                command = 'lldb-dap',
+                name = 'lldb',
+            }
+
             dap.configurations.cpp = {
                 {
                     name = 'Launch file',
-                    type = 'codelldb',
+                    type = 'lldb',
                     request = 'launch',
                     program = function()
                         return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
@@ -208,7 +215,8 @@ return {
             }
 
             dap.configurations.c = dap.configurations.cpp
-            dap.configurations.rust = dap.configurations.cpp
+            -- Rust: rustaceanvim adds configurations from cargo's debuggables
+            -- and loads the Rust type formatters into lldb (<leader>rD)
         end,
     },
 

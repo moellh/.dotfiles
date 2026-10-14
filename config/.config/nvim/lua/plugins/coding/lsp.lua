@@ -9,7 +9,8 @@
 -- Manual LSP installation on Arch:
 --   pacman -S pyright lua-language-server typescript-language-server
 --   pacman -S marksman texlab ltex-ls-plus bash-language-server clangd
---   pacman -S rust-analyzer cmake-language-server html-languageserver zls tinymist
+--   pacman -S cmake-language-server html-languageserver zls tinymist
+--   rustup component add rust-analyzer
 --   yay -S glsl_analyzer jdtls omnisharp-roslyn
 --   yay -S csharp-ls
 --
@@ -65,6 +66,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         vim.keymap.set("n", "grt", vim.lsp.buf.type_definition, opts)
         vim.keymap.set("n", "grd", vim.lsp.buf.declaration, opts)
+
+        -- Inlay hints (inferred types, parameter names), toggle with <leader>th
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client and client:supports_method("textDocument/inlayHint") then
+            vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+        end
+        vim.keymap.set("n", "<leader>th", function()
+            local filter = { bufnr = args.buf }
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(filter), filter)
+        end, { buffer = args.buf, desc = "[T]oggle inlay [H]ints" })
         -- Note: completion handled by blink.cmp, not vim.lsp.completion
     end,
 })
@@ -99,7 +110,7 @@ local servers = {
     "lua_ls",
     "pyright",
     "clangd",
-    "rust_analyzer",
+    -- rust-analyzer: started by rustaceanvim, configured in lsp/rust-analyzer.lua
     "ts_ls",
     "bashls",
     "marksman",
@@ -130,6 +141,32 @@ return {
 
     -- Java LSP (JDTLS)
     "mfussenegger/nvim-jdtls",
+
+    -- Rust: starts rust-analyzer on the cargo workspace root, adds :RustLsp
+    -- (runnables, macro expansion, error explanations) and sets up DAP with
+    -- lldb-dap. Lazy-loads itself, keymaps in ftplugin/rust.lua
+    -- Git repo: https://github.com/mrcjkb/rustaceanvim
+    {
+        "mrcjkb/rustaceanvim",
+        version = "^9",
+        lazy = false,
+    },
+
+    -- Cargo.toml: latest crate versions inline, completion of crates and
+    -- features via an in-process LSP (picked up by blink.cmp's lsp source)
+    -- Git repo: https://github.com/saecki/crates.nvim
+    {
+        "saecki/crates.nvim",
+        event = "BufRead Cargo.toml",
+        opts = {
+            lsp = {
+                enabled = true,
+                actions = true,
+                completion = true,
+                hover = true,
+            },
+        },
+    },
 
     -- LTeX extra for code actions
     {
