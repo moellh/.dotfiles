@@ -111,8 +111,8 @@ return {
             vim.g.vimtex_quickfix_mode = 0
         end,
         keys = {
-            { "<leader>rl", "<Plug>(vimtex-compile)" },
-            { "<leader>lv", "<Plug>(vimtex-view)" },
+            { "<leader>rl", "<Plug>(vimtex-compile)", ft = "tex" },
+            { "<leader>lv", "<Plug>(vimtex-view)", ft = "tex" },
         },
     },
 
