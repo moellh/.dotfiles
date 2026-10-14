@@ -79,3 +79,4 @@ android-tools, Android tool for using ADB
 scrcpy, See Android Screen on Laptop
 mkvtoolnix-cli, MKV Metadata Editing
 uv, UV Python Package Manager
+pandoc-cli, Pandoc
