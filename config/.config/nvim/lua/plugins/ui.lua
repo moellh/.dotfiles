@@ -332,6 +332,15 @@ return {
         },
     },
 
+    -- Notification popups (noice notify view)
+    {
+        "rcarriga/nvim-notify",
+        opts = {
+            render = "wrapped-compact",
+            max_width = 50,
+        },
+    },
+
     -- Keybindings popup
     {
         'folke/which-key.nvim',
