@@ -338,6 +338,7 @@ return {
         opts = {
             render = "wrapped-compact",
             max_width = 50,
+            minimum_width = 10, -- default 50 forces every popup to max_width
         },
     },
 
