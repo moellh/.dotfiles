@@ -73,7 +73,12 @@ return {
     {
         "echasnovski/mini.nvim",
         config = function()
-            require("mini.ai").setup { n_lines = 500 }
+            require("mini.ai").setup {
+                n_lines = 500,
+                custom_textobjects = {
+                    g = require("mini.extra").gen_ai_spec.buffer(),
+                },
+            }
         end,
     },
 
