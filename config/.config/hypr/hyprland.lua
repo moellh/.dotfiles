@@ -230,6 +230,15 @@ hl.window_rule({
     no_focus = true,
 })
 
+-- Matplotlib plot windows (Qt backend): small centered floating window.
+hl.window_rule({
+    name = "matplotlib-figure-float",
+    match = { class = "^(python3?)$", title = "^(Figure \\d+)$" },
+    float = true,
+    size = "monitor_w/3 monitor_h/2",
+    center = true,
+})
+
 -- hl.window_rule({
 --     name = "anki-add-window",
 --     match = { class = "^(anki)$", title = "^(Add)$" },
