@@ -277,6 +277,23 @@ update_aged_aur_packages() (
     done
 )
 
+# Remove orphaned packages.  The list is looked up here, not where the step is
+# declared, so it is only computed when the step actually runs.
+remove_unused_packages() {
+    local -a orphans
+    mapfile -t orphans < <(pacman -Qdtq)
+    if ((${#orphans[@]} == 0)); then
+        echo "No unused packages."
+        return 0
+    fi
+    yay -Rsn "${orphans[@]}"
+}
+
+empty_trash() {
+    rm -rf ~/.local/share/Trash/files/* ~/.local/share/Trash/info/*
+    rm -f ~/.local/share/Trash/directorysizes
+}
+
 # Track used space in KB before changes
 used_space_before=$(df --output=used / | tail -n 1)
 
@@ -287,7 +304,7 @@ run_command "Remove Pacman & Yay Caches" N \
     yay -Sc
 
 run_command "Remove Unused Packages" N \
-    yay -Rsn $(yay -Qdtq)
+    remove_unused_packages
 
 run_command "Update Official Arch Packages" Y \
     sudo pacman -Syu
@@ -299,9 +316,7 @@ run_command "Cleanup Journal Logs (>30d)" N \
     sudo journalctl --vacuum-time=30d
 
 run_command "Empty trash" N \
-    rm -rf ~/.local/share/Trash/files/* \
-    rm -rf ~/.local/share/Trash/info/* \
-    rm -f ~/.local/share/Trash/directorysizes
+    empty_trash
 
 used_space_after=$(df --output=used / | tail -n 1) # in KB
 
