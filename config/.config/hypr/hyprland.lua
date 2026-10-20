@@ -22,8 +22,8 @@ local menu = "rofi -show drun"
 -- hl.monitor({ output = "HDMI-A-1", mode = "preferred", position = "auto-up", scale = 1 })
 
 -- On aspire, use internal screen and add 4K external screen as 2K monitor.
-hl.monitor({ output = "eDP-1", mode = "1920x1080@60.02", position = "0x0", scale = 1 })
-hl.monitor({ output = "HDMI-A-1", mode = "2560x1440@59.95", position = "-320x-1440", scale = 1 })
+-- hl.monitor({ output = "eDP-1", mode = "1920x1080@60.02", position = "0x0", scale = 1 })
+-- hl.monitor({ output = "HDMI-A-1", mode = "2560x1440@59.95", position = "-320x-1440", scale = 1 })
 
 -- On aspire, use internal screen and add 4K external screen in native resolution & scaled.
 -- hl.monitor({ output = "eDP-1", mode = "1920x1080@60.02", position = "0x0", scale = 1 })
@@ -50,8 +50,8 @@ hl.monitor({ output = "HDMI-A-1", mode = "2560x1440@59.95", position = "-320x-14
 -- hl.monitor({ output = "HDMI-A-1", mode = "preferred", position = "0x0", scale = 1 })
 
 -- On aspire, mirror G27q-20 external screen onto internal screen when connected.
--- hl.monitor({ output = "eDP-1", mode = "preferred", position = "auto", scale = 1, mirror = "HDMI-A-1" })
--- hl.monitor({ output = "HDMI-A-1", mode = "2560x1440@144.00", position = "0x0", scale = 1 })
+hl.monitor({ output = "eDP-1", mode = "preferred", position = "auto", scale = 1, mirror = "HDMI-A-1" })
+hl.monitor({ output = "HDMI-A-1", mode = "2560x1440@144.00", position = "0x0", scale = 1 })
 
 -- On aspire, mirror external screen onto internal screen when connected.
 -- hl.monitor({ output = "eDP-1", mode = "preferred", position = "auto", scale = 1, mirror = "HDMI-A-1" })
