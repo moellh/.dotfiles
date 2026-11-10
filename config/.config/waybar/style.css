@@ -71,14 +71,19 @@ button:hover {
     margin-right: 0;
 }
 
+/* Battery ------------------------------------------------------------------ */
+
+/* Red background blinks behind white text: slowly from 15% ("critical"), fast from 5% ("blink"), only on battery. */
 @keyframes blink {
     to {
-        color: #ffffff;
+        background-color: transparent;
     }
 }
 
-#battery .critical:not(.charging) {
-    color: #f53c3c;
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: #ffffff;
+    padding: 0 4px;
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: steps(12);
@@ -87,7 +92,9 @@ button:hover {
 }
 
 #battery.blink:not(.charging) {
-    color: #f53c3c;
+    background-color: #f53c3c;
+    color: #ffffff;
+    padding: 0 4px;
     animation-name: blink;
     animation-duration: 0.25s;
     animation-timing-function: linear;
