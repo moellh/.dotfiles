@@ -16,6 +16,7 @@ VAULTS=(
   "digi-ops"
   "spscg"
   "thw"
+  "docs"
 )
 
 # Use rofi to select a vault
