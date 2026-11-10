@@ -151,7 +151,10 @@ hl.config({
     dwindle = { preserve_split = true },
     cursor = { no_hardware_cursors = true },
     xwayland = { enabled = true },
-    misc = { disable_hyprland_logo = true },
+    misc = {
+        disable_hyprland_logo = true,
+        allow_session_lock_restore = true, -- Allow relaunching hyprlock if it crashes
+    },
 })
 
 -- Curves used for animations. See https://www.cssportal.com/css-cubic-bezier-generator/.
