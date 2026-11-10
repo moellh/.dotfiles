@@ -1,13 +1,14 @@
 [Default Applications]
+text/csv=nvim.desktop;libreoffice-calc.desktop;
 inode/directory=org.kde.dolphin.desktop
 x-scheme-handler/http=firefox.desktop
 x-scheme-handler/https=firefox.desktop
 x-scheme-handler/about=firefox.desktop
 text/html=firefox.desktop
 application/xhtml+xml=firefox.desktop
-x-scheme-handler/mailto=org.mozilla.Thunderbird.desktop
-message/rfc822=org.mozilla.Thunderbird.desktop
-image/png=gimp.desktop
+x-scheme-handler/mailto=userapp-Thunderbird-WSQQP3.desktop
+message/rfc822=userapp-Thunderbird-WSQQP3.desktop
+image/png=org.kde.gwenview.desktop
 image/jpeg=org.kde.gwenview.desktop
 image/gif=org.kde.gwenview.desktop
 image/bmp=org.kde.gwenview.desktop
@@ -108,8 +109,22 @@ application/javascript=nvim.desktop
 application/x-shellscript=nvim.desktop
 application/toml=nvim.desktop
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
+x-scheme-handler/mid=userapp-Thunderbird-WSQQP3.desktop
+x-scheme-handler/webcal=userapp-Thunderbird-LKRRP3.desktop
+text/calendar=userapp-Thunderbird-LKRRP3.desktop
+application/x-extension-ics=userapp-Thunderbird-LKRRP3.desktop
+x-scheme-handler/webcals=userapp-Thunderbird-LKRRP3.desktop
+x-scheme-handler/antigravity=antigravity.desktop
+x-scheme-handler/net.thunderbird=userapp-Thunderbird-7W9BR3.desktop
+x-scheme-handler/claude=com.anthropic.Claude.desktop
+x-scheme-handler/anki-note=anki-note-handler.desktop
+x-scheme-handler/opencode=ai.opencode.desktop.desktop
 
 [Added Associations]
-text/plain=nvim.desktop;
-image/png=gimp.desktop;org.kde.gwenview.desktop;org.kde.krita.desktop;
-application/pgp-keys=nvim.desktop;
+text/csv=nvim.desktop;libreoffice-calc.desktop;
+image/png=org.kde.gwenview.desktop;gimp.desktop;org.kde.krita.desktop;
+x-scheme-handler/mailto=userapp-Thunderbird-WSQQP3.desktop;
+x-scheme-handler/mid=userapp-Thunderbird-WSQQP3.desktop;
+x-scheme-handler/webcal=userapp-Thunderbird-LKRRP3.desktop;
+x-scheme-handler/webcals=userapp-Thunderbird-LKRRP3.desktop;
+x-scheme-handler/net.thunderbird=userapp-Thunderbird-7W9BR3.desktop;
