@@ -89,7 +89,7 @@ export GTK_USE_PORTAL=1 # use kde file dialog for gtk applications
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --exclude .git"
 export HISTFILE=~/.histfile
 export HISTSIZE=100000
-export JUPYTERLAB_DIR=$HOME/.local/share/jupyter/lab # required for jupyter lab extensions on arch linux
+# export JUPYTERLAB_DIR=$HOME/.local/share/jupyter/lab # required for jupyter lab extensions on arch linux
 export PATH="${PATH}:$HOME/.scripts" # user binaries
 export PATH="${PATH}:$HOME/.local/bin" # user binaries
 export PATH=$HOME/.nix-profile/bin:$PATH
