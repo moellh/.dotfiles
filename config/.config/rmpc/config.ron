@@ -4,18 +4,35 @@
 (
     address: "127.0.0.1:6600",
     password: None,
-    theme: None,
+    theme: Some("moellh"),
     cache_dir: None,
+    cava: (
+        framerate: 60,
+        autosens: true,
+        sensitivity: 150,
+        lower_cutoff_freq: 30,
+        higher_cutoff_freq: 17000,
+        input: (
+            method: Pipewire,
+            source: "auto",
+        ),
+        smoothing: (
+            noise_reduction: 15,
+            monstercat: false,
+            waves: false,
+        ),
+        // eq: [1.6, 1.3, 1.0, 0.9, 0.8, 0.9, 0.95, 1.1, 1.3, 1.6],
+    ),
     on_song_change: None,
     volume_step: 5,
-    max_fps: 30,
+    max_fps: 60,
     scrolloff: 0,
     wrap_navigation: false,
     enable_mouse: true,
     enable_config_hot_reload: true,
     status_update_interval_ms: 1000,
     rewind_to_start_sec: None,
-    keep_state_on_song_change: true,
+    keep_state_on_song_change: false,
     reflect_changes_to_playlist: false,
     select_current_song_on_change: false,
     ignore_leading_the: false,
@@ -37,12 +54,13 @@
             "<Tab>":   NextTab,
             "<S-Tab>": PreviousTab,
             "1":       SwitchToTab("Queue"),
-            "2":       SwitchToTab("Directories"),
-            "3":       SwitchToTab("Artists"),
-            "4":       SwitchToTab("Album Artists"),
-            "5":       SwitchToTab("Albums"),
-            "6":       SwitchToTab("Playlists"),
-            "7":       SwitchToTab("Search"),
+            "2":       SwitchToTab("Fancy"),
+            "3":       SwitchToTab("Directories"),
+            "4":       SwitchToTab("Artists"),
+            "5":       SwitchToTab("Album Artists"),
+            "6":       SwitchToTab("Albums"),
+            "7":       SwitchToTab("Playlists"),
+            "8":       SwitchToTab("Search"),
             "q":       Quit,
             ">":       NextTrack,
             "p":       TogglePause,
@@ -129,29 +147,33 @@
     tabs: [
         (
             name: "Queue",
+            pane: Pane(Queue),
+        ),
+        (
+            name: "Fancy",
             pane: Split(
-                direction: Horizontal,
+                direction: Vertical,
                 panes: [
                     (
-                        size: "40%",
+                        size: "75%",
                         pane: Split(
-                            direction: Vertical,
+                            direction: Horizontal,
                             panes: [
                                 (
-                                    size: "3",
-                                    pane: Pane(Lyrics)
+                                    size: "40%",
+                                    pane: Split(
+                                        direction: Vertical,
+                                        panes: [
+                                            (size: "3", pane: Pane(Lyrics)),
+                                            (size: "100%", pane: Pane(AlbumArt)),
+                                        ],
+                                    ),
                                 ),
-                                (
-                                    size: "100%",
-                                    pane: Pane(AlbumArt)
-                                ),
+                                (size: "60%", pane: Pane(Queue)),
                             ],
                         ),
-                    ), 
-                    (
-                        size: "60%",
-                        pane: Pane(Queue)
                     ),
+                    (size: "25%", pane: Pane(Cava)),
                 ],
             ),
         ),
@@ -179,6 +201,6 @@
             name: "Search",
             pane: Pane(Search),
         ),
+
     ],
 )
-
