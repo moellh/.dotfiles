@@ -80,3 +80,8 @@ scrcpy, See Android Screen on Laptop
 mkvtoolnix-cli, MKV Metadata Editing
 uv, UV Python Package Manager
 pandoc-cli, Pandoc
+aws-cli-v2, AWS, used in SCE
+usbmuxd, For seeing iphone
+ifuse, For seeing iphone
+ttf-vista-fonts, calibri font
+rmg, N64 Emulator
