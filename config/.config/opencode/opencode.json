@@ -1,34 +1,30 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "provider": {
-    "ollama": {
-      "models": {
-        "kimi-k2.5:cloud": {
-          "_launch": true,
-          "limit": {
-            "context": 262144,
-            "output": 262144
-          },
-          "name": "kimi-k2.5:cloud"
+    "$schema": "https://opencode.ai/config.json",
+    "model": "openrouter/z-ai/glm-5.3-flash",
+    "small_model": "openrouter/z-ai/glm-5.3-flash",
+    "enabled_providers": [
+        "openrouter"
+    ],
+    "provider": {
+        "openrouter": {
+            "whitelist": [
+                "z-ai/glm-5.3-flash",
+                "deepseek/deepseek-v4.1-flash"
+            ]
         }
-      },
-      "name": "Ollama (local)",
-      "npm": "@ai-sdk/openai-compatible",
-      "options": {
-        "baseURL": "http://127.0.0.1:11434/v1"
-      }
-    }
-  },
-  "permission": {
-    "edit": "ask",
-    "bash": {
-      "*": "ask",
-      "ls *": "allow",
-      "*env*": "ask"
     },
-    "skill": {
-      "*": "ask",
-      "skill-authoring": "allow"
-    }
-  }
+    "providers": {
+        "openrouter": {
+            "body": {
+                "provider": {
+                    "preferred_min_throughput": {
+                        "p50": 60,
+                        "p90": 120
+                    }
+                }
+            }
+        }
+    },
+    "permission": "allow",
+    "lsp": true
 }
