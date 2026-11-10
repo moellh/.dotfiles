@@ -17,8 +17,10 @@ local menu = "rofi -show drun"
 -- On pavilion, use single monitor Lenovo G27q-20.
 -- hl.monitor({ output = "DP-1", mode = "2560x1440@164.85", position = "0x0", scale = 1 })
 
--- On aspire, use internal screen and add external screen above when connected.
-hl.monitor({ output = "eDP-1", mode = "1920x1080@60.02", position = "0x0", scale = 1 })
+-- On aspire, use internal screen and add external screen above when connected. The LAPTOP LID section reuses
+-- `laptopScreen` to turn the internal screen back on.
+local laptopScreen = { output = "eDP-1", mode = "1920x1080@60.02", position = "0x0", scale = 1 }
+hl.monitor(laptopScreen)
 hl.monitor({ output = "HDMI-A-1", mode = "preferred", position = "auto-up", scale = 1 })
 
 -- On aspire, use internal screen and add 4K external screen as 2K monitor.
@@ -366,11 +368,60 @@ hl.bind("SHIFT + XF86AudioPlay", hl.dsp.exec_cmd("rmpc togglepause"), locked)
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), locked)
 hl.bind("SHIFT + XF86AudioPrev", hl.dsp.exec_cmd("rmpc prev"), locked)
 
--- Closing lid of laptop screen. TODO: Check if this actually works.
-hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("~/.config/hypr/lid.sh open"), locked)
-hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("~/.config/hypr/lid.sh close"), locked)
-
 hl.bind("SUPER + CTRL + right", hl.dsp.workspace.move({ monitor = "+1" }))
 hl.bind("SUPER + CTRL + left", hl.dsp.workspace.move({ monitor = "-1" }))
+
+-- }}}
+
+-- LAPTOP LID {{{
+
+-- With an external screen connected, the laptop screen turns off while the lid is closed, so its workspaces move to
+-- the external screen and come back when the lid opens. Without one, logind suspends the laptop on lid close instead.
+
+local function lidClosed()
+    local file = io.open("/proc/acpi/button/lid/LID0/state")
+    if not file then
+        return false
+    end
+    local state = file:read("*a")
+    file:close()
+    return state:find("closed") ~= nil
+end
+
+local function updateLaptopScreen(closed)
+    if closed == nil then
+        closed = lidClosed()
+    end
+
+    local laptopOn, externalOn = false, false
+    for _, monitor in ipairs(hl.get_monitors({ all = true })) do
+        if monitor.name == laptopScreen.output then
+            laptopOn = monitor.enabled
+        elseif monitor.enabled then
+            externalOn = true
+        end
+    end
+
+    if closed and externalOn then
+        if laptopOn then
+            hl.monitor({ output = laptopScreen.output, disabled = true })
+        end
+    elseif not laptopOn then
+        hl.monitor(laptopScreen)
+    end
+end
+
+-- Legacy `bindl`: also works while locked.
+hl.bind("switch:on:Lid Switch", function() updateLaptopScreen(true) end, locked)
+hl.bind("switch:off:Lid Switch", function() updateLaptopScreen(false) end, locked)
+
+-- Also check on start, config reload and when screens are plugged in or out, e.g. so that unplugging the external
+-- screen while the lid is closed turns the laptop screen back on. The short delay lets the monitor list settle.
+local function updateLaptopScreenSoon()
+    hl.timer(function() updateLaptopScreen() end, { timeout = 500, type = "oneshot" })
+end
+for _, event in ipairs({ "hyprland.start", "config.reloaded", "monitor.added", "monitor.removed" }) do
+    hl.on(event, updateLaptopScreenSoon)
+end
 
 -- }}}
