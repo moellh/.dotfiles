@@ -34,6 +34,9 @@ zle -N down-line-or-beginning-search
 ## zsh history
 setopt appendhistory
 
+# allow `# comments` in interactive commands (e.g. pasted snippets)
+setopt interactive_comments
+
 ## }}}
 
 ## KEYBINDS ================================================================ {{{
