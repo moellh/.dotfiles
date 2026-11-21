@@ -323,8 +323,8 @@ hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ animati
 hl.bind("SUPER + V", hl.dsp.window.float({ action = "toggle" })) -- Toggle floating/aligned window
 hl.bind("SUPER + W", hl.dsp.exec_cmd("killall waybar 2>/dev/null || nohup waybar >/dev/null 2>&1 &")) -- Toggle waybar
 hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("chromium --app=https://waldo.moellh.com &>/dev/null"))
-hl.bind("SUPER + CTRL + A", hl.dsp.exec_cmd("/home/henrikmoellmann/.local/bin/bridge-ctl toggle anki-connect; pkill -RTMIN+1 waybar"))
-hl.bind("SUPER + CTRL + P", hl.dsp.exec_cmd("/home/henrikmoellmann/.local/bin/bridge-ctl toggle proxy; pkill -RTMIN+1 waybar"))
+hl.bind("SUPER + CTRL + A", hl.dsp.exec_cmd("~/.scripts/bridge-ctl toggle anki-connect; pkill -RTMIN+1 waybar"))
+hl.bind("SUPER + CTRL + P", hl.dsp.exec_cmd("~/.scripts/bridge-ctl toggle proxy; pkill -RTMIN+1 waybar"))
 
 -- Cycle between windows in the current workspace.
 hl.bind("SUPER + Tab", hl.dsp.window.cycle_next())

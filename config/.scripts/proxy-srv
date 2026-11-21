@@ -1,0 +1,133 @@
+#!/usr/bin/env python3
+import sys
+import socket
+import select
+import os
+import signal
+
+PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8888
+BACKLOG = 128
+BUF_SIZE = 65536
+
+
+def recv_line(sock):
+    buf = b''
+    while b'\r\n' not in buf:
+        c = sock.recv(1)
+        if not c:
+            return None
+        buf += c
+    return buf
+
+
+def recv_headers(sock):
+    headers = b''
+    while True:
+        h = recv_line(sock)
+        if h is None or h == b'\r\n':
+            break
+        headers += h
+    return headers
+
+
+def proxy(client):
+    req = recv_line(client)
+    if req is None:
+        client.close()
+        return
+    line = req.decode('utf-8', 'replace').strip()
+    parts = line.split()
+    if len(parts) < 2:
+        client.close()
+        return
+
+    method = parts[0]
+    target = parts[1]
+
+    if method == 'CONNECT':
+        host, _, port_str = target.partition(':')
+        port = int(port_str) if port_str else 443
+        recv_headers(client)
+        try:
+            remote = socket.create_connection((host, port), timeout=15)
+            client.sendall(b'HTTP/1.1 200 Connection Established\r\n\r\n')
+        except Exception:
+            client.sendall(b'HTTP/1.1 502 Bad Gateway\r\n\r\n')
+            client.close()
+            return
+    elif target.startswith(('http://', 'https://')):
+        rest = target.split('://', 1)[1]
+        host_port, _, path = rest.partition('/')
+        path = '/' + path
+        host, _, port_str = host_port.partition(':')
+        port = int(port_str) if port_str else (443 if target.startswith('https://') else 80)
+
+        headers = recv_headers(client)
+        try:
+            remote = socket.create_connection((host, port), timeout=15)
+            new_req = f'{method} {path} {parts[2]}\r\n'.encode()
+            clean = b''
+            for h in headers.split(b'\r\n'):
+                if h and not h.lower().startswith(b'proxy-'):
+                    clean += h + b'\r\n'
+            remote.sendall(new_req + clean + b'\r\n')
+        except Exception:
+            client.sendall(b'HTTP/1.1 502 Bad Gateway\r\n\r\n')
+            client.close()
+            return
+    else:
+        client.sendall(b'HTTP/1.1 400 Bad Request\r\n\r\n')
+        client.close()
+        return
+
+    remote.setblocking(False)
+    client.setblocking(False)
+    while True:
+        try:
+            r, _, x = select.select([client, remote], [], [client, remote])
+        except (ValueError, OSError):
+            break
+        if x:
+            break
+        try:
+            if client in r:
+                d = client.recv(BUF_SIZE)
+                if not d:
+                    break
+                remote.sendall(d)
+            if remote in r:
+                d = remote.recv(BUF_SIZE)
+                if not d:
+                    break
+                client.sendall(d)
+        except (ConnectionResetError, BrokenPipeError, OSError):
+            break
+
+    remote.close()
+    client.close()
+
+
+def main():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.bind(('127.0.0.1', PORT))
+    s.listen(BACKLOG)
+    s.setblocking(False)
+
+    signal.signal(signal.SIGCHLD, signal.SIG_IGN)
+
+    while True:
+        try:
+            conn, addr = s.accept()
+            pid = os.fork()
+            if pid == 0:
+                s.close()
+                proxy(conn)
+                sys.exit(0)
+            conn.close()
+        except (OSError, IOError):
+            pass
+
+
+if __name__ == '__main__':
+    main()

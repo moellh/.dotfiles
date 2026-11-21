@@ -30,12 +30,12 @@
 
     "custom/bridge": {
         "format": "{}",
-        "exec": "/home/henrikmoellmann/.local/bin/bridge-ctl waybar",
+        "exec": "~/.scripts/bridge-ctl waybar",
         "interval": 10,
         "return-type": "json",
         "signal": 1,
         "hide-empty-text": true,
-        "on-click": "/home/henrikmoellmann/.local/bin/bridge-ctl toggle",
+        "on-click": "~/.scripts/bridge-ctl toggle",
     },
 
     "custom/sshd": {

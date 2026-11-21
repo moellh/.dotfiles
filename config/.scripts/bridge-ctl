@@ -1,0 +1,148 @@
+#!/bin/bash
+# bridge-ctl — manage tailscale port bridges
+# Usage: bridge-ctl [status|on|off|toggle|waybar] [name]
+#   status       show all bridges (default)
+#   on [name]    start bridge(s)
+#   off [name]   stop bridge(s)
+#   toggle [name] toggle bridge(s)
+#   waybar       JSON output for waybar
+
+set -euo pipefail
+
+CONF_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/bridges"
+PID_DIR="/tmp/bridge-ctl"
+
+mkdir -p "$PID_DIR"
+
+_bridges() {
+  for f in "$CONF_DIR"/*.conf; do
+    [ -f "$f" ] || continue
+    name=$(basename "$f" .conf)
+    unset PORT DESC INDICATOR COLOR CMD
+    source "$f"
+    [ -z "${PORT:-}" ] && continue
+    echo "$name|${PORT}|${DESC:-$name}|${INDICATOR:-${name:0:1}}|${COLOR:-#33ccff}|${CMD:-}"
+  done
+}
+
+_cmd_pidfile() { echo "$PID_DIR/$1.cmd"; }
+
+_pidfile() { echo "$PID_DIR/$1.pid"; }
+
+_is_running() {
+  local pidfile=$(_pidfile "$1")
+  [ -f "$pidfile" ] && kill -0 "$(cat "$pidfile")" 2>/dev/null
+}
+
+_bind_ip() {
+  tailscale ip -4 2>/dev/null || echo ""
+}
+
+_bridge_count() {
+  _bridges | grep -c . || echo 0
+}
+
+status() {
+  local any_on=false any_off=false
+  while IFS='|' read -r name port desc indicator color cmd; do
+    if _is_running "$name"; then
+      echo "ON  $name:$port  $desc"
+      any_on=true
+    else
+      echo "OFF $name:$port  $desc"
+      any_off=true
+    fi
+  done < <(_bridges)
+  $any_on && echo "---ON---"
+  $any_off && echo "---OFF---"
+}
+
+on() {
+  local target="${1:-}"
+  local bind=$(_bind_ip)
+  [ -z "$bind" ] && echo "ERROR: tailscale not connected" >&2 && exit 1
+
+  while IFS='|' read -r name port desc indicator color cmd; do
+    [ -n "$target" ] && [ "$name" != "$target" ] && continue
+    if _is_running "$name"; then
+      echo "$name already ON"
+    else
+      if [ -n "$cmd" ]; then
+        nohup $cmd >/dev/null 2>&1 &
+        echo $! > "$(_cmd_pidfile "$name")"
+        sleep 0.3
+      fi
+      nohup socat "TCP-LISTEN:${port},bind=${bind},reuseaddr,fork" "TCP:127.0.0.1:${port}" >/dev/null 2>&1 &
+      echo $! > "$(_pidfile "$name")"
+      echo "$name ON ($bind:$port)"
+    fi
+  done < <(_bridges)
+}
+
+off() {
+  local target="${1:-}"
+  while IFS='|' read -r name port desc indicator color cmd; do
+    [ -n "$target" ] && [ "$name" != "$target" ] && continue
+    cmdpidfile=$(_cmd_pidfile "$name")
+    if [ -f "$cmdpidfile" ]; then
+      kill "$(cat "$cmdpidfile")" 2>/dev/null || true
+      rm -f "$cmdpidfile"
+    fi
+    pidfile=$(_pidfile "$name")
+    if [ -f "$pidfile" ]; then
+      kill "$(cat "$pidfile")" 2>/dev/null || true
+      rm -f "$pidfile"
+      echo "$name OFF"
+    fi
+  done < <(_bridges)
+}
+
+toggle() {
+  local target="${1:-}"
+  while IFS='|' read -r name port desc indicator color cmd; do
+    [ -n "$target" ] && [ "$name" != "$target" ] && continue
+    if _is_running "$name"; then
+      off "$name"
+    else
+      on "$name"
+    fi
+  done < <(_bridges)
+}
+
+waybar() {
+  local pango="" plain="" tt_on="" tt_off=""
+
+  while IFS='|' read -r name port desc indicator color cmd; do
+    if _is_running "$name"; then
+      pango="${pango}<span foreground='${color}'>${indicator}</span>"
+      plain="${plain}${indicator}"
+      tt_on="$tt_on  $name"
+    else
+      tt_off="$tt_off  $name"
+    fi
+  done < <(_bridges)
+
+  local txt cls tt
+  if [ -z "$plain" ]; then
+    cls="off"; txt=""
+    tt="All bridges off$tt_off"
+  else
+    cls="on";  txt="$pango"
+    tt="On:$tt_on"
+  fi
+
+  jq -cn --arg txt "$txt" --arg cls "$cls" --arg tt "$tt" \
+    '{text: $txt, class: $cls, tooltip: $tt}'
+}
+
+case "${1:-status}" in
+  status)  status ;;
+  on)      shift; on "$@" ;;
+  off)     shift; off "$@" ;;
+  toggle)  shift; toggle "$@" ;;
+  waybar)  waybar ;;
+  *)
+    echo "Usage: $0 {status|on|off|toggle|waybar} [name]" >&2
+    exit 1
+    ;;
+esac
