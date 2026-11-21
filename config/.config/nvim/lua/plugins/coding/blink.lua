@@ -19,7 +19,6 @@ return {
                 preset = "default",
                 -- Add any custom keymaps here
                 ["<Tab>"] = { "snippet_forward", "fallback" },
-                ["<C-d>"] = { "show_documentation", "hide_documentation" },
             },
 
             -- Completion menu with auto docs
