@@ -11,6 +11,11 @@ To apply config on a system where files already exist (uses file-level symlinks,
 stow --no-folding config -t ~
 ```
 
+System config (`/etc`, boot entry, services to enable) lives in `system/` as plain copies; see
+[`system/README.md`](system/README.md) and run `system/install.sh`.
+
+Machine-specific shell settings go into `~/.zshrc.local` (not in git), which `.zshrc` sources at the end.
+
 `packages.txt` contains a list of packages for Neovim LSP servers, formatters, and other tools.
 
 ## Configs
@@ -37,8 +42,16 @@ stow --no-folding config -t ~
 ### Tools
 - Lazygit in `.config/lazygit/`
 - Dunst in `.config/dunst/`
-- MPD + RMPC (music) in `.config/mpd/`, `.config/rmpc/`
-- Opencode (AI assistant) in `.config/opencode/`
+- MPD + RMPC (music) in `.config/mpd/`, `.config/rmpc/`, visualizer Cava in `.config/cava/`
+- mpv (with upscaling shaders) in `.config/mpv/`
+- Yazi, btop, zellij, glow, ghostty and zed in their `.config/` folders
+- Tailscale port bridges (`bridge-ctl`, Waybar module) in `.config/bridges/`
+- Local LLMs (llama.cpp profiles) in `.config/llm/`, see its README
+
+### AI agents
+- Shared instructions in `.agents/AGENTS.md`; the OpenCode, Codex and `~/.config` copies are symlinks to it
+- Shared skills in `.agents/skills/`, linked into `.config/opencode/skills/` and `.claude/skills/`
+- Opencode in `.config/opencode/`, Claude Code settings and status line in `.claude/`
 
 ### Shell
 - Zsh config in `.zshrc`, `.zprofile`
@@ -49,6 +62,12 @@ stow --no-folding config -t ~
 ## Custom Scripts
 
 All scripts use `#!/usr/bin/env bash` for portability (NixOS, etc.)
+
+- `update`: system update; its first step runs `backup-secrets`
+- `backup-secrets`: encrypted borg backup of credentials and private config that must not go into this public repo
+  (SSH and GPG keys, KeePassXC key file, rclone, AWS, `/etc/hosts`, ...) to the storage box, via the cloud host
+- `borg-pull`: copies all borg repos from the storage box to the external HDD
+- `run-llm`, `llm-switch`, `llm-download`: local LLM server (see `.config/llm/README.md`)
 
 ## Google Drive with RClone Bisync
 
