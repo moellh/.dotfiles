@@ -2,11 +2,9 @@ config/.config/tmux/plugins
 config/.config/nvim/lazy-lock.json
 node_modules/
 
-# Systemd services provided by installed programs
-config/.config/systemd/user/default.target.wants/hyprmoncfgd.service
-config/.config/systemd/user/default.target.wants/mpd.service
-config/.config/systemd/user/default.target.wants/syncthing.service
-config/.config/systemd/user/default.target.wants/ydotool.service
+# ~/.config/systemd is a directory link into this repo, so `systemctl --user enable` and
+# machine-specific drop-ins land here. Which units to enable is in system/services.txt.
+config/.config/systemd/user/*.wants/
 config/.config/systemd/user/syncthing.service.d/
 
 .gemini/
