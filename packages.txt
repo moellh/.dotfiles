@@ -5,7 +5,7 @@ marksman, Markdown language server
 texlab, LaTeX language server
 bash-language-server, Bash language server
 clang, C/C++ language server (includes clangd)
-rust-analyzer, Rust language server
+rustup, Rust toolchain installer (includes rust-analyzer)
 zls, Zig language server
 tinymist, Typst language server
 stylua, Lua formatter
@@ -23,7 +23,6 @@ google-java-format, Java code formatter
 bibtex-tidy, BibTeX file formatter
 jdtls, Java Language Server
 java-debug, Java debugging
-vscode-java-test, Java testing
 cava, TUI audio visualizer
 cuda-12.9, CUDA for my GPU 1050
 virtualbox, Virtualbox for SWS lecture
@@ -39,32 +38,20 @@ python-pptx, PPT ffor Python
 zed, Zed IDE
 speech-dispatcher, TTS in Browser
 espeak-ng, Speech synthesizer
-piper-tts-bin, Piper TTS
-piper-voices-en-us, English voice
-omnisharp-roslyn, CSharp LSP
 csharp-ls, CSharp LSP
-okular-backend-mupdf-git, mupdf for okular pdf reader
 resvg, SVG rendering
 ghostty, Ghostty terminal
-dragon, Drag and Drop
 dragon-drop, Drag and Drop
 tcpdump, tcp dump
 git-lfs, Git Large File Storage
 ncdu, Filelight for terminal
 nload, Network up/down insection
-intel-oneapi-dpcpp-cpp, SYCL
-kokkos, Kokkos stuff
-adaptivecpp, SYCL AdaptiveCpp
 pocl, Open-source OpenCL
-intel-oneapi-base-toolkit, oneAPI toolkit
 drawio-desktop, DrawIO
 obs-studio, OBS
 antigravity, Antigravity IDE by Google
-webex-bin, Webex
 xorg-xwayland, XWayland
 strace, Strace
-openai-codex, Codex
-hermes-agent-desktop, Hermes Desktop
 furnace, Retro Music Creator
 docker-buildx, New docker build system
 incus, Incus VMs
@@ -85,3 +72,383 @@ usbmuxd, For seeing iphone
 ifuse, For seeing iphone
 ttf-vista-fonts, calibri font
 rmg, N64 Emulator
+podman, Podman Docker alternative
+intellij-idea-oss, IntelliJ
+openjdk21-doc, OpenJDK for Java 21
+
+jdk-openjdk, OpenJDK latest
+openjdk-doc, OpenJDK docs for latest
+jdk25-openjdk, OpenJDK 25 LTS
+openjdk25-doc, OpenJDK docs for Java 25
+gradle, Gradle build tool
+maven, Maven build tool
+kotlin, Kotlin
+junit, JUnit testing
+
+base, Arch base system
+base-devel, Tools for building packages
+linux, Linux kernel
+linux-headers, Kernel headers for DKMS modules
+linux-lts, LTS kernel as fallback
+linux-lts-headers, LTS kernel headers for DKMS modules
+linux-firmware, Firmware files
+intel-ucode, Intel CPU microcode
+zsh, Zsh shell
+neovim, Neovim editor
+vim, Vim editor
+git, Git
+yay, AUR helper
+pacman-contrib, Pacman scripts like paccache
+rebuild-detector, Detect packages that need a rebuild
+reflector, Mirrorlist updater
+pkgfile, Search files in repo packages
+downgrade, Downgrade packages
+accountsservice, User account service
+at, Scheduled commands
+logrotate, Log rotation
+lsb-release, Distribution info
+man-db, Man page reader
+man-pages, Linux man pages
+less, Pager
+bash-completion, Bash completions
+s-nail, Command-line mail
+rtkit, Realtime scheduling for audio
+upower, Battery info
+power-profiles-daemon, Power profiles
+powertop, Power usage analysis
+xdg-user-dirs, User directories like ~/Music
+
+nvidia-580xx-dkms, NVIDIA driver for GTX 1050
+opencl-nvidia-580xx, OpenCL for NVIDIA GPU
+nvidia-prime, Run apps on NVIDIA GPU (prime-run)
+mesa-utils, Mesa tools like glxinfo
+nvtop, GPU monitor
+alsa-firmware, Sound card firmware
+sof-firmware, Sound Open Firmware
+fwupd, Firmware updates
+dmidecode, BIOS hardware info
+hwinfo, Hardware info
+inxi, System info
+lsscsi, List SCSI devices
+sg3_utils, SCSI utilities
+sysfsutils, Sysfs utilities
+usbutils, USB tools like lsusb
+android-udev, Udev rules for Android devices
+brightnessctl, Screen brightness control
+bluez, Bluetooth stack
+bluez-utils, Bluetooth CLI (bluetoothctl)
+bluetui, Bluetooth TUI
+dtc, Device tree compiler
+efibootmgr, EFI boot entries
+efitools, UEFI Secure Boot tools
+hdparm, Disk parameters
+smartmontools, Disk health (S.M.A.R.T.)
+sysstat, Performance stats like iostat
+
+btrfs-progs, Btrfs tools
+dosfstools, FAT tools
+exfatprogs, exFAT tools
+f2fs-tools, F2FS tools
+jfsutils, JFS tools
+nilfs-utils, NILFS tools
+ntfs-3g, NTFS driver
+xfsprogs, XFS tools
+lvm2, LVM tools
+mdadm, Software RAID tools
+mtools, MS-DOS disk tools
+nfs-utils, NFS client
+sshfs, Mount remote directories over SSH
+fsarchiver, Filesystem backups
+gparted, Partition editor
+duf, Disk usage overview
+
+networkmanager, Network manager
+network-manager-applet, NetworkManager tray applet
+networkmanager-openconnect, OpenConnect VPN for NetworkManager
+networkmanager-openvpn, OpenVPN for NetworkManager
+openssh, SSH
+bind, DNS tools like dig
+dnsmasq, DNS and DHCP for VMs
+ethtool, Network interface settings
+inetutils, Network tools like hostname
+iptables, Packet filtering
+firewalld, Firewall
+python-capng, Capabilities library for firewalld
+nss-mdns, Resolve .local hostnames
+tailscale, Tailscale VPN
+trayscale, Tailscale GUI
+mullvad-vpn, Mullvad VPN
+speedtest-cli, Internet speed test
+wget, Downloader
+rsync, File copying and syncing
+rclone, Cloud storage sync for Google Drive
+syncthing, File sync between devices
+nextcloud-client, Nextcloud client
+localsend-bin, AirDrop alternative
+qbittorrent, Torrent client
+torbrowser-launcher, Tor Browser
+
+alsa-plugins, ALSA plugins
+alsa-utils, ALSA tools like alsamixer
+pipewire-alsa, PipeWire ALSA support
+pipewire-pulse, PipeWire PulseAudio replacement
+pavucontrol, Volume control
+playerctl, Media player control
+gst-libav, GStreamer FFmpeg plugin
+gst-plugin-pipewire, GStreamer PipeWire plugin
+gst-plugins-bad, GStreamer extra codecs
+gst-plugins-ugly, GStreamer extra codecs
+libdvdcss, DVD decryption
+mpd, Music player daemon
+mpc, MPD CLI
+rmpc, MPD TUI client
+vlc, VLC media player
+vlc-plugin-ffmpeg, FFmpeg codecs for VLC
+yt-dlp, Video downloader
+yt-dlp-ejs, JavaScript support for yt-dlp
+ffmpegthumbnailer, Video thumbnails
+ffmpegthumbs, Video thumbnails in Dolphin
+kimageformats, Extra image formats for KDE apps
+libopenraw, RAW image support
+spotify-launcher, Spotify
+namida-bin, Music player
+picard, MusicBrainz music tagger
+
+cups, Printing system
+cups-browsed, Find network printers
+cups-filters, Print filters
+cups-pdf, Print to PDF
+foomatic-db, Printer driver database
+foomatic-db-engine, Printer driver database engine
+foomatic-db-gutenprint-ppds, Gutenprint printer drivers
+foomatic-db-nonfree, Manufacturer printer drivers
+foomatic-db-nonfree-ppds, Manufacturer printer drivers
+foomatic-db-ppds, Manufacturer printer drivers
+ghostscript, PostScript interpreter
+gsfonts, PostScript base fonts
+gutenprint, Printer drivers
+hplip, HP printer drivers
+splix, Samsung printer drivers
+system-config-printer, Printer settings GUI
+sane-airscan, Network scanner support
+simple-scan, Scanning app
+iscan, Epson scanner app
+iscan-plugin-perfection-v370, Epson Perfection V370 scanner plugin
+
+hyprland, Hyprland compositor
+hyprlock, Screen locker
+hyprpaper, Wallpapers
+hyprpicker, Color picker
+hyprpolkitagent, Polkit authentication agent
+hyprshot, Screenshots
+xdg-desktop-portal-hyprland, Screen sharing for Hyprland
+xdg-desktop-portal-gtk, GTK file picker portal
+xdg-desktop-portal-kde, KDE file picker portal
+waybar, Status bar
+dunst, Notifications
+rofi, App launcher
+rofi-calc, Calculator in rofi
+rofi-emoji, Emoji picker in rofi
+cliphist, Clipboard history
+grim, Screenshots
+slurp, Screen region selection
+wf-recorder, Screen recording
+wl-clipboard, Clipboard CLI (wl-copy, wl-paste)
+wtype, Type text on Wayland
+ydotool, Input automation on Wayland
+gnome-keyring, Secret storage
+seahorse, Keyring GUI
+archlinux-xdg-menu, App menu for Dolphin's "Open with"
+appmenu-gtk-module, Global menu for GTK apps
+libappindicator, Tray icons
+xsettingsd, Settings for GTK and X11 apps
+xdotool, X11 automation
+xorg-xdpyinfo, X11 display info
+xorg-xhost, X11 access control
+xorg-xinput, X11 input devices
+xorg-xkill, Kill X11 windows
+xorg-xrandr, X11 display settings
+xsel, X11 clipboard
+libwnck3, X11 window library
+
+inter-font, Inter font
+noto-fonts-cjk, CJK fonts
+noto-fonts-emoji, Emoji font
+noto-fonts-extra, Extra Noto fonts
+otf-font-awesome, Icon font for Waybar
+ttf-jetbrains-mono-nerd, JetBrains Mono Nerd Font
+ttf-opensans, Open Sans font
+breeze5, Breeze style for Qt5 apps
+gnome-themes-extra, GTK themes
+qt5ct, Qt5 theming
+qt6ct, Qt6 theming
+
+dolphin, File manager
+dolphin-plugins, Git and other plugins for Dolphin
+ark, Archive manager
+filelight, Disk usage graph
+gwenview, Image viewer
+okular, PDF viewer
+konsole, KDE terminal for Dolphin's terminal panel
+merkuro, KDE calendar and contacts
+
+kitty, Kitty terminal
+tmux, Terminal multiplexer
+tmux-plugin-manager, Tmux plugin manager
+zellij, Terminal multiplexer
+zsh-autosuggestions, Zsh autosuggestions
+zsh-syntax-highlighting, Zsh syntax highlighting
+zsh-theme-powerlevel10k, Powerlevel10k prompt
+bat, cat with syntax highlighting
+bc, Calculator
+btop, System monitor
+htop, Process viewer
+glances, System monitor
+iotop-c, Disk I/O monitor
+entr, Run commands on file changes
+fastfetch, System info
+fd, find alternative for nvim and fzf
+glow, Markdown renderer
+inotify-tools, File change events
+lsd, ls with icons
+pdfgrep, Search in PDFs
+plocate, Fast file search with locate
+pv, Pipe progress
+ripgrep, Fast grep
+stow, Dotfiles symlinks
+tldr, Short man pages
+tree, Directory tree
+unrar, RAR extraction
+unzip, ZIP extraction
+yazi, TUI file manager
+zoxide, Smarter cd
+lazygit, Git TUI
+gitlogue, Git history replay
+github-cli, GitHub CLI
+jujutsu, Git-compatible VCS
+
+cmake, CMake
+cmake-format, CMake formatter
+autoconf-archive, Autoconf macros
+intltool, Translation build tool
+doxygen, Documentation generator
+gdb, GNU debugger
+lldb, LLVM debugger
+perf, Performance profiler
+gcc-fortran, Fortran compiler
+gcc14-fortran, Fortran compiler for GCC 14
+openmpi, MPI
+dotnet-sdk, .NET SDK
+dotnet-targeting-pack, .NET targeting pack
+npm, Node package manager
+tree-sitter-cli, Tree-sitter CLI for nvim
+glsl_analyzer-bin, GLSL language server
+lua51, Lua 5.1
+luarocks, Lua package manager
+love, LÖVE 2D game engine
+ocaml, OCaml
+ruby, Ruby
+ruby-docs, Ruby docs
+ruby-irb, Ruby REPL
+ruby-rdoc, Ruby documentation tool
+ruby-stdlib, Ruby standard library
+rubygems, Ruby package manager
+zig, Zig
+typst, Typst
+sfml, C++ multimedia library
+glfw, OpenGL window library
+libxml2-legacy, Legacy libxml2 for older apps
+libgsf, Structured file library
+nix, Nix package manager
+opencode, OpenCode coding agent
+visual-studio-code-bin, VS Code
+
+python-pip, Pip
+pyenv, Python version manager
+jupyterlab, JupyterLab
+python-numpy, NumPy
+python-scipy, SciPy
+python-pandas, Pandas
+python-matplotlib, Plotting
+python-seaborn, Statistical plots
+python-scikit-learn, Machine learning
+python-sympy, Symbolic math
+python-imageio, Image reading and writing
+python-tqdm, Progress bars
+python-mpi4py, MPI for Python
+python-pygame, Game library
+python-pillow, Image library
+python-mutagen, Audio metadata for Picard
+python-dbus, D-Bus bindings for printer tools
+python-pyfuse3, FUSE bindings for borg mount
+python-pyqt5, Qt5 bindings for HP printer GUI
+python-reportlab, PDF generation for HP printer tools
+
+texlive-basic, TeX Live basics
+texlive-bibtexextra, BibTeX styles
+texlive-binextra, TeX helper programs
+texlive-context, ConTeXt
+texlive-fontsextra, TeX extra fonts
+texlive-fontsrecommended, TeX recommended fonts
+texlive-fontutils, TeX font utilities
+texlive-formatsextra, TeX extra formats
+texlive-games, TeX game typesetting
+texlive-humanities, TeX humanities packages
+texlive-langgerman, TeX German support
+texlive-latex, LaTeX
+texlive-latexextra, LaTeX extra packages
+texlive-latexrecommended, LaTeX recommended packages
+texlive-luatex, LuaTeX
+texlive-mathscience, TeX math and science packages
+texlive-metapost, MetaPost
+texlive-music, TeX music packages
+texlive-pictures, TeX graphics like TikZ
+texlive-plaingeneric, Plain TeX packages
+texlive-pstricks, PSTricks
+texlive-publishers, TeX publisher styles and theses
+texlive-xetex, XeTeX
+biber, Biblatex backend
+
+docker, Docker
+docker-compose, Docker Compose
+qemu-full, QEMU
+libvirt, VM management
+virt-manager, VM manager GUI
+virt-viewer, VM display viewer
+edk2-ovmf, UEFI firmware for VMs
+
+anki, Flashcards
+audacity, Audio editor
+blender, 3D suite
+calibre, E-book manager
+chromium, Chromium browser
+cinny-desktop, Matrix client
+cryptomator, Encrypted vaults
+discord, Discord
+element-desktop, Matrix client
+fractal, Matrix client
+firefox, Firefox
+gimp, Image editor
+godot, Game engine
+inkscape, Vector graphics
+keepassxc, Password manager
+krita, Painting
+libreoffice-still, LibreOffice
+libreoffice-extension-texmaths, LaTeX equations in LibreOffice
+meld, Diff and merge GUI
+diff-pdf, Visual PDF diff
+obsidian, Notes
+pinta, Simple image editor
+protonmail-bridge, Proton Mail bridge for mail clients
+rpi-imager, Raspberry Pi imager
+telegram-desktop, Telegram
+thunderbird, Mail client
+xournalpp, Handwritten notes and PDF annotation
+zathura, PDF viewer
+zathura-pdf-mupdf, PDF support for zathura
+hunspell-de, German spell checking
+hunspell-en_us, English spell checking
+
+steam, Steam
+heroic-games-launcher-bin, GOG and Epic games launcher
+prismlauncher, Minecraft launcher
