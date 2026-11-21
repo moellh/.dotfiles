@@ -3,7 +3,8 @@
     "model": "openrouter/z-ai/glm-5.3-flash",
     "small_model": "openrouter/z-ai/glm-5.3-flash",
     "enabled_providers": [
-        "openrouter"
+        "openrouter",
+        "llamacpp"
     ],
     "provider": {
         "openrouter": {
@@ -11,6 +12,22 @@
                 "z-ai/glm-5.3-flash",
                 "deepseek/deepseek-v4.1-flash"
             ]
+        },
+        "llamacpp": {
+            "npm": "@ai-sdk/openai-compatible",
+            "name": "llama.cpp (local)",
+            "options": {
+                "baseURL": "http://127.0.0.1:8080/v1"
+            },
+            "models": {
+                "local": {
+                    "name": "Local llama.cpp (active profile)",
+                    "limit": {
+                        "context": 32768,
+                        "output": 8192
+                    }
+                }
+            }
         }
     },
     "providers": {
