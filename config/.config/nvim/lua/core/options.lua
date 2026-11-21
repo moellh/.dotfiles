@@ -30,7 +30,7 @@ vim.opt.showmode = false -- status line without mode (use plugin instead)
 vim.opt.termguicolors = true -- 24 bit UI colors
 vim.g.have_nerd_font = true -- variable to enable nerd-font features
 
-vim.opt.guicursor = "" -- shows block in insert-mode as cursor
+-- vim.opt.guicursor = "" -- shows block in insert-mode as cursor
 
 -- WESL (WGSL with imports) has no own parser, highlight it as WGSL
 vim.filetype.add { extension = { wesl = "wgsl" } }
