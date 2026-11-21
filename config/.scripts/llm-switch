@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# usage: llm-switch            list profiles, * marks the active one
+#        llm-switch <profile>  make <profile> active and restart the server if it is running
+set -euo pipefail
+
+config_dir=${XDG_CONFIG_HOME:-$HOME/.config}/llm
+state_dir=${XDG_STATE_HOME:-$HOME/.local/state}/llm
+active=$state_dir/active.env
+unit=llama-local.service
+current=$(basename "$(readlink "$active" 2>/dev/null || echo none)" .env)
+
+list() {
+    for p in "$config_dir"/profiles/*.env; do
+        name=$(basename "$p" .env)
+        if [[ $name == "$current" ]]; then echo "* $name"; else echo "  $name"; fi
+    done
+}
+
+if [[ $# -eq 0 ]]; then
+    list
+    exit 0
+fi
+
+if [[ ! -f "$config_dir/profiles/$1.env" ]]; then
+    echo "unknown profile: $1" >&2
+    list >&2
+    exit 1
+fi
+
+mkdir -p "$state_dir"
+ln -sfn "$config_dir/profiles/$1.env" "$active"
+echo "active profile: $1"
+
+if systemctl --user is-active --quiet "$unit"; then
+    systemctl --user restart "$unit"
+    echo "restarted $unit (loading takes ~25 s)"
+else
+    echo "$unit is not running; start it with: systemctl --user start $unit"
+fi

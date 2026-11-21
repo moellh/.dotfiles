@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+# Generic llama-server launcher for the local LLM profiles (see ~/.config/llm/README.md).
+#
+# Settings are resolved in this order (first wins):
+#   1. environment variables that are already set, e.g. LLAMA_CTX_SIZE=65536 run-llm
+#   2. the profile: ~/.config/llm/profiles/$LLM_PROFILE.env if LLM_PROFILE is set,
+#      otherwise the active profile chosen with llm-switch
+#   3. the defaults below
+# Extra llama-server arguments can be appended to the command line.
+set -euo pipefail
+
+config_dir=${XDG_CONFIG_HOME:-$HOME/.config}/llm
+data_dir=${LLM_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/llm}
+state_dir=${XDG_STATE_HOME:-$HOME/.local/state}/llm
+
+if [[ -n "${LLM_PROFILE:-}" ]]; then
+    profile=$config_dir/profiles/$LLM_PROFILE.env
+else
+    profile=$state_dir/active.env
+fi
+if [[ ! -f "$profile" ]]; then
+    echo "profile not found: $profile" >&2
+    echo "available: $(cd "$config_dir/profiles" && ls -- *.env | sed 's/\.env$//' | tr '\n' ' ')" >&2
+    echo "pick one with: llm-switch <profile>" >&2
+    exit 1
+fi
+
+# Load KEY=value lines from the profile without overriding variables already set.
+while IFS='=' read -r key value; do
+    [[ $key =~ ^[A-Z_][A-Z0-9_]*$ ]] || continue
+    [[ -n ${!key+x} ]] || export "$key=$value"
+done < "$profile"
+
+model=${LLAMA_MODEL:?"profile $profile must set LLAMA_MODEL"}
+[[ $model == /* ]] || model=$data_dir/$model
+model_alias=${LLAMA_MODEL_ALIAS:-$(basename "$model" .gguf)}
+
+server_bin=${LLAMA_SERVER_BIN:-$(command -v llama-server || true)}
+if [[ -z "$server_bin" ]]; then
+    echo "llama-server is not installed or not on PATH" >&2
+    exit 127
+fi
+if [[ ! -f "$model" ]]; then
+    echo "model is missing: $model" >&2
+    echo "download it with: llm-download $(basename "$(readlink -f "$profile")" .env)" >&2
+    exit 1
+fi
+
+echo "profile: $(basename "$(readlink -f "$profile")" .env) -> $model" >&2
+
+# "local" is a stable alias so OpenCode can use whichever profile is active.
+exec "$server_bin" \
+    --model "$model" \
+    --alias "local,$model_alias" \
+    --host "${LLAMA_HOST:-127.0.0.1}" \
+    --port "${LLAMA_PORT:-8080}" \
+    --ctx-size "${LLAMA_CTX_SIZE:-32768}" \
+    --threads "${LLAMA_THREADS:-3}" \
+    --parallel "${LLAMA_PARALLEL:-1}" \
+    --device "${LLAMA_DEVICE:-Vulkan1}" \
+    --n-gpu-layers "${LLAMA_GPU_LAYERS:-auto}" \
+    --fit on \
+    --fit-target "${LLAMA_FIT_TARGET:-512}" \
+    --cache-type-k "${LLAMA_CACHE_TYPE_K:-q8_0}" \
+    --cache-type-v "${LLAMA_CACHE_TYPE_V:-q8_0}" \
+    --spec-type "${LLAMA_SPEC_TYPE:-none}" \
+    --jinja \
+    --reasoning "${LLAMA_REASONING:-off}" \
+    --reasoning-format deepseek \
+    --temperature "${LLAMA_TEMPERATURE:-0.8}" \
+    --top-k "${LLAMA_TOP_K:-40}" \
+    --top-p "${LLAMA_TOP_P:-0.95}" \
+    --min-p "${LLAMA_MIN_P:-0.05}" \
+    --presence-penalty "${LLAMA_PRESENCE_PENALTY:-0.0}" \
+    --repeat-penalty "${LLAMA_REPEAT_PENALTY:-1.0}" \
+    "$@"

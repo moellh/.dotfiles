@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# usage: llm-download             download the model of the active profile
+#        llm-download <profile>…  download the models of these profiles
+#        llm-download --all       download the models of all profiles
+#
+# Each profile names its source with LLAMA_HF_REPO and LLAMA_HF_FILE (Hugging Face).
+# Models land in ~/.local/share/llm (or $LLM_HOME) at the profile's LLAMA_MODEL path.
+# Models that are already there are skipped.
+set -euo pipefail
+
+config_dir=${XDG_CONFIG_HOME:-$HOME/.config}/llm
+data_dir=${LLM_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/llm}
+state_dir=${XDG_STATE_HOME:-$HOME/.local/state}/llm
+
+if command -v hf >/dev/null; then
+    hf=(hf)
+elif command -v uvx >/dev/null; then
+    hf=(uvx --from huggingface_hub hf)
+else
+    echo "needs the Hugging Face CLI: install uv (for uvx) or huggingface_hub" >&2
+    exit 127
+fi
+
+# Print the value of KEY in a profile file.
+profile_value() {
+    sed -n "s/^$2=//p" "$1" | tail -n 1
+}
+
+download() {
+    local profile=$1 name model repo file target_dir
+    name=$(basename "$(readlink -f "$profile")" .env)
+    model=$(profile_value "$profile" LLAMA_MODEL)
+    repo=$(profile_value "$profile" LLAMA_HF_REPO)
+    file=$(profile_value "$profile" LLAMA_HF_FILE)
+
+    if [[ -z $model || -z $repo || -z $file ]]; then
+        echo "$name: profile needs LLAMA_MODEL, LLAMA_HF_REPO and LLAMA_HF_FILE" >&2
+        return 1
+    fi
+    [[ $model == /* ]] || model=$data_dir/$model
+    if [[ -f $model ]]; then
+        echo "$name: already present ($model)"
+        return 0
+    fi
+
+    target_dir=$(dirname "$model")
+    mkdir -p "$target_dir"
+    echo "$name: downloading $repo/$file"
+    "${hf[@]}" download "$repo" "$file" --local-dir "$target_dir"
+    if [[ $target_dir/$file != "$model" ]]; then
+        mv -- "$target_dir/$file" "$model"
+    fi
+    echo "$name: saved to $model"
+}
+
+profiles=()
+if [[ $# -eq 0 ]]; then
+    if [[ ! -e $state_dir/active.env ]]; then
+        echo "no active profile; pass a profile name or --all, then pick one with llm-switch" >&2
+        exit 1
+    fi
+    profiles=("$state_dir/active.env")
+elif [[ $1 == --all ]]; then
+    profiles=("$config_dir"/profiles/*.env)
+else
+    for name in "$@"; do
+        if [[ ! -f $config_dir/profiles/$name.env ]]; then
+            echo "unknown profile: $name" >&2
+            exit 1
+        fi
+        profiles+=("$config_dir/profiles/$name.env")
+    done
+fi
+
+status=0
+for profile in "${profiles[@]}"; do
+    download "$profile" || status=1
+done
+exit "$status"
