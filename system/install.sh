@@ -15,9 +15,10 @@ check_only=false
 stamp=$(date +%Y%m%d-%H%M%S)
 changed=()
 
+# Reads the answer from the terminal: stdin of the loops below is their file/unit list.
 ask() {
     local reply
-    read -r -p "$1 [y/N] " reply
+    read -r -p "$1 [y/N] " reply </dev/tty
     [[ $reply =~ ^[yY] ]]
 }
 
