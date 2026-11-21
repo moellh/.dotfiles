@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+################################################################################
+# Copy all borg repos from the storage box (through cloud) to the external HDD
+#
+# - One rsync per repo found in cloud:/mnt/storage-box-1/borg-repos, so new repos
+#   are picked up automatically. A repo that exists only on the HDD is never
+#   deleted, only reported (protects the HDD copy if a repo vanishes remotely).
+# - Refuses to run when the HDD is not mounted (rsync would fill the root disk)
+#   or when a borg run holds a repo lock. Nightly backups run ~01:00-05:00.
+# - Interrupting is safe: --delay-updates/--delete-delay keep the previous HDD
+#   copy untouched until the end, then swap in the new files within seconds.
+#   (Without them, an aborted run can leave an index pointing at segments that
+#   are not copied yet; the next complete run would fix that.)
+# - Extra arguments go to rsync, e.g. `borg-pull --dry-run`.
+# - Verify a copy without passphrase: borg check --repository-only <repo dir>
+#
+# Same copy as a one-liner (no lock check, deletes HDD-only repos):
+#   mountpoint -q /mnt/external && rsync -ai --stats --delete --delete-delay \
+#     --delay-updates --info=progress2 \
+#     cloud:/mnt/storage-box-1/borg-repos/ /mnt/external/borg-repos/
+################################################################################
+
+REMOTE_HOST="cloud"
+REMOTE_DIR="/mnt/storage-box-1/borg-repos"
+LOCAL_MOUNT="/mnt/external"
+LOCAL_DIR="$LOCAL_MOUNT/borg-repos"
+
+mountpoint -q "$LOCAL_MOUNT" || { echo "$LOCAL_MOUNT is not mounted" >&2; exit 1; }
+[ -d "$LOCAL_DIR" ] || { echo "$LOCAL_DIR does not exist" >&2; exit 1; }
+
+repos=$(ssh "$REMOTE_HOST" "ls -1 '$REMOTE_DIR'") || { echo "cannot list $REMOTE_HOST:$REMOTE_DIR" >&2; exit 1; }
+[ -n "$repos" ] || { echo "no repos found on $REMOTE_HOST" >&2; exit 1; }
+
+# a borg run holds lock.exclusive in the repo dir (nextcloud-cloud keeps its repo in borg/)
+find_locks() { ssh "$REMOTE_HOST" "find '$REMOTE_DIR' -maxdepth 3 -name lock.exclusive"; }
+locks=$(find_locks)
+if [ -n "$locks" ]; then
+    echo "A borg run is active (or left a stale lock), try again later:" >&2
+    echo "$locks" >&2
+    exit 1
+fi
+
+failed=()
+while read -r repo; do
+    echo "==> $repo"
+    rsync -ai --stats --delete --delete-delay --delay-updates --info=progress2 "$@" \
+        "$REMOTE_HOST:$REMOTE_DIR/$repo/" "$LOCAL_DIR/$repo/" || failed+=("$repo")
+done <<<"$repos"
+
+# a backup that started during the copy may have changed a repo mid-transfer
+locks=$(find_locks)
+if [ -n "$locks" ]; then
+    echo "WARNING: a borg run started during the copy, run borg-pull again later:" >&2
+    echo "$locks" >&2
+    failed+=("(changed during copy)")
+fi
+
+for dir in "$LOCAL_DIR"/*/; do
+    repo=$(basename "$dir")
+    grep -qxF "$repo" <<<"$repos" || echo "note: $repo exists only on the HDD (left untouched)"
+done
+
+df -h "$LOCAL_MOUNT"
+if [ ${#failed[@]} -gt 0 ]; then
+    echo "FAILED: ${failed[*]}" >&2
+    exit 1
+fi
+echo "all ${repos//$'\n'/, } copied"
