@@ -289,6 +289,13 @@ remove_unused_packages() {
     yay -Rsn "${orphans[@]}"
 }
 
+# A failed backup (e.g. offline) is reported but must not stop the update.
+backup_secrets() {
+    if ! "$HOME/.scripts/backup-secrets"; then
+        echo "!! Secrets backup FAILED, see the output above. The update continues."
+    fi
+}
+
 empty_trash() {
     rm -rf ~/.local/share/Trash/files/* ~/.local/share/Trash/info/*
     rm -f ~/.local/share/Trash/directorysizes
@@ -296,6 +303,9 @@ empty_trash() {
 
 # Track used space in KB before changes
 used_space_before=$(df --output=used / | tail -n 1)
+
+run_command "Back up secrets to the storage box (borg, via cloud)" Y \
+    backup_secrets
 
 run_command "Update Mirrorlist with Reflector" N \
     sudo reflector --country Germany --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
