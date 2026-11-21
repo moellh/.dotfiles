@@ -9,3 +9,6 @@ config/.config/systemd/user/syncthing.service.d/
 
 .gemini/
 gha-creds-*.json
+
+# Local kitty theme choice (dark/light aliases in .zshrc)
+config/.config/kitty/current-theme.conf

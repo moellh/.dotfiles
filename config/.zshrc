@@ -61,12 +61,12 @@ bindkey "^[[B" down-line-or-beginning-search
 
 ## ALIASES ================================================================= {{{
 
-alias dark='cp ~/.config/kitty/Catppuccin-Mocha.conf ~/.config/kitty/current-theme.conf && kill -SIGUSR1 $(pgrep kitty) && reload_tmux '
+alias dark='ln -sfn Catppuccin-Mocha.conf ~/.config/kitty/current-theme.conf && kill -SIGUSR1 $(pgrep kitty) && reload_tmux '
 alias grep="grep --color=always"
 alias agent="ssh -t hermes 'bash -lc hermes'"
 alias icat="kitten icat"
 alias lg="lazygit"
-alias light='cp ~/.config/kitty/Catppuccin-Latte.conf ~/.config/kitty/current-theme.conf && kill -SIGUSR1 $(pgrep kitty) && reload_tmux'
+alias light='ln -sfn Catppuccin-Latte.conf ~/.config/kitty/current-theme.conf && kill -SIGUSR1 $(pgrep kitty) && reload_tmux'
 alias ll="lsd -al"
 alias lo="lsd -a --oneline"
 alias ls="lsd"
