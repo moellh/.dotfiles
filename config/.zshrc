@@ -1,5 +1,5 @@
 # ZSH configuration
-# Preferably use ~/.zshrc.local for system specific configuration, so .zshrc works on any system (Not yet employed).
+# Machine-specific settings and secrets go into ~/.zshrc.local (not in the dotfiles), sourced at the end.
 
 ## P10K ==================================================================== {{{
 
@@ -81,7 +81,7 @@ alias ssk="kitty +kitten ssh $@"
 
 ## ENVIRONMENT VARIABLES =================================================== {{{
 
-source $HOME/data/env
+typeset -U path PATH # drop duplicate PATH entries (.zprofile adds some too)
 
 export PYENV_ROOT="$HOME/.pyenv"
 export JAVA_HOME="/usr/lib/jvm/default"
@@ -93,8 +93,7 @@ export FZF_ALT_C_COMMAND="fd --type=d --hidden --exclude .git"
 export HISTFILE=~/.histfile
 export HISTSIZE=100000
 # export JUPYTERLAB_DIR=$HOME/.local/share/jupyter/lab # required for jupyter lab extensions on arch linux
-export PATH="${PATH}:$HOME/.scripts" # user binaries
-export PATH="${PATH}:$HOME/.local/bin" # user binaries
+export PATH="${PATH}:$HOME/.scripts" # user scripts
 export PATH=$HOME/.nix-profile/bin:$PATH
 export QT_QPA_PLATFORM=wayland
 export SAVEHIST=100000
@@ -166,6 +165,7 @@ eval "$(zoxide init zsh)"
 
 ## }}}
 
+# user binaries; first, so tools installed there (claude, codex, ...) win
+export PATH="$HOME/.local/bin:$PATH"
 
-# Added by Antigravity CLI installer
-export PATH="/home/henrikmoellmann/.local/bin:$PATH"
+[[ -r ~/.zshrc.local ]] && source ~/.zshrc.local
