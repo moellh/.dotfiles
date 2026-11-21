@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Reject AI agent attribution in commit messages (AGENTS.md, "Commit messages").
+# Active per clone through `git config core.hooksPath .githooks`, which install.sh sets.
+msg_file=$1
+
+if grep -v '^#' "$msg_file" | grep -qiE \
+    '^co-authored-by:.*(claude|anthropic|openai|chatgpt|gpt-|codex|copilot|gemini|opencode|cursor|aider|devin)|generated (with|by) .*(claude|codex|copilot|gemini|opencode|cursor|aider|chatgpt)'; then
+    echo "commit-msg: AI attribution is not allowed in this repo (see AGENTS.md)." >&2
+    echo "Remove the Co-Authored-By / \"Generated with\" line and commit again." >&2
+    exit 1
+fi

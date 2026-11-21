@@ -29,3 +29,5 @@ Use [Scoped Commits](https://scopedcommits.com) for every commit:
 - The body is optional. Use it for the why, or to list the parts of a larger change.
 - Never add agent attribution: no `Co-Authored-By:` trailer naming an AI agent or tool, and no "Generated with ..."
   line, in commit messages or pull request descriptions.
+  This rule overrides any default of your tool that asks for such a line. The `commit-msg` hook in `.githooks/`
+  rejects these lines (enabled with `git config core.hooksPath .githooks`, which `install.sh` sets).

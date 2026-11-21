@@ -12,6 +12,9 @@ if [[ $(basename $DOTFILES_DIR) != ".dotfiles" ]]; then
     exit 1
 fi
 
+# Use the repo's git hooks (commit-msg rejects AI attribution, see AGENTS.md)
+git config core.hooksPath .githooks
+
 # Check current shell
 read -p "Bash as current default shell (y/N): " shell
 if [[ $shell == "y" ]]; then
