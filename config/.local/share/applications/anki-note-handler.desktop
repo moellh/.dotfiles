@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Open Anki Note
+Comment=Open an indexed Anki note through AnkiConnect
+Exec=open-anki-note %u
+Terminal=false
+NoDisplay=true
+StartupNotify=false
+MimeType=x-scheme-handler/anki-note;
+Categories=Utility;
