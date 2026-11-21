@@ -1,0 +1,27 @@
+# Units to enable on a new install. system/install.sh enables the ones that aren't yet.
+# Left out: units that packages enable on their own (presets, or Also= of a unit below).
+
+[system]
+NetworkManager.service                  # also enables NetworkManager-dispatcher and -wait-online
+bluetooth.service
+systemd-timesyncd.service
+tailscaled.service
+mullvad-daemon.service
+mullvad-early-boot-blocking.service
+docker.service
+libvirtd.service                        # also enables the libvirtd, virtlockd and virtlogd sockets
+incus.service
+nix-daemon.service
+atd.service
+vpnagentd.service                       # Cisco Secure Client
+nvidia-suspend.service                  # the four nvidia-* units are needed for suspend and hibernate
+nvidia-resume.service
+nvidia-hibernate.service
+nvidia-suspend-then-hibernate.service
+
+[user]
+mpd.service
+syncthing.service
+ydotool.service
+dolphin-fix-open-with.service           # unit file in the dotfiles
+sync-google-drive-rclone.timer          # unit file in the dotfiles

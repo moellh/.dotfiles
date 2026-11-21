@@ -118,25 +118,8 @@ Perform this step on the target system with a wired keyboard.
        ```plain
        options root=PARTUUID=your-partuuid-here rw nvidia-drm.modeset=1
        ```
-    4. Add pacman hook:
-        1. Run `mkdir -p /etc/pacman.d/hooks`.
-        2. Edit with `nvim /etc/pacman.d/hooks/nvidia.hook`:
-           ```plain
-           [Trigger]
-           Operation=Install
-           Operation=Upgrade
-           Operation=Remove
-           Type=Package
-           Target=nvidia
-           Target=linux
-
-           [Action]
-           Description=Update NVIDIA module in initcpio
-           Depends=mkinitcpio
-           When=PostTransaction
-           NeedsTargets
-           Exec=/bin/sh -c 'while read -r trg; do case $trg in linux) exit 0; esac; done; /usr/bin/mkinitcpio -P'
-           ```
+    4. No NVIDIA pacman hook is needed: mkinitcpio's own hook rebuilds the initramfs when the driver
+       (DKMS or prebuilt) changes. The finished config files are in `system/` (see `system/README.md`).
 22. Run `exit`.
 23. Run `umount -R /mnt`.
 24. Run `shutdown -h 0` and wait until target system is shut down, then remove USB.
@@ -149,7 +132,9 @@ Perform this step on the target system with a wired keyboard.
     ```plain
     KEYMAP=de
     ```
-1. Enable Multilib for 32-bit support with `sudo nvim /etc/pacman.conf` and uncomment:
+1. Once the dotfiles are cloned, `system/install.sh` installs the system config (pacman.conf with multilib,
+   mkinitcpio, UPower, locales, ...) and enables the services. By hand: enable Multilib for 32-bit support with
+   `sudo nvim /etc/pacman.conf` and uncomment:
    ```plain
    [multilib]
    Include = /etc/pacman.d/mirrorlist

@@ -1,0 +1,10 @@
+# systemd-boot entry; machine-specific, so fill in by hand (install.sh doesn't copy it):
+#   PARTUUID of the root partition:  blkid -s PARTUUID -o value /dev/<root>
+#   resume UUID + offset for hibernating to a swapfile:
+#     findmnt -no UUID -T /swapfile
+#     sudo filefrag -v /swapfile | awk '$1=="0:" {print substr($4, 1, length($4)-2)}'
+title	Arch Linux
+linux	/vmlinuz-linux
+initrd	/intel-ucode.img
+initrd	/initramfs-linux.img
+options	root=PARTUUID=<root-partuuid> resume=UUID=<swap-fs-uuid> resume_offset=<swapfile-offset> rw nvidia-drm.modeset=1
