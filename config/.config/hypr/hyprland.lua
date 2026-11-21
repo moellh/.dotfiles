@@ -17,11 +17,13 @@ local menu = "rofi -show drun"
 -- On pavilion, use single monitor Lenovo G27q-20.
 -- hl.monitor({ output = "DP-1", mode = "2560x1440@164.85", position = "0x0", scale = 1 })
 
--- On aspire, use internal screen and add external screen above when connected. The LAPTOP LID section reuses
--- `laptopScreen` to turn the internal screen back on.
+-- The LAPTOP LID section uses `laptopScreen` to turn the internal screen back on, so keep it defined whichever
+-- layout below is active.
 local laptopScreen = { output = "eDP-1", mode = "1920x1080@60.02", position = "0x0", scale = 1 }
-hl.monitor(laptopScreen)
-hl.monitor({ output = "HDMI-A-1", mode = "preferred", position = "auto-up", scale = 1 })
+
+-- On aspire, use internal screen and add external screen above when connected.
+-- hl.monitor(laptopScreen)
+-- hl.monitor({ output = "HDMI-A-1", mode = "preferred", position = "auto-up", scale = 1 })
 
 -- On aspire, use internal screen and add 4K external screen as 2K monitor.
 -- hl.monitor({ output = "eDP-1", mode = "1920x1080@60.02", position = "0x0", scale = 1 })
@@ -36,8 +38,8 @@ hl.monitor({ output = "HDMI-A-1", mode = "preferred", position = "auto-up", scal
 -- hl.monitor({ output = "HDMI-A-1", mode = "2560x1440@144.00", position = "-320x-1440", scale = 1 })
 
 -- On aspire, use internal screen and mirror onto external screen when connected.
--- hl.monitor({ output = "eDP-1", mode = "1920x1080@60.02", position = "0x0", scale = 1 })
--- hl.monitor({ output = "HDMI-A-1", mode = "preferred", position = "0x0", scale = 1, mirror = "eDP-1" })
+hl.monitor({ output = "eDP-1", mode = "1920x1080@60.02", position = "0x0", scale = 1 })
+hl.monitor({ output = "HDMI-A-1", mode = "preferred", position = "0x0", scale = 1, mirror = "eDP-1" })
 
 -- On aspire, mirror internal screen onto Samsung 4K TV at 1080p (preferred 4K only runs at 30Hz over its HDMI).
 -- hl.monitor({ output = "eDP-1", mode = "1920x1080@60.02", position = "0x0", scale = 1 })
