@@ -190,6 +190,9 @@ return {
             -- hides the "-" (3 cells), text moved on the cursor line and
             -- sat left of its wrapped lines
             checkbox = { bullet = true, right_pad = 2 },
+            -- only the | become borders, cells keep their width: padded
+            -- cells shifted the cursor row (columns line up if the source does)
+            pipe_table = { cell = "raw" },
             win_options = {
                 -- 2, not 3: &amp; shows as & instead of vanishing
                 conceallevel = { rendered = 2 },

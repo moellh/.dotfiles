@@ -575,8 +575,17 @@ local function collect(buf)
                     hl_group = "NotebookComment",
                     priority = 150, -- above treesitter's @comment
                 })
-                add({ r1, c1, r2, c2 }, { r1, c1, r1, c1 + 4, "" })
-                add({ r1, c1, r2, c2 }, { r2, c2 - 3, r2, c2, "" })
+                -- <!-- and --> hide with the blanks inside them, so the
+                -- text starts where the comment does
+                local first = vim.api.nvim_buf_get_lines(buf, r1, r1 + 1, false)[1] or ""
+                local last = vim.api.nvim_buf_get_lines(buf, r2, r2 + 1, false)[1] or ""
+                local open = math.min(c1 + 4 + #first:sub(c1 + 5):match "^%s*", #first)
+                local close = c2 - 3 - #last:sub(1, c2 - 3):match "%s*$"
+                if r1 == r2 then
+                    close = math.max(close, open)
+                end
+                add({ r1, c1, r2, c2 }, { r1, c1, r1, open, "" })
+                add({ r1, c1, r2, c2 }, { r2, close, r2, c2, "" })
             end
             return
         end
@@ -692,6 +701,40 @@ local function conceal_per_node(buf)
     })
 end
 
+-- jupytext's YAML header (13 lines of metadata at the top) folded away; zo
+-- opens it. Hiding it in the text instead isn't possible: jupytext.nvim reads
+-- it on every write. The fold starts below the opening ---: render-markdown
+-- draws that as a rule, which would cover the fold's text
+function M.foldtext()
+    return ("··· jupytext header, %d lines (zo opens)"):format(vim.v.foldend - vim.v.foldstart + 1)
+end
+
+local function fold_header(buf)
+    local lines = vim.api.nvim_buf_get_lines(buf, 0, 100, false)
+    if lines[1] ~= "---" then
+        return
+    end
+    local stop
+    for i = 2, #lines do
+        if lines[i] == "---" then
+            stop = i
+            break
+        end
+    end
+    if not stop then
+        return
+    end
+    for _, win in ipairs(vim.fn.win_findbuf(buf)) do
+        vim.api.nvim_win_call(win, function()
+            vim.wo.foldmethod = "manual"
+            vim.wo.foldtext = "v:lua.require'core.notebook'.foldtext()"
+            if vim.fn.foldlevel(2) == 0 then
+                vim.cmd(("2,%dfold"):format(stop))
+            end
+        end)
+    end
+end
+
 --------------------------------------------------------------------------------
 -- Keymaps
 --------------------------------------------------------------------------------
@@ -754,6 +797,14 @@ function M.attach(buf)
 
     buf = buf == 0 and vim.api.nvim_get_current_buf() or buf
     conceal_per_node(buf)
+    fold_header(buf)
+    vim.api.nvim_create_autocmd("BufWinEnter", {
+        group = vim.api.nvim_create_augroup("moellh-notebook-fold-" .. buf, { clear = true }),
+        buffer = buf,
+        callback = function()
+            fold_header(buf)
+        end,
+    })
     -- LaTeX and plots as images (sizing: lua/core/md_math.lua)
     if _G.Snacks then
         Snacks.image.doc.attach(buf)
