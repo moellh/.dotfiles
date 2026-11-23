@@ -15,8 +15,11 @@
 --     pillow, requests and websocket-client come with jupyterlab)
 --   python-jupytext: the jupytext CLI
 --   molten's optional output renderers: python-cairosvg (SVG),
---     python-pnglatex (LaTeX), python-plotly + python-kaleido-bin (plotly),
---     python-pyperclip (clipboard)
+--     python-pnglatex (LaTeX), python-pyperclip (clipboard)
+--   Left out: plotly figures as images need python-plotly +
+--     python-kaleido-bin, whose deps choreographer and logistro aren't
+--     packaged (PyPI only), plus python-simplejson. Without them molten shows
+--     plotly output as text
 -- After installing or updating molten: :UpdateRemotePlugins (done by build)
 
 return {
