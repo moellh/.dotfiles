@@ -1,10 +1,11 @@
 -- Last modified: 2026-11-23
 
--- Description: Jupyter notebook helpers, attached in ftplugin/python.lua to
---   .ipynb buffers. jupytext.nvim shows those as py:percent text: a cell
---   starts at a `# %%` line, markdown cells at `# %% [markdown]`.
+-- Description: Jupyter notebook helpers, attached in ftplugin/markdown.lua to
+--   .ipynb buffers. jupytext.nvim shows those as markdown: code cells are
+--   ```python blocks, everything else is markdown cells.
 --   Code runs through molten-nvim in a kernel for the nearest .venv, which
 --   is registered as a Jupyter kernel on first use (system python without one).
+--   otter.nvim gives the code blocks pyright.
 --   Keymaps: see M.attach()
 
 local M = {}
@@ -17,41 +18,64 @@ end
 -- Cells
 --------------------------------------------------------------------------------
 
--- All cells as { head, first, last, stop, kind } with 1-based rows: head is
--- the `# %%` line, first..last the body without trailing blank lines (last <
--- first when empty), stop the line before the next cell. The jupytext header
--- before the first marker belongs to no cell.
+-- Code cells as { head, first, last, stop } with 1-based rows: head is the
+-- ```python line, stop the closing ```, first..last the code in between
+-- (last < first when empty). Fences inside jupytext's <!-- #region -->
+-- blocks are part of a markdown cell.
 local function cells()
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-    local res = {}
+    local res, open, region = {}, nil, false
     for row, line in ipairs(lines) do
-        if line:match "^# %%%%" then
-            local kind = line:match "%[markdown%]" and "markdown"
-                or line:match "%[raw%]" and "raw"
-                or "code"
-            table.insert(res, { head = row, first = row + 1, kind = kind })
-        end
-    end
-    for i, cell in ipairs(res) do
-        cell.stop = res[i + 1] and res[i + 1].head - 1 or #lines
-        cell.last = cell.stop
-        while cell.last >= cell.first and lines[cell.last]:match "^%s*$" do
-            cell.last = cell.last - 1
+        if open then
+            if line:match "^```%s*$" then
+                table.insert(
+                    res,
+                    {
+                        head = open,
+                        first = open + 1,
+                        last = row - 1,
+                        stop = row,
+                    }
+                )
+                open = nil
+            end
+        elseif line:match "^<!%-%- #region" then
+            region = true
+        elseif line:match "^<!%-%- #endregion" then
+            region = false
+        elseif
+            not region
+            and (line:match "^```python$" or line:match "^```python%s")
+        then
+            open = row
         end
     end
     return res
 end
 
--- Index of the cell holding the cursor, 0 in the header
+local function cursor_row()
+    return vim.api.nvim_win_get_cursor(0)[1]
+end
+
+-- Index of the code cell holding the cursor, nil outside of one
 local function current(cs)
-    local row = vim.api.nvim_win_get_cursor(0)[1]
-    local idx = 0
+    local row = cursor_row()
     for i, cell in ipairs(cs) do
-        if cell.head <= row then
-            idx = i
+        if cell.head <= row and row <= cell.stop then
+            return i
         end
     end
-    return idx
+end
+
+-- Number of code cells starting at or above the cursor
+local function above(cs)
+    local row, n = cursor_row(), 0
+    for i, cell in ipairs(cs) do
+        if cell.head <= row then
+            n = i
+        end
+    end
+    return n
 end
 
 local function jump(cell)
@@ -61,47 +85,61 @@ local function jump(cell)
     vim.api.nvim_win_set_cursor(0, { math.min(cell.first, cell.stop), 0 })
 end
 
--- ]c / [c: [c first goes to the start of the current cell, like [[
+-- ]c / [c to the code of the next / previous code cell; [c first goes to the
+-- start of the current one, like [[
 function M.goto_next()
-    local cs = cells()
-    local idx = current(cs)
+    local cs, row = cells(), cursor_row()
+    local target
     for _ = 1, vim.v.count1 do
-        idx = math.min(idx + 1, #cs)
+        for _, cell in ipairs(cs) do
+            if cell.head > row then
+                target, row = cell, cell.head
+                break
+            end
+        end
     end
-    if cs[idx] then
-        jump(cs[idx])
+    if target then
+        jump(target)
     end
 end
 
 function M.goto_prev()
-    local cs = cells()
-    local idx = current(cs)
-    local row = vim.api.nvim_win_get_cursor(0)[1]
-    local count = vim.v.count1
-    if cs[idx] and row > math.min(cs[idx].first, cs[idx].stop) then
-        count = count - 1
+    local cs, row = cells(), cursor_row()
+    local target
+    for _ = 1, vim.v.count1 do
+        local found
+        for _, cell in ipairs(cs) do
+            if math.min(cell.first, cell.stop) < row then
+                found = cell
+            end
+        end
+        if not found then
+            break
+        end
+        target, row = found, math.min(found.first, found.stop)
     end
-    idx = math.max(idx - count, 1)
-    if cs[idx] then
-        jump(cs[idx])
+    if target then
+        jump(target)
     end
 end
 
--- New cell below the current one, in insert mode
+-- New cell below the current code cell (or the cursor line), in insert mode.
+-- Markdown cells need no marker, any text between code blocks is one
 function M.new_cell(kind)
     local cs = cells()
     local cell = cs[current(cs)]
-    local after = cell and math.max(cell.last, cell.head)
-        or vim.api.nvim_win_get_cursor(0)[1]
-    local lines = kind == "markdown" and { "", "# %% [markdown]", "# " }
-        or { "", "# %%", "" }
+    local after = cell and cell.stop or cursor_row()
+    local lines = kind == "markdown" and { "", "" }
+        or { "", "```python", "", "```" }
     vim.api.nvim_buf_set_lines(0, after, after, true, lines)
-    vim.api.nvim_win_set_cursor(0, { after + 3, 0 })
-    vim.cmd "startinsert!"
+    vim.api.nvim_win_set_cursor(
+        0,
+        { after + (kind == "markdown" and 2 or 3), 0 }
+    )
+    vim.cmd "startinsert"
 end
 
--- mini.ai textobject: ic = cell body, ac = cell with its `# %%` line and the
--- blank lines after it
+-- mini.ai textobject: ic = code of the cell, ac = with its fences
 function M.textobject(ai_type)
     local cs = cells()
     local cell = cs[current(cs)]
@@ -279,7 +317,7 @@ local function eval_cells(list)
     -- ranges now, the buffer may change until the kernel is ready
     local ranges = {}
     for _, cell in ipairs(list) do
-        if cell.kind == "code" and cell.last >= cell.first then
+        if cell.last >= cell.first then
             table.insert(ranges, { cell.first, cell.last })
         end
     end
@@ -296,7 +334,7 @@ end
 function M.run_cell()
     local cs = cells()
     local cell = cs[current(cs)]
-    if not cell or cell.kind ~= "code" then
+    if not cell then
         return notify("Not in a code cell", vim.log.levels.WARN)
     end
     eval_cells { cell }
@@ -305,20 +343,16 @@ end
 -- Run the cell and jump to the next code cell, like Shift-Enter in Jupyter
 function M.run_cell_and_next()
     local cs = cells()
-    local idx = current(cs)
-    if cs[idx] then
-        eval_cells { cs[idx] }
+    local cell = cs[current(cs)]
+    if cell then
+        eval_cells { cell }
     end
-    for i = idx + 1, #cs do
-        if cs[i].kind == "code" then
-            return jump(cs[i])
-        end
-    end
+    M.goto_next()
 end
 
 function M.run_above()
     local cs = cells()
-    eval_cells(vim.list_slice(cs, 1, current(cs)))
+    eval_cells(vim.list_slice(cs, 1, above(cs)))
 end
 
 function M.run_all()
@@ -501,6 +535,9 @@ function M.attach(buf)
 
     -- ic / ac cell textobjects (vic, yac, dac, ...)
     vim.b[buf].miniai_config = { custom_textobjects = { c = M.textobject } }
+
+    -- pyright etc. in the code blocks
+    require("otter").activate { "python" }
 end
 
 return M

@@ -15,3 +15,8 @@ map({ "n", "x" }, "<leader>ml", md_link.insert, "Insert link to file")
 local md_code = require("core.md_code")
 map("i", "<M-v>", md_code.insert, "Insert `code` (<Tab> jumps out)")
 map("x", "<M-v>", md_code.wrap, "Wrap selection in `code` (V: ``` block)")
+
+-- .ipynb notebooks shown as markdown by jupytext.nvim, see lua/core/notebook.lua
+if vim.api.nvim_buf_get_name(0):match("%.ipynb$") then
+    require("core.notebook").attach(0)
+end

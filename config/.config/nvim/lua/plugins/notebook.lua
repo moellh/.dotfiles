@@ -2,13 +2,16 @@
 -- Jupyter notebook plugins
 
 -- Description: Edit and run .ipynb notebooks: jupytext.nvim shows them as
---   py:percent text (ft=python, so pyright/black/dap just work), molten-nvim
---   runs cells in a Jupyter kernel, image.nvim (ui.lua) draws plots inline.
---   Kernel handling and keymaps (<leader>j*) in lua/core/notebook.lua
+--   markdown with ```python code blocks, otter.nvim gives the code blocks
+--   pyright, molten-nvim runs them in a Jupyter kernel, image.nvim (ui.lua)
+--   draws plots inline.
+--   Kernel handling and keymaps (<leader>j*) in lua/core/notebook.lua,
+--   attached in ftplugin/markdown.lua
 
 -- Git repos:
 --   molten-nvim: https://github.com/benlubas/molten-nvim
 --   jupytext.nvim: https://github.com/goerz/jupytext.nvim
+--   otter.nvim: https://github.com/jmbuhr/otter.nvim
 
 -- Python side, system packages (packages.txt):
 --   python-pynvim: remote plugin host for molten (jupyter_client, nbformat,
@@ -38,6 +41,7 @@ return {
             vim.g.molten_image_provider = "image.nvim"
             vim.g.molten_auto_open_output = false -- <leader>jo opens it
             vim.g.molten_virt_text_output = true -- output stays below the cell
+            vim.g.molten_virt_lines_off_by_1 = true -- below the closing ```
             vim.g.molten_wrap_output = true
             vim.g.molten_output_win_max_height = 20
         end,
@@ -47,9 +51,27 @@ return {
         "goerz/jupytext.nvim",
         lazy = false, -- its BufReadCmd must exist before the first .ipynb opens
         opts = {
-            format = "py:percent",
+            format = "markdown",
             -- no paired .py/.md notebooks here, keep its autocmds off them
             sync_patterns = {},
+        },
+    },
+
+    -- LSP inside the code blocks: mirrors them into hidden <file>.otter.py
+    -- buffers that pyright attaches to, activated in ftplugin/markdown.lua
+    {
+        "jmbuhr/otter.nvim",
+        lazy = true,
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        opts = {
+            lsp = {
+                -- update diagnostics while typing, like a normal buffer
+                diagnostic_update_events = {
+                    "BufWritePost",
+                    "InsertLeave",
+                    "TextChanged",
+                },
+            },
         },
     },
 }

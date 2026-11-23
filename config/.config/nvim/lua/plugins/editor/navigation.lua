@@ -34,6 +34,13 @@ return {
         },
         config = function()
             require("aerial").setup {
+                -- markdown without lsp: on attach aerial asks every backend,
+                -- and otter-ls (code blocks in notebooks) fails that early
+                -- request with a warning. Headings come from treesitter anyway
+                backends = {
+                    ["_"] = { "treesitter", "lsp", "markdown", "asciidoc", "man" },
+                    markdown = { "treesitter", "markdown" },
+                },
                 on_attach = function(bufnr)
                     vim.keymap.set(
                         "n",

@@ -97,6 +97,14 @@ return {
             formatters_by_ft = {
                 lua = { "stylua" },
                 python = { "isort", "black" },
+                -- notebooks (jupytext markdown): python formatters on the
+                -- code blocks, other markdown stays untouched
+                markdown = function(bufnr)
+                    if vim.api.nvim_buf_get_name(bufnr):match("%.ipynb$") then
+                        return { "injected" }
+                    end
+                    return {}
+                end,
                 javascript = { "prettierd" },
                 java = { "google-java-format" },
                 c = { "clang-format" },
