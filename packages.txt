@@ -456,6 +456,4 @@ python-pynvim, Nvim Python extension stuff
 python-jupytext, Jupytext nvim plugin
 python-cairosvg, Molten SVG outputs
 python-pnglatex, Molten LaTeX outputs
-python-plotly, Molten plotly outputs
-python-kaleido-bin, Molten plotly outputs as images
 python-pyperclip, Molten clipboard
