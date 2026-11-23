@@ -1,6 +1,11 @@
 vim.opt.wrap = true
 vim.opt.conceallevel = 0
 
+-- Wrapped lines of list items start below the item's text, not at the left
+-- edge: breakindent (on globally) shifted by the match of formatlistpat,
+-- which after/ftplugin/markdown.lua extends
+vim.opt_local.breakindentopt = "list:-1"
+
 -- Markdown links, see lua/core/md_link.lua
 local md_link = require("core.md_link")
 local function map(modes, lhs, fn, desc, expr)
