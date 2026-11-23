@@ -195,13 +195,18 @@ return {
         },
     },
 
-    -- Markdown rendering
+    -- Markdown rendering, only in Jupyter notebooks (.ipynb shown as markdown
+    -- by jupytext.nvim). LaTeX as unicode: utftex (libtexprintf) draws
+    -- superscripts and fractions, latex2text (python-pylatexenc) takes over
+    -- for commands utftex doesn't know
     {
         "MeanderingProgrammer/render-markdown.nvim",
-        enabled = false,
         opts = {
             file_types = { "markdown" },
-            only_render_image_at_cursor = true,
+            ignore = function(buf)
+                return not vim.api.nvim_buf_get_name(buf):match("%.ipynb$")
+            end,
+            latex = { converter = { "utftex", "latex2text" } },
         },
         ft = { "markdown" },
     },
