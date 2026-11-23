@@ -196,9 +196,7 @@ return {
     },
 
     -- Markdown rendering, only in Jupyter notebooks (.ipynb shown as markdown
-    -- by jupytext.nvim). LaTeX as unicode: utftex (libtexprintf) draws
-    -- superscripts and fractions, latex2text (python-pylatexenc) takes over
-    -- for commands utftex doesn't know
+    -- by jupytext.nvim). LaTeX is left to snacks.image (plugins/notebook.lua)
     {
         "MeanderingProgrammer/render-markdown.nvim",
         opts = {
@@ -206,7 +204,9 @@ return {
             ignore = function(buf)
                 return not vim.api.nvim_buf_get_name(buf):match("%.ipynb$")
             end,
-            latex = { converter = { "utftex", "latex2text" } },
+            latex = { enabled = false },
+            -- fence lines stay visible as thin borders instead of hidden
+            code = { border = "thin" },
         },
         ft = { "markdown" },
     },

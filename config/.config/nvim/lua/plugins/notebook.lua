@@ -57,6 +57,22 @@ return {
         },
     },
 
+    -- LaTeX in the markdown ($...$, $$...$$) as real images: pdflatex +
+    -- magick, shown inline with kitty graphics. Only the image module, and
+    -- only attached to notebooks (lua/core/notebook.lua)
+    {
+        "folke/snacks.nvim",
+        priority = 1000,
+        lazy = false,
+        opts = {
+            image = {
+                enabled = true,
+                formats = {}, -- don't take over opening image files
+                doc = { enabled = false }, -- no auto attach to all markdown
+            },
+        },
+    },
+
     -- LSP inside the code blocks: mirrors them into hidden <file>.otter.py
     -- buffers that pyright attaches to, activated in ftplugin/markdown.lua
     {

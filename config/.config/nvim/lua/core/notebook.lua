@@ -28,15 +28,12 @@ local function cells()
     for row, line in ipairs(lines) do
         if open then
             if line:match "^```%s*$" then
-                table.insert(
-                    res,
-                    {
-                        head = open,
-                        first = open + 1,
-                        last = row - 1,
-                        stop = row,
-                    }
-                )
+                table.insert(res, {
+                    head = open,
+                    first = open + 1,
+                    last = row - 1,
+                    stop = row,
+                })
                 open = nil
             end
         elseif line:match "^<!%-%- #region" then
@@ -480,6 +477,29 @@ function M.execute()
 end
 
 --------------------------------------------------------------------------------
+-- Rendering
+--------------------------------------------------------------------------------
+
+-- Neovim's markdown highlights query drops code fence lines entirely
+-- (conceal_lines) once conceallevel > 0, which render-markdown sets. Notebook
+-- buffers get a copy without it: the fence lines stay, only their text hides
+local function keep_fence_lines(buf)
+    local ok, parser = pcall(vim.treesitter.get_parser, buf, "markdown")
+    if not ok or not parser then
+        return
+    end
+    local src = {}
+    for _, file in
+        ipairs(vim.treesitter.query.get_files("markdown", "highlights"))
+    do
+        table.insert(src, table.concat(vim.fn.readfile(file), "\n"))
+    end
+    local query = table.concat(src, "\n"):gsub('%(#set! conceal_lines ""%)', "")
+    vim.treesitter.stop(buf)
+    vim.treesitter.highlighter.new(parser, { queries = { markdown = query } })
+end
+
+--------------------------------------------------------------------------------
 -- Keymaps
 --------------------------------------------------------------------------------
 
@@ -538,6 +558,13 @@ function M.attach(buf)
 
     -- pyright etc. in the code blocks
     require("otter").activate { "python" }
+
+    buf = buf == 0 and vim.api.nvim_get_current_buf() or buf
+    keep_fence_lines(buf)
+    -- LaTeX as images
+    if _G.Snacks then
+        Snacks.image.doc.attach(buf)
+    end
 end
 
 return M
