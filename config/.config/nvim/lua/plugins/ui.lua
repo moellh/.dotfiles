@@ -23,9 +23,6 @@ vim.opt.scrolloff = 8
 vim.opt.laststatus = 3
 vim.wo.conceallevel = 2
 
-package.path = package.path .. ";" .. vim.fn.expand "$HOME" .. "/.luarocks/share/lua/5.1/?/init.lua"
-package.path = package.path .. ";" .. vim.fn.expand "$HOME" .. "/.luarocks/share/lua/5.1/?.lua"
-
 vim.keymap.set("n", "<leader>zi", ":tab split<CR>", {})
 vim.keymap.set("n", "<leader>zo", ":tab close<CR>", {})
 
@@ -171,18 +168,31 @@ return {
         end,
     },
 
-    -- Image support
+    -- Image support: only renders molten (Jupyter) outputs, document
+    -- integrations stay off. magick_cli shells out to ImageMagick, no luarock
     {
         "3rd/image.nvim",
-        enabled = false,
-        config = function()
-            require("image").setup {
-                backend = "kitty",
-                integrations = { markdown = { only_render_image_at_cursor = true } },
-                tmux_show_only_in_active_window = true,
-                kitty_method = "normal",
-            }
-        end,
+        opts = {
+            backend = "kitty",
+            processor = "magick_cli",
+            integrations = {
+                markdown = { enabled = false },
+                asciidoc = { enabled = false },
+                neorg = { enabled = false },
+                rst = { enabled = false },
+                typst = { enabled = false },
+                html = { enabled = false },
+                css = { enabled = false },
+            },
+            hijack_file_patterns = {},
+            max_width = 100,
+            max_height = 12,
+            max_width_window_percentage = math.huge,
+            max_height_window_percentage = math.huge,
+            window_overlap_clear_enabled = true,
+            window_overlap_clear_ft_ignore = { "blink-cmp-menu", "blink-cmp-documentation", "noice", "notify", "" },
+            tmux_show_only_in_active_window = true, -- needs tmux visual-activity off
+        },
     },
 
     -- Markdown rendering

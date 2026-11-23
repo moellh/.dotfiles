@@ -20,6 +20,13 @@ return {
                 topdelete = { text = '‾' },
                 changedelete = { text = '~' },
             },
+            -- jupytext.nvim shows .ipynb files as text, gitsigns would diff
+            -- that text against the JSON in git
+            on_attach = function(bufnr)
+                if vim.api.nvim_buf_get_name(bufnr):match('%.ipynb$') then
+                    return false
+                end
+            end,
         },
     },
     {

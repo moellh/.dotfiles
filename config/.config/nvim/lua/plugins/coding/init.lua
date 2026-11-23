@@ -25,8 +25,8 @@ return {
         lazy = false,
         build = ":TSUpdate",
         config = function()
-            -- Install all parsers
-            require("nvim-treesitter").install "unstable"
+            -- Install all parsers ("unstable" alone skips tier 1 like python)
+            require("nvim-treesitter").install { "stable", "unstable" }
 
             -- Enable highlighting
             vim.api.nvim_create_autocmd("FileType", {
@@ -109,7 +109,19 @@ return {
             },
             formatters = {
                 black = {
-                    prepend_args = { "--line-length", "120" },
+                    -- A .ipynb stdin filename makes black parse the input as
+                    -- notebook JSON, so jupytext buffers would silently stay
+                    -- unformatted: pretend they are .py files
+                    args = function(_, ctx)
+                        return {
+                            "--line-length",
+                            "120",
+                            "--stdin-filename",
+                            (ctx.filename:gsub("%.ipynb$", ".py")),
+                            "--quiet",
+                            "-",
+                        }
+                    end,
                 },
                 ["bibtex-tidy"] = {
                     args = {
