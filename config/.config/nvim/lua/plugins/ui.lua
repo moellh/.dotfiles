@@ -1,4 +1,4 @@
--- Last modified: 2026-04-10
+-- Last modified: 2026-11-23
 -- UI and appearance plugins
 
 -- Description: Colorscheme, visual guides, statusline, notifications, keybindings popup
@@ -10,7 +10,6 @@
 --   zen-mode: https://github.com/folke/zen-mode.nvim
 --   lualine: https://github.com/nvim-lualine/lualine.nvim
 --   nvim-navic: https://github.com/SmiteshP/nvim-navic
---   image.nvim: https://github.com/3rd/image.nvim
 --   render-markdown: https://github.com/MeanderingProgrammer/render-markdown.nvim
 --   csvview: https://github.com/hat0uma/csvview.nvim
 --   noice.nvim: https://github.com/folke/noice.nvim
@@ -168,33 +167,6 @@ return {
         end,
     },
 
-    -- Image support: only renders molten (Jupyter) outputs, document
-    -- integrations stay off. magick_cli shells out to ImageMagick, no luarock
-    {
-        "3rd/image.nvim",
-        opts = {
-            backend = "kitty",
-            processor = "magick_cli",
-            integrations = {
-                markdown = { enabled = false },
-                asciidoc = { enabled = false },
-                neorg = { enabled = false },
-                rst = { enabled = false },
-                typst = { enabled = false },
-                html = { enabled = false },
-                css = { enabled = false },
-            },
-            hijack_file_patterns = {},
-            max_width = 100,
-            max_height = 12,
-            max_width_window_percentage = math.huge,
-            max_height_window_percentage = math.huge,
-            window_overlap_clear_enabled = true,
-            window_overlap_clear_ft_ignore = { "blink-cmp-menu", "blink-cmp-documentation", "noice", "notify", "" },
-            tmux_show_only_in_active_window = true, -- needs tmux visual-activity off
-        },
-    },
-
     -- Markdown rendering, only in Jupyter notebooks (.ipynb shown as markdown
     -- by jupytext.nvim). LaTeX is left to snacks.image (plugins/notebook.lua)
     {
@@ -205,8 +177,26 @@ return {
                 return not vim.api.nvim_buf_get_name(buf):match("%.ipynb$")
             end,
             latex = { enabled = false },
+            -- also while typing: markup hides per node (lua/core/notebook.lua)
+            render_modes = true,
             -- fence lines stay visible as thin borders instead of hidden
             code = { border = "thin" },
+            -- <!-- comments --> (jupytext's #region cell markers too) are
+            -- dimmed by lua/core/notebook.lua, only their <!-- --> hide
+            html = { comment = { conceal = false } },
+            -- smaller than the default ●○◆◇
+            bullet = { icons = { "•", "◦", "▪", "▫" } },
+            -- "- [ ] " keeps its 6 cells: bullet, icon, padding. Default
+            -- hides the "-" (3 cells), text moved on the cursor line and
+            -- sat left of its wrapped lines
+            checkbox = { bullet = true, right_pad = 2 },
+            win_options = {
+                -- 2, not 3: &amp; shows as & instead of vanishing
+                conceallevel = { rendered = 2 },
+                -- Neovim doesn't reveal the cursor line, lua/core/notebook.lua
+                -- reveals the markup of the node at the cursor instead
+                concealcursor = { rendered = "nvic" },
+            },
         },
         ft = { "markdown" },
     },

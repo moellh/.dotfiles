@@ -480,23 +480,216 @@ end
 -- Rendering
 --------------------------------------------------------------------------------
 
--- Neovim's markdown highlights query drops code fence lines entirely
--- (conceal_lines) once conceallevel > 0, which render-markdown sets. Notebook
--- buffers get a copy without it: the fence lines stay, only their text hides
-local function keep_fence_lines(buf)
+-- Markup characters are hidden per node: the backticks of `code`, the
+-- * _ ~ of bold, italic and strikethrough, link brackets and URLs, the \ of
+-- escapes, <!-- --> of HTML comments and the ``` fence lines. They show again
+-- only for the node the cursor is in, not for the whole cursor line.
+-- Neovim's markdown queries conceal by line (with 'concealcursor'), so their
+-- conceals are moved into extmarks of our own. render-markdown keeps
+-- 'concealcursor' at "nvic" so Neovim doesn't reveal the line (plugins/ui.lua)
+
+local conceal_ns = vim.api.nvim_create_namespace "moellh-notebook-conceal"
+local comment_ns = vim.api.nvim_create_namespace "moellh-notebook-comments"
+local concealed = {} -- buffer -> list of units, see collect()
+
+-- Nodes whose markup shows as a whole once the cursor is inside them.
+-- Concealed parts without one of these (fence lines) show per line
+local UNITS = {
+    code_span = true,
+    emphasis = true,
+    strong_emphasis = true,
+    strikethrough = true,
+    inline_link = true,
+    image = true,
+    full_reference_link = true,
+    collapsed_reference_link = true,
+    shortcut_link = true,
+    backslash_escape = true,
+    entity_reference = true,
+    hard_line_break = true,
+}
+
+-- Highlights query of the given language as text, without its conceals
+local function without_conceal(lang)
+    local src = {}
+    for _, file in ipairs(vim.treesitter.query.get_files(lang, "highlights")) do
+        table.insert(src, table.concat(vim.fn.readfile(file), "\n"))
+    end
+    return (
+        table
+            .concat(src, "\n")
+            :gsub('%(#set! conceal "\\""%)', "")
+            :gsub('%(#set! conceal "[^"]*"%)', "")
+            :gsub('%(#set! conceal_lines "[^"]*"%)', "")
+    )
+end
+
+local function highlight_without_conceal(buf)
     local ok, parser = pcall(vim.treesitter.get_parser, buf, "markdown")
     if not ok or not parser then
         return
     end
-    local src = {}
-    for _, file in
-        ipairs(vim.treesitter.query.get_files("markdown", "highlights"))
-    do
-        table.insert(src, table.concat(vim.fn.readfile(file), "\n"))
-    end
-    local query = table.concat(src, "\n"):gsub('%(#set! conceal_lines ""%)', "")
     vim.treesitter.stop(buf)
-    vim.treesitter.highlighter.new(parser, { queries = { markdown = query } })
+    vim.treesitter.highlighter.new(parser, {
+        queries = {
+            markdown = without_conceal "markdown",
+            markdown_inline = without_conceal "markdown_inline",
+        },
+    })
+end
+
+local function comment_hl()
+    local dim = vim.api.nvim_get_hl(0, { name = "NonText", link = false })
+    vim.api.nvim_set_hl(0, "NotebookComment", { fg = dim.fg, italic = true })
+end
+
+-- Units of the buffer: { range = { r1, c1, r2, c2 }, marks = { { r1, c1, r2,
+-- c2, char } ... }, ids = extmark ids while concealed }, 0-based, end
+-- exclusive. The conceals come from the (unchanged) markdown queries; HTML
+-- comments are dimmed here too
+local function collect(buf)
+    local ok, parser = pcall(vim.treesitter.get_parser, buf, "markdown")
+    if not ok or not parser then
+        return {}
+    end
+    parser:parse(true) -- with the injected inline markdown and html
+    vim.api.nvim_buf_clear_namespace(buf, comment_ns, 0, -1)
+    local units, by_key = {}, {}
+    local function add(range, mark)
+        local key = table.concat(range, ":")
+        if not by_key[key] then
+            by_key[key] = { range = range, marks = {} }
+            table.insert(units, by_key[key])
+        end
+        table.insert(by_key[key].marks, mark)
+    end
+    local comments = vim.treesitter.query.parse("html", "(comment) @comment")
+    parser:for_each_tree(function(tree, ltree)
+        local lang, root = ltree:lang(), tree:root()
+        if lang == "html" then
+            for _, node in comments:iter_captures(root, buf) do
+                local r1, c1, r2, c2 = node:range()
+                vim.api.nvim_buf_set_extmark(buf, comment_ns, r1, c1, {
+                    end_row = r2,
+                    end_col = c2,
+                    hl_group = "NotebookComment",
+                    priority = 150, -- above treesitter's @comment
+                })
+                add({ r1, c1, r2, c2 }, { r1, c1, r1, c1 + 4, "" })
+                add({ r1, c1, r2, c2 }, { r2, c2 - 3, r2, c2, "" })
+            end
+            return
+        end
+        if lang ~= "markdown" and lang ~= "markdown_inline" then
+            return
+        end
+        local query = vim.treesitter.query.get(lang, "highlights")
+        for id, node, meta in query:iter_captures(root, buf) do
+            local char = meta[id] and meta[id].conceal or meta.conceal
+            if char then
+                local r = vim.treesitter.get_range(node, buf, meta[id])
+                local unit = node
+                while unit and not UNITS[unit:type()] do
+                    unit = unit:parent()
+                end
+                local range
+                if unit then
+                    range = { unit:range() }
+                else
+                    range = { r[1], 0, r[4], math.huge }
+                end
+                add(range, { r[1], r[2], r[4], r[5], char })
+            end
+        end
+    end)
+    return units
+end
+
+local function inside(range, row, col)
+    return not (
+        row < range[1]
+        or row > range[3]
+        or (row == range[1] and col < range[2])
+        or (row == range[3] and col >= range[4])
+    )
+end
+
+-- Reveal the units at the cursor, conceal all others
+local function reveal(buf)
+    local units = concealed[buf]
+    if not units or vim.api.nvim_get_current_buf() ~= buf then
+        return
+    end
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local row, col = cursor[1] - 1, cursor[2]
+    for _, unit in ipairs(units) do
+        local show = inside(unit.range, row, col)
+        if show and unit.ids then
+            for _, id in ipairs(unit.ids) do
+                vim.api.nvim_buf_del_extmark(buf, conceal_ns, id)
+            end
+            unit.ids = nil
+        elseif not show and not unit.ids then
+            unit.ids = {}
+            for _, m in ipairs(unit.marks) do
+                local ok, id = pcall(vim.api.nvim_buf_set_extmark, buf, conceal_ns, m[1], m[2], {
+                    end_row = m[3],
+                    end_col = m[4],
+                    conceal = m[5],
+                    strict = false,
+                })
+                if ok then
+                    table.insert(unit.ids, id)
+                end
+            end
+        end
+    end
+end
+
+local function refresh(buf)
+    vim.api.nvim_buf_clear_namespace(buf, conceal_ns, 0, -1)
+    concealed[buf] = collect(buf)
+    reveal(buf)
+end
+
+local function conceal_per_node(buf)
+    highlight_without_conceal(buf)
+    comment_hl()
+    refresh(buf)
+    local group = vim.api.nvim_create_augroup("moellh-notebook-conceal-" .. buf, { clear = true })
+    vim.api.nvim_create_autocmd("ColorScheme", { group = group, callback = comment_hl })
+    vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "BufEnter" }, {
+        group = group,
+        buffer = buf,
+        callback = function()
+            reveal(buf)
+        end,
+    })
+    local timer = assert(vim.uv.new_timer())
+    vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
+        group = group,
+        buffer = buf,
+        callback = function()
+            timer:start(
+                100,
+                0,
+                vim.schedule_wrap(function()
+                    if vim.api.nvim_buf_is_valid(buf) then
+                        refresh(buf)
+                    end
+                end)
+            )
+        end,
+    })
+    vim.api.nvim_create_autocmd("BufWipeout", {
+        group = group,
+        buffer = buf,
+        callback = function()
+            timer:close()
+            concealed[buf] = nil
+            pcall(vim.api.nvim_del_augroup_by_id, group)
+        end,
+    })
 end
 
 --------------------------------------------------------------------------------
@@ -560,8 +753,8 @@ function M.attach(buf)
     require("otter").activate { "python" }
 
     buf = buf == 0 and vim.api.nvim_get_current_buf() or buf
-    keep_fence_lines(buf)
-    -- LaTeX as images
+    conceal_per_node(buf)
+    -- LaTeX and plots as images (sizing: lua/core/md_math.lua)
     if _G.Snacks then
         Snacks.image.doc.attach(buf)
     end

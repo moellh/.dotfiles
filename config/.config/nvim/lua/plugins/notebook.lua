@@ -3,15 +3,16 @@
 
 -- Description: Edit and run .ipynb notebooks: jupytext.nvim shows them as
 --   markdown with ```python code blocks, otter.nvim gives the code blocks
---   pyright, molten-nvim runs them in a Jupyter kernel, image.nvim (ui.lua)
---   draws plots inline.
+--   pyright, molten-nvim runs them in a Jupyter kernel, snacks.nvim draws
+--   plots and LaTeX inline (kitty graphics, scrolls with the text).
 --   Kernel handling and keymaps (<leader>j*) in lua/core/notebook.lua,
---   attached in ftplugin/markdown.lua
+--   attached in ftplugin/markdown.lua, LaTeX sizing in lua/core/md_math.lua
 
 -- Git repos:
 --   molten-nvim: https://github.com/benlubas/molten-nvim
 --   jupytext.nvim: https://github.com/goerz/jupytext.nvim
 --   otter.nvim: https://github.com/jmbuhr/otter.nvim
+--   snacks.nvim: https://github.com/folke/snacks.nvim
 
 -- Python side, system packages (packages.txt):
 --   python-pynvim: remote plugin host for molten (jupyter_client, nbformat,
@@ -31,19 +32,28 @@ return {
 
     {
         "benlubas/molten-nvim",
-        version = "^1.0.0", -- breaking changes only in 2.x
+        -- main: the snacks image provider and :MoltenYankOutput came after
+        -- the last release (v1.9.2, Jan 2025)
+        branch = "main",
         build = ":UpdateRemotePlugins",
-        dependencies = { "3rd/image.nvim" },
+        dependencies = { "folke/snacks.nvim" },
         init = function()
             -- Always the system python with pynvim, never an activated .venv
             vim.g.python3_host_prog = "/usr/bin/python3"
 
-            vim.g.molten_image_provider = "image.nvim"
+            -- snacks pins plots into the text with unicode placeholders, so
+            -- they scroll with it (image.nvim drew over the text in tmux)
+            vim.g.molten_image_provider = "snacks.nvim"
             vim.g.molten_auto_open_output = false -- <leader>jo opens it
             vim.g.molten_virt_text_output = true -- output stays below the cell
             vim.g.molten_virt_lines_off_by_1 = true -- below the closing ```
             vim.g.molten_wrap_output = true
             vim.g.molten_output_win_max_height = 20
+
+            -- no background on cells that ran: it covered only the code text,
+            -- not render-markdown's full width code block background. molten
+            -- only links MoltenCell to CursorLine if the group doesn't exist
+            vim.api.nvim_set_hl(0, "MoltenCell", {})
         end,
     },
 
@@ -57,9 +67,9 @@ return {
         },
     },
 
-    -- LaTeX in the markdown ($...$, $$...$$) as real images: pdflatex +
-    -- magick, shown inline with kitty graphics. Only the image module, and
-    -- only attached to notebooks (lua/core/notebook.lua)
+    -- Images: molten's plots, and LaTeX in the markdown ($...$, $$...$$)
+    -- through pdflatex + magick, sized to the text (lua/core/md_math.lua).
+    -- Only the image module, attached to notebooks only (core/notebook.lua)
     {
         "folke/snacks.nvim",
         priority = 1000,
@@ -68,9 +78,21 @@ return {
             image = {
                 enabled = true,
                 formats = {}, -- don't take over opening image files
-                doc = { enabled = false }, -- no auto attach to all markdown
+                doc = {
+                    enabled = false, -- no auto attach to all markdown
+                    -- largest plot in cells (molten reads these too)
+                    max_width = 100,
+                    max_height = 25,
+                },
+                -- no icon before the line a plot hangs below (the closing
+                -- fence): it shifted that line on the cursor line
+                icons = { image = "" },
             },
         },
+        config = function(_, opts)
+            require("snacks").setup(opts)
+            require("core.md_math").setup()
+        end,
     },
 
     -- LSP inside the code blocks: mirrors them into hidden <file>.otter.py
