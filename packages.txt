@@ -456,3 +456,5 @@ python-pynvim, Nvim Python extension stuff
 python-jupytext, Jupytext nvim plugin
 python-cairosvg, Molten SVG outputs
 python-pyperclip, Molten clipboard
+python-pylatexenc, LaTeX as unicode in nvim notebooks (latex2text)
+libtexprintf, LaTeX as unicode in nvim notebooks (utftex)
