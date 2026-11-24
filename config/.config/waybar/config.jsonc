@@ -112,7 +112,7 @@
 
     "network": {
         "format-wifi": "{bandwidthDownBytes:>9}↓ {bandwidthUpBytes:>9}↑ {signalStrength:>3}%",
-        "format-ethernet": "",
+        "format-ethernet": "{bandwidthDownBytes:>9}↓ {bandwidthUpBytes:>9}↑ ",
         "format-linked": "No IP",
         "format-disconnected": "⚠",
         "tooltip": false,
